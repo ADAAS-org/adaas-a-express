@@ -1,0 +1,78 @@
+{
+  "name": "@adaas/a-express",
+  "version": "0.0.1",
+  "description": "SDK for express that can be used to create a new ADAAS Application with ease",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "config",
+      "constants",
+      "src",
+      "lib",
+      "db",
+      "shared"
+    ],
+    "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/bin/www.ts",
+    "ext": "ts, js"
+  },
+  "scripts": {
+    "test": "jest",
+    "publish": "npm run build && git add . && git commit -m \"new version created :: $(cat package.json | grep version | head -1  | awk -F: '{ print $2 }'  | sed 's/[\",]//g')\" && npm version patch && npm publish --access public",
+    "preversion": "echo test",
+    "version": "echo git add .",
+    "postversion": "git push --no-verify && git push --tags --no-verify && echo \"\n======Version Pushed Successfully=====\n\" ",
+    "echo-version": "echo $npm_package_version",
+    "build": "tsc --declaration --project tsconfig.json && tscpaths -p tsconfig.json -s ./ -o ./dist "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ADAAS-org/adaas-a-express.git"
+  },
+  "keywords": [
+    "sdk",
+    "ai",
+    "rag"
+  ],
+  "author": "adaas.org",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ADAAS-org/adaas-a-express/issues"
+  },
+  "homepage": "https://github.com/ADAAS-org/adaas-a-express#readme",
+  "dependencies": {
+    "@adaas/a-arc": "^0.0.9",
+    "@adaas/a-auth": "0.0.24",
+    "@adaas/a-sdk": "0.0.12",
+    "@adaas/a-sdk-types": "0.0.35",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "express": "^4.19.2",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.14",
+    "@types/jest": "^29.5.12",
+    "@types/mocha": "^10.0.6",
+    "axios": "^1.7.2",
+    "chai": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "jest": "^29.7.0",
+    "mocha": "^10.4.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tscpaths": "^0.0.9"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  }
+}
