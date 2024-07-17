@@ -4,7 +4,7 @@ import { A_EXPRESS_TYPES__IRequest } from '../types/A_EXPRESS_Controller.types';
 import { A_AUTH_Authenticator, A_AUTH_ServerCommands } from '@adaas/a-auth'
 import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
 
-export class AuthMiddleware {
+export class A_EXPRESS_AuthMiddleware {
 
     static async validateToken(req: A_EXPRESS_TYPES__IRequest, res: Response, next: NextFunction) {
 

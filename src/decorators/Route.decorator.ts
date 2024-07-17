@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import express, { Request, Response, Router } from 'express';
 import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
 import { A_EXPRESS_EntityController } from '../global/A_EXPRESS_EntityController.class';
-import { AuthMiddleware } from 'src/middleware/A_EXPRESS_Auth.middleware';
+import { A_EXPRESS_AuthMiddleware } from 'src/middleware/A_EXPRESS_Auth.middleware';
 
 const ROUTES_KEY = Symbol('routes');
 
@@ -145,7 +145,7 @@ export function A_EXPRESS_Routes(
 
             console.log('path', path);
 
-            const targetMiddlewares = route.config.auth ? [AuthMiddleware as any, ...route.middlewares] : route.middlewares;
+            const targetMiddlewares = route.config.auth ? [A_EXPRESS_AuthMiddleware as any, ...route.middlewares] : route.middlewares;
 
             router[route.method](path, ...targetMiddlewares, handler);
         });

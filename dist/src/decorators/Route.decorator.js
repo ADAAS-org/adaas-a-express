@@ -74,7 +74,7 @@ function A_EXPRESS_Routes(arg1, arg2) {
                 }
             }
             console.log('path', path);
-            const targetMiddlewares = route.config.auth ? [A_EXPRESS_Auth_middleware_1.AuthMiddleware, ...route.middlewares] : route.middlewares;
+            const targetMiddlewares = route.config.auth ? [A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware, ...route.middlewares] : route.middlewares;
             router[route.method](path, ...targetMiddlewares, handler);
         });
     });

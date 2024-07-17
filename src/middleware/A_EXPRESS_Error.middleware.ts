@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
 
 
-export class ErrorsMiddleware {
+export class A_EXPRESS_ErrorsMiddleware {
 
     static async handleError(error: A_SDK_ServerError, req: Request, res: Response, next: NextFunction) {
 

@@ -9,11 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthMiddleware = void 0;
+exports.A_EXPRESS_AuthMiddleware = void 0;
 const a_sdk_1 = require("@adaas/a-sdk");
 const a_auth_1 = require("@adaas/a-auth");
 const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
-class AuthMiddleware {
+class A_EXPRESS_AuthMiddleware {
     static validateToken(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.headers.authorization)
@@ -47,5 +47,5 @@ class AuthMiddleware {
         });
     }
 }
-exports.AuthMiddleware = AuthMiddleware;
+exports.A_EXPRESS_AuthMiddleware = A_EXPRESS_AuthMiddleware;
 //# sourceMappingURL=A_EXPRESS_Auth.middleware.js.map

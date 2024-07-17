@@ -9,9 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ErrorsMiddleware = void 0;
+exports.A_EXPRESS_ErrorsMiddleware = void 0;
 const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
-class ErrorsMiddleware {
+class A_EXPRESS_ErrorsMiddleware {
     static handleError(error, req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             A_EXPRESS_Context_class_1.A_EXPRESS_Context.Logger.error(error);
@@ -19,5 +19,5 @@ class ErrorsMiddleware {
         });
     }
 }
-exports.ErrorsMiddleware = ErrorsMiddleware;
+exports.A_EXPRESS_ErrorsMiddleware = A_EXPRESS_ErrorsMiddleware;
 //# sourceMappingURL=A_EXPRESS_Error.middleware.js.map
