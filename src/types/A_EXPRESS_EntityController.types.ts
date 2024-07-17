@@ -25,7 +25,7 @@ export interface A_EXPRESS_TYPES__IControllerRepository<
 
     findOneOrFail(...args: any): Promise<T>
 
-    create(...args: any): Promise<T>
+    create(...args: any): T
 
     save(...args: any): Promise<T>
 

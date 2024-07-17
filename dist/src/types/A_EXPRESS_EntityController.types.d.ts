@@ -10,7 +10,7 @@ export interface A_EXPRESS_TYPES__GetPageOptions<T> {
 export interface A_EXPRESS_TYPES__IControllerRepository<T> {
     findOne(...args: any): Promise<T | null>;
     findOneOrFail(...args: any): Promise<T>;
-    create(...args: any): Promise<T>;
+    create(...args: any): T;
     save(...args: any): Promise<T>;
     delete(...args: any): Promise<T>;
     update(...args: any): Promise<T>;
