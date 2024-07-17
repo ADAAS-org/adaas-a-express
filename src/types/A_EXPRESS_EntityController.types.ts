@@ -29,7 +29,7 @@ export interface A_EXPRESS_TYPES__IControllerRepository<
 
     save(...args: any): Promise<T>
 
-    delete(...args: any): Promise<T>
+    delete(...args: any): Promise<any>
 
     update(...args: any): Promise<T>
 

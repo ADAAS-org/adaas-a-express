@@ -12,7 +12,7 @@ export interface A_EXPRESS_TYPES__IControllerRepository<T> {
     findOneOrFail(...args: any): Promise<T>;
     create(...args: any): T;
     save(...args: any): Promise<T>;
-    delete(...args: any): Promise<T>;
+    delete(...args: any): Promise<any>;
     update(...args: any): Promise<T>;
     /**
      * Method receives data and returns response with pagination
