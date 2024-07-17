@@ -1,6 +1,6 @@
-import { A_SDK_ServerError } from '@adaas/a-sdk';
 import { Request, Response, NextFunction } from 'express';
 import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
+import { A_SDK_ServerError } from '@adaas/a-sdk-types';
 
 
 export class A_EXPRESS_ErrorsMiddleware {

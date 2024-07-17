@@ -13,11 +13,12 @@ exports.A_EXPRESS_AuthMiddleware = void 0;
 const a_sdk_1 = require("@adaas/a-sdk");
 const a_auth_1 = require("@adaas/a-auth");
 const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
+const a_sdk_types_1 = require("@adaas/a-sdk-types");
 class A_EXPRESS_AuthMiddleware {
     static validateToken(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.headers.authorization)
-                return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(a_sdk_1.A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED));
+                return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED));
             try {
                 const [bearer, receivedToken] = req.headers.authorization.split(' ');
                 /**
@@ -42,7 +43,7 @@ class A_EXPRESS_AuthMiddleware {
                 return next();
             }
             catch (error) {
-                return next(new a_sdk_1.A_SDK_ServerError(error));
+                return next(new a_sdk_types_1.A_SDK_ServerError(error));
             }
         });
     }

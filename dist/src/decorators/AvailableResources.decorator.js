@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_AvailableResources = A_EXPRESS_AvailableResources;
 const a_arc_1 = require("@adaas/a-arc");
-const a_sdk_1 = require("@adaas/a-sdk");
 const a_auth_1 = require("@adaas/a-auth");
+const a_sdk_types_1 = require("@adaas/a-sdk-types");
 function A_EXPRESS_AvailableResources(qb) {
     return function (target, propertyKey, descriptor) {
         const originalMethod = descriptor.value;
@@ -31,7 +31,7 @@ function A_EXPRESS_AvailableResources(qb) {
                     return originalMethod.apply(this, [req, res, next]);
                 }
                 catch (error) {
-                    return next(new a_sdk_1.A_SDK_ServerError(error));
+                    return next(new a_sdk_types_1.A_SDK_ServerError(error));
                 }
             });
         };

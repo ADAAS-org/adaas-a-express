@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_ValidateAccess = A_EXPRESS_ValidateAccess;
 const a_arc_1 = require("@adaas/a-arc");
-const a_sdk_1 = require("@adaas/a-sdk");
 const a_auth_1 = require("@adaas/a-auth");
+const a_sdk_types_1 = require("@adaas/a-sdk-types");
 function A_EXPRESS_ValidateAccess(qb) {
     return function (target, propertyKey, descriptor) {
         const originalMethod = descriptor.value;
@@ -32,7 +32,7 @@ function A_EXPRESS_ValidateAccess(qb) {
                 }
                 catch (error) {
                     console.log('A_EXPRESS_ValidateAccess error', error);
-                    return next(new a_sdk_1.A_SDK_ServerError(error));
+                    return next(new a_sdk_types_1.A_SDK_ServerError(error));
                 }
             });
         };

@@ -1,8 +1,8 @@
 import { NextFunction, Request } from "express";
 import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from "../types/A_EXPRESS_Controller.types";
 import { A_ARC_MaskQueryBuilder, A_ARC_ServerDelegate } from "@adaas/a-arc";
-import { A_SDK_ServerError } from "@adaas/a-sdk";
 import { A_AUTH_Context, A_AUTH_ServerDelegateAuthenticator } from "@adaas/a-auth";
+import { A_SDK_ServerError } from "@adaas/a-sdk-types";
 
 
 export function A_EXPRESS_AvailableResources<

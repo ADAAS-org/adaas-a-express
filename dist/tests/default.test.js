@@ -23,11 +23,11 @@ const dotenv_1 = require("dotenv");
 jest.retryTimes(0);
 const A_EXPRESS_EntityController_class_1 = require("../src/global/A_EXPRESS_EntityController.class");
 const ValidateAccess_decorator_1 = require("../src/decorators/ValidateAccess.decorator");
+const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const Route_decorator_1 = require("../src/decorators/Route.decorator");
 const http_1 = require("http");
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
-const a_sdk_1 = require("@adaas/a-sdk");
 const A_EXPRESS_Context_class_1 = require("../src/global/A_EXPRESS_Context.class");
 describe('Defaults', () => {
     it('Should Assign Router', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -74,7 +74,7 @@ describe('Defaults', () => {
             console.log(resp.data);
         }
         catch (error) {
-            A_EXPRESS_Context_class_1.A_EXPRESS_Context.Logger.error(new a_sdk_1.A_SDK_Error(error));
+            A_EXPRESS_Context_class_1.A_EXPRESS_Context.Logger.error(new a_sdk_types_1.A_SDK_Error(error));
         }
     }));
 });
