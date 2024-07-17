@@ -3,13 +3,14 @@ import express, { Request, Response, Router } from 'express';
 import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
 import { A_EXPRESS_EntityController } from '../global/A_EXPRESS_EntityController.class';
 import { A_EXPRESS_AuthMiddleware } from 'src/middleware/A_EXPRESS_Auth.middleware';
+import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 
 const ROUTES_KEY = Symbol('routes');
 
 interface RouteDefinition {
     path: string;
     method: 'get' | 'post' | 'put' | 'delete';
-    middlewares: Array<(req: Request, res: Response, next: express.NextFunction) => void>;
+    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: express.NextFunction) => void>;
     config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig>
     handlerName: string;
 }
@@ -21,14 +22,14 @@ export type A_EXPRESS_TYPES__IDecoratorRouteConfig = {
 
 export interface A_EXPRESS_TYPES__IDecoratorRouteParams {
     path: string,
-    middlewares: Array<(req: Request, res: Response, next: express.NextFunction) => void>
+    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: express.NextFunction) => void>
     config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig>
 }
 
 function Route(
     method: 'get' | 'post' | 'put' | 'delete',
     path: string,
-    middlewares: Array<(req: Request, res: Response, next: express.NextFunction) => void> = [],
+    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse,next: express.NextFunction) => void> = [],
     config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig> = {}
 ) {
 

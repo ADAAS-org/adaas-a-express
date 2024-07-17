@@ -1,14 +1,15 @@
 import 'reflect-metadata';
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
 import { A_EXPRESS_EntityController } from '../global/A_EXPRESS_EntityController.class';
+import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 export type A_EXPRESS_TYPES__IDecoratorRouteConfig = {
     identity: boolean;
     auth: boolean;
 };
 export interface A_EXPRESS_TYPES__IDecoratorRouteParams {
     path: string;
-    middlewares: Array<(req: Request, res: Response, next: express.NextFunction) => void>;
+    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: express.NextFunction) => void>;
     config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig>;
 }
 export declare function A_EXPRESS_Get(params?: Partial<A_EXPRESS_TYPES__IDecoratorRouteParams>): (target: any, propertyKey: string) => void;
