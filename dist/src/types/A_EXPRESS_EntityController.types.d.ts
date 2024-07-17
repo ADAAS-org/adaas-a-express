@@ -13,7 +13,7 @@ export interface A_EXPRESS_TYPES__IControllerRepository<T> {
     create(...args: any): T;
     save(...args: any): Promise<T>;
     delete(...args: any): Promise<any>;
-    update(...args: any): Promise<T>;
+    update(...args: any): Promise<any>;
     /**
      * Method receives data and returns response with pagination
      *
