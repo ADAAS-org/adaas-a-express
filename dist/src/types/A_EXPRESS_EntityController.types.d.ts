@@ -1,4 +1,5 @@
 import { A_SDK_TYPES__ObjectKeyEnum, A_SDK_TYPES__IDefaultPagination, A_SDK_TYPES__IRequestPagination } from '@adaas/a-sdk-types';
+import { A_EXPRESS_TYPES__ControllerConfig } from './A_EXPRESS_Controller.types';
 export interface A_EXPRESS_TYPES__SearchOptions {
     pattern: string | undefined;
     include: string[];
@@ -33,10 +34,7 @@ export type A_EXPRESS_TYPES__EntityController_GetConfig<_DBEntityType = any, _Wh
     order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASK'>;
     where: (req: any) => Promise<_WhereType | Array<_WhereType>>;
 };
-export interface A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType> {
-    identifierType: 'ASEID' | 'ID';
-    type: 'None' | 'AppInteractions' | 'ServerCommands' | 'ServerDelegate';
-    entity: string;
+export interface A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__ControllerConfig {
     list: Partial<A_EXPRESS_TYPES__EntityController_ListConfig<_DBEntityType>>;
     get: Partial<A_EXPRESS_TYPES__EntityController_GetConfig<_DBEntityType>>;
 }

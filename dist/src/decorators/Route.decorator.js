@@ -10,6 +10,7 @@ exports.A_EXPRESS_Delete = A_EXPRESS_Delete;
 exports.A_EXPRESS_Routes = A_EXPRESS_Routes;
 require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
+const A_EXPRESS_Controller_class_1 = require("../global/A_EXPRESS_Controller.class");
 const A_EXPRESS_EntityController_class_1 = require("../global/A_EXPRESS_EntityController.class");
 const A_EXPRESS_Auth_middleware_1 = require("src/middleware/A_EXPRESS_Auth.middleware");
 const ROUTES_KEY = Symbol('routes');
@@ -59,6 +60,21 @@ function A_EXPRESS_Routes(arg1, arg2) {
                 path = `/${controller.config.entity}`;
             }
             if (controller instanceof A_EXPRESS_EntityController_class_1.A_EXPRESS_EntityController) {
+                switch (controller.config.type) {
+                    case 'ServerCommands':
+                        path = `/-s-cmd-${path}`;
+                        break;
+                    case 'ServerDelegate':
+                        path = `/-s-dlg-${path}`;
+                        break;
+                    default:
+                        break;
+                }
+                if (route.config.identity && ['post', 'put', 'delete'].includes(route.method)) {
+                    path = `${path}/:${controller.config.identifierType === 'ASEID' ? 'aseid' : 'id'}`;
+                }
+            }
+            if (controller instanceof A_EXPRESS_Controller_class_1.A_EXPRESS_Controller) {
                 switch (controller.config.type) {
                     case 'ServerCommands':
                         path = `/-s-cmd-${path}`;

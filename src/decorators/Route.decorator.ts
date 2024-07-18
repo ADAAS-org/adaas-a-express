@@ -29,7 +29,7 @@ export interface A_EXPRESS_TYPES__IDecoratorRouteParams {
 function Route(
     method: 'get' | 'post' | 'put' | 'delete',
     path: string,
-    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse,next: express.NextFunction) => void> = [],
+    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: express.NextFunction) => void> = [],
     config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig> = {}
 ) {
 
@@ -128,6 +128,23 @@ export function A_EXPRESS_Routes(
             }
 
             if (controller instanceof A_EXPRESS_EntityController) {
+                switch (controller.config.type) {
+                    case 'ServerCommands':
+                        path = `/-s-cmd-${path}`;
+                        break;
+                    case 'ServerDelegate':
+                        path = `/-s-dlg-${path}`;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (route.config.identity && ['post', 'put', 'delete'].includes(route.method)) {
+                    path = `${path}/:${controller.config.identifierType === 'ASEID' ? 'aseid' : 'id'}`;
+                }
+            }
+
+            if (controller instanceof A_EXPRESS_Controller) {
                 switch (controller.config.type) {
                     case 'ServerCommands':
                         path = `/-s-cmd-${path}`;

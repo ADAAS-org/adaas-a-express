@@ -17,6 +17,13 @@ export interface A_EXPRESS_TYPES__IResponse<_ResponseType = any> extends Respons
 }
 
 
+export interface A_EXPRESS_TYPES__ControllerConfig {
+    identifierType: 'ASEID' | 'ID',
+    type: 'None' | 'AppInteractions' | 'ServerCommands' | 'ServerDelegate'
+    entity: string,
+}
+
+
 
 export interface A_EXPRESS_TYPES__IRequest<
     _ReqBodyType = any,

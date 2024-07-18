@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import { A_SDK_CONSTANTS__ERROR_CODES } from '@adaas/a-sdk-types';
-import { A_EXPRESS_TYPES__IController, A_EXPRESS_TYPES__IRequest } from '../types/A_EXPRESS_Controller.types';
+import { A_EXPRESS_TYPES__ControllerConfig, A_EXPRESS_TYPES__IController, A_EXPRESS_TYPES__IRequest } from '../types/A_EXPRESS_Controller.types';
 import { A_EXPRESS_Context } from './A_EXPRESS_Context.class';
 
 
@@ -8,6 +8,8 @@ import { A_EXPRESS_Context } from './A_EXPRESS_Context.class';
 export class A_EXPRESS_Controller implements A_EXPRESS_TYPES__IController {
 
     logAlias = "a-express@abstract-controller"
+
+    config!: Partial<A_EXPRESS_TYPES__ControllerConfig>
 
     constructor() {
     }

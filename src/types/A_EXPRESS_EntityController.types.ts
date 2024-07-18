@@ -3,6 +3,7 @@ import {
     A_SDK_TYPES__IDefaultPagination,
     A_SDK_TYPES__IRequestPagination,
 } from '@adaas/a-sdk-types';
+import { A_EXPRESS_TYPES__ControllerConfig } from './A_EXPRESS_Controller.types';
 
 
 export interface A_EXPRESS_TYPES__SearchOptions {
@@ -64,10 +65,7 @@ export type A_EXPRESS_TYPES__EntityController_GetConfig<
 
 
 
-export interface A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType> {
-    identifierType: 'ASEID' | 'ID',
-    type: 'None' | 'AppInteractions' | 'ServerCommands' | 'ServerDelegate'
-    entity: string,
+export interface A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__ControllerConfig {
     list: Partial<A_EXPRESS_TYPES__EntityController_ListConfig<_DBEntityType>>,
     get: Partial<A_EXPRESS_TYPES__EntityController_GetConfig<_DBEntityType>>
 }
