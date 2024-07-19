@@ -28,16 +28,16 @@ function Route(method, path, middlewares = [], config = {}) {
     };
 }
 function A_EXPRESS_Get(params = {}) {
-    return Route('get', params.path || '__default__', params.middlewares, Object.assign(Object.assign({}, (params.config || {})), { identity: true, auth: true }));
+    return Route('get', params.path || '__default__', params.middlewares, Object.assign(Object.assign({}, (params.config || {})), { identity: true }));
 }
 function A_EXPRESS_Post(params = {}) {
-    return Route('post', params.path || '__default__', params.middlewares, Object.assign(Object.assign({}, (params.config || {})), { identity: true, auth: true }));
+    return Route('post', params.path || '__default__', params.middlewares, Object.assign(Object.assign({}, (params.config || {})), { identity: true }));
 }
 function A_EXPRESS_Put(params = {}) {
-    return Route('put', params.path || '__default__', params.middlewares, Object.assign(Object.assign({}, (params.config || {})), { identity: true, auth: true }));
+    return Route('put', params.path || '__default__', params.middlewares, Object.assign(Object.assign({}, (params.config || {})), { identity: true }));
 }
 function A_EXPRESS_Delete(params = {}) {
-    return Route('delete', params.path || '__default__', params.middlewares, Object.assign(Object.assign({}, (params.config || {})), { identity: true, auth: true }));
+    return Route('delete', params.path || '__default__', params.middlewares, Object.assign(Object.assign({}, (params.config || {})), { identity: true }));
 }
 function A_EXPRESS_Routes(arg1, arg2) {
     let router;
@@ -89,8 +89,15 @@ function A_EXPRESS_Routes(arg1, arg2) {
                     path = `${path}/:${controller.config.identifierType === 'ASEID' ? 'aseid' : 'id'}`;
                 }
             }
-            console.log('path', path);
-            const targetMiddlewares = route.config.auth ? [A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware, ...route.middlewares] : route.middlewares;
+            const targetMiddlewares = ((route.config.auth === true || route.config.auth === false)
+                ? route.config.auth
+                : (controller instanceof A_EXPRESS_Controller_class_1.A_EXPRESS_Controller
+                    ? controller.config.auth
+                    : controller instanceof A_EXPRESS_EntityController_class_1.A_EXPRESS_EntityController
+                        ? controller.config.auth
+                        : false))
+                ? [A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware, ...route.middlewares]
+                : route.middlewares;
             router[route.method](path, ...targetMiddlewares, handler);
         });
     });

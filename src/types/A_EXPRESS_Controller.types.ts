@@ -21,6 +21,7 @@ export interface A_EXPRESS_TYPES__ControllerConfig {
     identifierType: 'ASEID' | 'ID',
     type: 'None' | 'AppInteractions' | 'ServerCommands' | 'ServerDelegate'
     entity: string,
+    auth: boolean
 }
 
 

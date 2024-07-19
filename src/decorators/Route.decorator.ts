@@ -54,7 +54,6 @@ export function A_EXPRESS_Get(
     return Route('get', params.path || '__default__', params.middlewares, {
         ...(params.config || {}),
         identity: true,
-        auth: true,
     });
 }
 
@@ -64,7 +63,6 @@ export function A_EXPRESS_Post(
     return Route('post', params.path || '__default__', params.middlewares, {
         ...(params.config || {}),
         identity: true,
-        auth: true,
     });
 }
 
@@ -74,7 +72,6 @@ export function A_EXPRESS_Put(
     return Route('put', params.path || '__default__', params.middlewares, {
         ...(params.config || {}),
         identity: true,
-        auth: true,
     });
 }
 
@@ -84,7 +81,6 @@ export function A_EXPRESS_Delete(
     return Route('delete', params.path || '__default__', params.middlewares, {
         ...(params.config || {}),
         identity: true,
-        auth: true,
     });
 }
 
@@ -161,9 +157,18 @@ export function A_EXPRESS_Routes(
                 }
             }
 
-            console.log('path', path);
-
-            const targetMiddlewares = route.config.auth ? [A_EXPRESS_AuthMiddleware as any, ...route.middlewares] : route.middlewares;
+            const targetMiddlewares = (
+                (route.config.auth === true || route.config.auth === false)
+                    ? route.config.auth
+                    : (
+                        controller instanceof A_EXPRESS_Controller
+                            ? controller.config.auth
+                            : controller instanceof A_EXPRESS_EntityController
+                                ? controller.config.auth
+                                : false
+                    ))
+                ? [A_EXPRESS_AuthMiddleware as any, ...route.middlewares]
+                : route.middlewares;
 
             router[route.method](path, ...targetMiddlewares, handler);
         });

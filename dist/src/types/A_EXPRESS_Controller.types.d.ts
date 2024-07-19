@@ -15,6 +15,7 @@ export interface A_EXPRESS_TYPES__ControllerConfig {
     identifierType: 'ASEID' | 'ID';
     type: 'None' | 'AppInteractions' | 'ServerCommands' | 'ServerDelegate';
     entity: string;
+    auth: boolean;
 }
 export interface A_EXPRESS_TYPES__IRequest<_ReqBodyType = any, T extends A_EXPRESS_TYPES__IRequestQueryParams = A_EXPRESS_TYPES__IRequestQueryParams, P extends A_EXPRESS_TYPES__IRequestParams = A_EXPRESS_TYPES__IRequestParams> extends Request<P, any, _ReqBodyType, T> {
     params: P;
