@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { A_SDK_App, A_SDK_User } from '@adaas/a-sdk';
+import { A_SDK_ApiCredentials, A_SDK_App, A_SDK_User } from '@adaas/a-sdk';
 export interface A_EXPRESS_TYPES__IRequestQueryParams {
     page?: number;
     pageSize?: number;
@@ -22,6 +22,7 @@ export interface A_EXPRESS_TYPES__IRequest<_ReqBodyType = any, T extends A_EXPRE
     query: T;
     adaas: {
         user: A_SDK_User;
+        api: A_SDK_ApiCredentials;
         app: A_SDK_App;
         /**
          * the selected Scope ASEID that used to access the resources

@@ -25,7 +25,7 @@ function A_EXPRESS_ValidateAccess(qb) {
                     yield a_arc_1.A_ARC_ServerDelegate.ACL.verify({
                         mask: resultQuery.toString(),
                     }, {
-                        authenticator: a_auth_1.A_AUTH_Context.getAuthenticator(req.adaas.user.aseid)
+                        authenticator: a_auth_1.A_AUTH_Context.getAuthenticator(req.adaas.user.aseid, req.adaas.scope)
                     });
                     // Call the original method with the API response data
                     return originalMethod.apply(this, [req, res, next]);

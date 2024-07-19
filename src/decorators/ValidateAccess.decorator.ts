@@ -36,7 +36,10 @@ export function A_EXPRESS_ValidateAccess<
                 await A_ARC_ServerDelegate.ACL.verify({
                     mask: resultQuery.toString(),
                 }, {
-                    authenticator: A_AUTH_Context.getAuthenticator(req.adaas.user.aseid) as A_AUTH_ServerDelegateAuthenticator
+                    authenticator: A_AUTH_Context.getAuthenticator(
+                        req.adaas.user.aseid,
+                        req.adaas.scope
+                    ) as A_AUTH_ServerDelegateAuthenticator
                 });
 
                 // Call the original method with the API response data

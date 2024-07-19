@@ -23,7 +23,12 @@ export class A_EXPRESS_AuthMiddleware {
              * This method should return details about the ADAAS Auth in case when APP credentials are not provided
              * Otherwise, it returns nothings
              */
-            const { user, app, scope, roles } = await A_AUTH_ServerCommands.Token.verify({
+            const {
+                user,
+                app,
+                scope,
+                roles
+            } = await A_AUTH_ServerCommands.Token.verify({
                 token: receivedToken
             });
 

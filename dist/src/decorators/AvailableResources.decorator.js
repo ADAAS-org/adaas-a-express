@@ -24,7 +24,7 @@ function A_EXPRESS_AvailableResources(qb) {
                     const aseids = yield a_arc_1.A_ARC_ServerDelegate.Resource.list({
                         mask: resultQuery.toString(),
                     }, {
-                        authenticator: a_auth_1.A_AUTH_Context.getAuthenticator(req.adaas.user.aseid)
+                        authenticator: a_auth_1.A_AUTH_Context.getAuthenticator(req.adaas.user.aseid, req.adaas.scope)
                     });
                     req.adaas.arc = Object.assign(Object.assign({}, (req.adaas.arc || {})), { resources: aseids });
                     // Call the original method with the API response data

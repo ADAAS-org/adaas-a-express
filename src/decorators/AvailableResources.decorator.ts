@@ -35,7 +35,10 @@ export function A_EXPRESS_AvailableResources<
                 const aseids = await A_ARC_ServerDelegate.Resource.list({
                     mask: resultQuery.toString(),
                 }, {
-                    authenticator: A_AUTH_Context.getAuthenticator(req.adaas.user.aseid) as A_AUTH_ServerDelegateAuthenticator
+                    authenticator: A_AUTH_Context.getAuthenticator(
+                        req.adaas.user.aseid,
+                        req.adaas.scope
+                    ) as A_AUTH_ServerDelegateAuthenticator
                 });
 
                 req.adaas.arc = {
