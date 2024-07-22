@@ -47,6 +47,9 @@ class A_EXPRESS_HealthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
     constructor(config) {
         super();
         this.config = config || {};
+        if (!this.config.versionPath) {
+            return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER);
+        }
     }
     get(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {

@@ -5,17 +5,24 @@ import { A_EXPRESS_CONSTANTS__ERROR_CODES } from '../constants/errors.constants'
 import { A_EXPRESS_Controller } from './A_EXPRESS_Controller.class';
 import { A_EXPRESS_Get } from '../decorators/Route.decorator';
 import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
+import { A_SDK_TYPES__Required } from '@adaas/a-sdk-types';
 
 
 
 export class A_EXPRESS_HealthController extends A_EXPRESS_Controller {
 
-    config!: A_EXPRESS_TYPES__HealthControllerConfig
+    config!: Partial<A_EXPRESS_TYPES__HealthControllerConfig>
 
 
-    constructor(config?: A_EXPRESS_TYPES__HealthControllerConfig) {
+    constructor(config?:
+        A_SDK_TYPES__Required<Partial<A_EXPRESS_TYPES__HealthControllerConfig>, ['versionPath']>
+    ) {
         super();
-        this.config = config || {} as A_EXPRESS_TYPES__HealthControllerConfig;
+        this.config = config || {};
+
+        if (!this.config.versionPath) {
+            return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER);
+        }
     }
 
     @A_EXPRESS_Get({
@@ -31,7 +38,7 @@ export class A_EXPRESS_HealthController extends A_EXPRESS_Controller {
         next: NextFunction
     ): Promise<any> {
         try {
-            const version = await import(this.config.versionPath);
+            const version = await import(this.config.versionPath!);
 
             return res.status(200).send(version)
         } catch (error) {
