@@ -13,9 +13,9 @@ export class A_EXPRESS_HealthController extends A_EXPRESS_Controller {
     config!: A_EXPRESS_TYPES__HealthControllerConfig
 
 
-    constructor(config: A_EXPRESS_TYPES__HealthControllerConfig) {
+    constructor(config?: A_EXPRESS_TYPES__HealthControllerConfig) {
         super();
-        this.config = config;
+        this.config = config || {} as A_EXPRESS_TYPES__HealthControllerConfig;
     }
 
     @A_EXPRESS_Get({

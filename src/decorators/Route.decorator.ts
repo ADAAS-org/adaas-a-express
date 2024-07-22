@@ -4,6 +4,7 @@ import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
 import { A_EXPRESS_EntityController } from '../global/A_EXPRESS_EntityController.class';
 import { A_EXPRESS_AuthMiddleware } from 'src/middleware/A_EXPRESS_Auth.middleware';
 import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
+import { A_EXPRESS_HealthController } from '../global/A_EXPRESS_HealthRouter.class';
 
 const ROUTES_KEY = Symbol('routes');
 
@@ -88,18 +89,18 @@ export function A_EXPRESS_Delete(
 
 
 export function A_EXPRESS_Routes(
-    controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>
+    controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | A_EXPRESS_Controller | A_EXPRESS_HealthController>
 ): express.Router;
 export function A_EXPRESS_Routes(
     router: express.Router,
-    controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>
+    controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | A_EXPRESS_Controller | A_EXPRESS_HealthController>
 ): express.Router;
 export function A_EXPRESS_Routes(
-    arg1: express.Router | Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>,
-    arg2?: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>
+    arg1: express.Router | Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | A_EXPRESS_Controller | A_EXPRESS_HealthController>,
+    arg2?: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | A_EXPRESS_Controller | A_EXPRESS_HealthController>
 ): express.Router {
     let router: express.Router;
-    let controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>;
+    let controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | A_EXPRESS_Controller | A_EXPRESS_HealthController>;
 
 
     if (arg1 instanceof express.Router) {
@@ -107,7 +108,7 @@ export function A_EXPRESS_Routes(
         controllers = arg2!;
     } else {
         router = express.Router();
-        controllers = arg1 as Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController>;
+        controllers = arg1 as Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController>;
     }
 
 
