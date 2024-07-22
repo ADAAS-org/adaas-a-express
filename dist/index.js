@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.A_EXPRESS_ErrorsMiddleware = exports.A_EXPRESS_AuthMiddleware = exports.A_EXPRESS_EntityController = exports.A_EXPRESS_Controller = exports.A_EXPRESS_AuthController = exports.A_EXPRESS_Routes = exports.A_EXPRESS_Put = exports.A_EXPRESS_Post = exports.A_EXPRESS_Get = exports.A_EXPRESS_Delete = exports.A_EXPRESS_ValidateAccess = exports.A_EXPRESS_AvailableResources = exports.A_EXPRESS_Context = void 0;
+exports.A_EXPRESS_ErrorsMiddleware = exports.A_EXPRESS_AuthMiddleware = exports.A_EXPRESS_HealthController = exports.A_EXPRESS_EntityController = exports.A_EXPRESS_Controller = exports.A_EXPRESS_AuthController = exports.A_EXPRESS_Routes = exports.A_EXPRESS_Put = exports.A_EXPRESS_Post = exports.A_EXPRESS_Get = exports.A_EXPRESS_Delete = exports.A_EXPRESS_ValidateAccess = exports.A_EXPRESS_AvailableResources = exports.A_EXPRESS_Context = void 0;
 // =========== A-EXPRESS CONTEXT
 var A_EXPRESS_Context_class_1 = require("./src/global/A_EXPRESS_Context.class");
 Object.defineProperty(exports, "A_EXPRESS_Context", { enumerable: true, get: function () { return A_EXPRESS_Context_class_1.A_EXPRESS_Context; } });
@@ -22,6 +22,8 @@ var A_EXPRESS_Controller_class_1 = require("./src/global/A_EXPRESS_Controller.cl
 Object.defineProperty(exports, "A_EXPRESS_Controller", { enumerable: true, get: function () { return A_EXPRESS_Controller_class_1.A_EXPRESS_Controller; } });
 var A_EXPRESS_EntityController_class_1 = require("./src/global/A_EXPRESS_EntityController.class");
 Object.defineProperty(exports, "A_EXPRESS_EntityController", { enumerable: true, get: function () { return A_EXPRESS_EntityController_class_1.A_EXPRESS_EntityController; } });
+var A_EXPRESS_HealthRouter_class_1 = require("./src/global/A_EXPRESS_HealthRouter.class");
+Object.defineProperty(exports, "A_EXPRESS_HealthController", { enumerable: true, get: function () { return A_EXPRESS_HealthRouter_class_1.A_EXPRESS_HealthController; } });
 // =========== MIDDLEWARES EXPORT
 var A_EXPRESS_Auth_middleware_1 = require("./src/middleware/A_EXPRESS_Auth.middleware");
 Object.defineProperty(exports, "A_EXPRESS_AuthMiddleware", { enumerable: true, get: function () { return A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware; } });

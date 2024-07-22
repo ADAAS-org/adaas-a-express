@@ -3,6 +3,7 @@ export enum A_EXPRESS_CONSTANTS__ERROR_CODES {
     OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY = 'ERR-500-0001',
     ENTITY_NOT_FOUND = 'ERR-404-0001',
     SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED = 'ERR-500-0002',
+    INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER = 'ERR-500-0003',
 };
 
 
@@ -25,5 +26,10 @@ export const A_EXPRESS_CONSTANTS__DEFAULT_ERRORS = {
         description: 'The entity is not specified in the controller configuration.',
         message: 'Oops... Something went wrong'
     },
-
+    INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER: {
+        serverCode: 500,
+        code: A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER,
+        description: 'The version path for the health controller is incorrect.',
+        message: 'Oops... Something went wrong'
+    },
 }

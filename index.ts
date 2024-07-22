@@ -37,11 +37,16 @@ export {
     A_EXPRESS_TYPES__SearchOptions
 } from './src/types/A_EXPRESS_EntityController.types';
 
+export {
+    A_EXPRESS_TYPES__HealthControllerConfig
+} from './src/types/A_EXPRESS_HealthRouter.types'
+
 
 // =========== DEFAULT ENTITIES EXPORT
 export { A_EXPRESS_AuthController } from './src/global/A_EXPRESS_AuthController.class';
 export { A_EXPRESS_Controller } from './src/global/A_EXPRESS_Controller.class';
 export { A_EXPRESS_EntityController } from './src/global/A_EXPRESS_EntityController.class';
+export { A_EXPRESS_HealthController } from './src/global/A_EXPRESS_HealthRouter.class';
 
 // =========== MIDDLEWARES EXPORT
 export { A_EXPRESS_AuthMiddleware } from './src/middleware/A_EXPRESS_Auth.middleware';
