@@ -16,5 +16,5 @@ export declare function A_EXPRESS_Get(params?: Partial<A_EXPRESS_TYPES__IDecorat
 export declare function A_EXPRESS_Post(params?: Partial<A_EXPRESS_TYPES__IDecoratorRouteParams>): (target: any, propertyKey: string) => void;
 export declare function A_EXPRESS_Put(params?: Partial<A_EXPRESS_TYPES__IDecoratorRouteParams>): (target: any, propertyKey: string) => void;
 export declare function A_EXPRESS_Delete(params?: Partial<A_EXPRESS_TYPES__IDecoratorRouteParams>): (target: any, propertyKey: string) => void;
-export declare function A_EXPRESS_Routes(controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController>): express.Router;
-export declare function A_EXPRESS_Routes(router: express.Router, controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController>): express.Router;
+export declare function A_EXPRESS_Routes(controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>): express.Router;
+export declare function A_EXPRESS_Routes(router: express.Router, controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>): express.Router;

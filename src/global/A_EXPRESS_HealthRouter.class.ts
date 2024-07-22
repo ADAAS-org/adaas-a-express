@@ -12,6 +12,12 @@ export class A_EXPRESS_HealthController extends A_EXPRESS_Controller {
 
     config!: A_EXPRESS_TYPES__HealthControllerConfig
 
+
+    constructor(config: A_EXPRESS_TYPES__HealthControllerConfig) {
+        super();
+        this.config = config;
+    }
+
     @A_EXPRESS_Get({
         path: '/',
         config: {

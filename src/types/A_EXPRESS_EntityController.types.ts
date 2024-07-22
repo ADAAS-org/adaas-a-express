@@ -47,7 +47,7 @@ export type A_EXPRESS_TYPES__EntityController_ListConfig<
 > = {
     relations: Array<string>,
     searchFields: Array<string>,
-    order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASK'>
+    order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASC'>
     where: (req: any) => Promise<_WhereType | Array<_WhereType>>
     // where: <_RequestType extends IGeneralRequest = IGeneralRequest>(req: _RequestType) => Promise<FindOptionsWhere<_DBEntityType> | Array<FindOptionsWhere<_DBEntityType>>>
 }
@@ -58,7 +58,7 @@ export type A_EXPRESS_TYPES__EntityController_GetConfig<
     _WhereType = any
 > = {
     relations: Array<string>,
-    order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASK'>,
+    order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASC'>,
     where: (req: any) => Promise<_WhereType | Array<_WhereType>>
     // where: <_RequestType extends IGeneralRequest = IGeneralRequest>(req: _RequestType) => Promise<FindOptionsWhere<_DBEntityType> | Array<FindOptionsWhere<_DBEntityType>>>
 }

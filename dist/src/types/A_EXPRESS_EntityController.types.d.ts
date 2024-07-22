@@ -26,12 +26,12 @@ export interface A_EXPRESS_TYPES__IControllerRepository<T> {
 export type A_EXPRESS_TYPES__EntityController_ListConfig<_DBEntityType = any, _WhereType = any> = {
     relations: Array<string>;
     searchFields: Array<string>;
-    order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASK'>;
+    order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASC'>;
     where: (req: any) => Promise<_WhereType | Array<_WhereType>>;
 };
 export type A_EXPRESS_TYPES__EntityController_GetConfig<_DBEntityType = any, _WhereType = any> = {
     relations: Array<string>;
-    order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASK'>;
+    order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASC'>;
     where: (req: any) => Promise<_WhereType | Array<_WhereType>>;
 };
 export interface A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__ControllerConfig {

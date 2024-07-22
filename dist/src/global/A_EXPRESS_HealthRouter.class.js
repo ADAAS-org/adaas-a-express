@@ -44,6 +44,10 @@ const errors_constants_1 = require("../constants/errors.constants");
 const A_EXPRESS_Controller_class_1 = require("./A_EXPRESS_Controller.class");
 const Route_decorator_1 = require("../decorators/Route.decorator");
 class A_EXPRESS_HealthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_Controller {
+    constructor(config) {
+        super();
+        this.config = config;
+    }
     get(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

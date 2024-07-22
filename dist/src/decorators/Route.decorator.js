@@ -51,7 +51,7 @@ function A_EXPRESS_Routes(arg1, arg2) {
         controllers = arg1;
     }
     controllers.forEach((controller) => {
-        const instance = new controller();
+        const instance = controller instanceof A_EXPRESS_Controller_class_1.A_EXPRESS_Controller ? controller : new controller();
         const routes = Reflect.getMetadata(ROUTES_KEY, controller) || [];
         routes.forEach((route) => {
             const handler = instance[route.handlerName].bind(instance);

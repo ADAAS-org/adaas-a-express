@@ -88,18 +88,18 @@ export function A_EXPRESS_Delete(
 
 
 export function A_EXPRESS_Routes(
-    controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController>
+    controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>
 ): express.Router;
 export function A_EXPRESS_Routes(
     router: express.Router,
-    controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController>
+    controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>
 ): express.Router;
 export function A_EXPRESS_Routes(
-    arg1: express.Router | Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController>,
-    arg2?: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController>
+    arg1: express.Router | Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>,
+    arg2?: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>
 ): express.Router {
     let router: express.Router;
-    let controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController>;
+    let controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | A_EXPRESS_Controller>;
 
 
     if (arg1 instanceof express.Router) {
@@ -112,7 +112,7 @@ export function A_EXPRESS_Routes(
 
 
     controllers.forEach((controller) => {
-        const instance = new controller();
+        const instance = controller instanceof A_EXPRESS_Controller ? controller : new controller();
         const routes: RouteDefinition[] = Reflect.getMetadata(ROUTES_KEY, controller) || [];
 
         routes.forEach((route) => {
