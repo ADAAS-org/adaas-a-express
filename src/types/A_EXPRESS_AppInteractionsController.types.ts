@@ -13,7 +13,7 @@ export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IResponse<_ResponseType = any
 }
 
 
-export interface A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType> {
+export interface A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest> {
 }
 
 

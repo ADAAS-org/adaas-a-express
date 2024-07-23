@@ -8,7 +8,7 @@ export interface A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestParams extends A_EXPRE
 }
 export interface A_EXPRESS_TYPES__SERVER_DELEGATE_IResponse<_ResponseType = any> extends A_EXPRESS_TYPES__IResponse<_ResponseType> {
 }
-export interface A_EXPRESS_TYPES__SERVER_DELEGATE_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType> {
+export interface A_EXPRESS_TYPES__SERVER_DELEGATE_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, A_EXPRESS_TYPES__SERVER_DELEGATE_IRequest> {
 }
 export interface A_EXPRESS_TYPES__SERVER_DELEGATE_IRequest<_ReqBodyType = any, _AccessKeys extends Array<string> = ['default'], _ResourcesKeys extends Array<string> = ['default'], T extends A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestQueryParams = A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestQueryParams, P extends A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestParams = A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestParams> extends A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys> {
     params: P;

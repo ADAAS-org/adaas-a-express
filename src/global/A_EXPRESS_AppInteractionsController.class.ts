@@ -1,7 +1,7 @@
 import { A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Dictionary } from "@adaas/a-sdk-types";
 import { A_EXPRESS_TYPES__EntityControllerConfig, A_EXPRESS_TYPES__IControllerRepository } from "../types/A_EXPRESS_EntityController.types";
 import { A_EXPRESS_EntityController } from "./A_EXPRESS_EntityController.class";
-import { A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest } from "../types/A_EXPRESS_AppInteractionsController.types";
+import { A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig, A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest } from "../types/A_EXPRESS_AppInteractionsController.types";
 
 
 
@@ -16,7 +16,7 @@ export class A_EXPRESS_AppInteractionsController<
 > {
 
     constructor(
-        config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, _RequestType>>
+        config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType>>
     ) {
         super(config);
     }

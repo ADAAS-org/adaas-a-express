@@ -7,7 +7,7 @@ export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams extends A_EXPR
 }
 export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IResponse<_ResponseType = any> extends A_EXPRESS_TYPES__IResponse<_ResponseType> {
 }
-export interface A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType> {
+export interface A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest> {
 }
 export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest<_ReqBodyType = any, _AccessKeys extends string[] = ['default'], _ResourcesKeys extends string[] = ['default'], T extends A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams = A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams, P extends A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams = A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams> extends A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys> {
     params: P;
