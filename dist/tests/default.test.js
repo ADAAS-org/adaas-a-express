@@ -56,11 +56,13 @@ describe('Defaults', () => {
                         auth: false
                     }
                 }),
-                (0, ValidateAccess_decorator_1.A_EXPRESS_ValidateAccess)((qb, self, req) => {
-                    return qb.action('read');
-                }),
-                (0, ValidateAccess_decorator_1.A_EXPRESS_ValidateAccess)((qb, self, req) => {
-                    return qb.action('read2');
+                (0, ValidateAccess_decorator_1.A_EXPRESS_ValidateAccess)({
+                    default: (qb, self, req) => {
+                        return qb.action('read');
+                    },
+                    test: (qb, self, req) => {
+                        return qb.action('test');
+                    }
                 })
             ], Test.prototype, "test", null);
             const app = (0, express_1.default)();

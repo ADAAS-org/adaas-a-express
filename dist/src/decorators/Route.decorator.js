@@ -13,6 +13,10 @@ const express_1 = __importDefault(require("express"));
 const A_EXPRESS_Controller_class_1 = require("../global/A_EXPRESS_Controller.class");
 const A_EXPRESS_EntityController_class_1 = require("../global/A_EXPRESS_EntityController.class");
 const A_EXPRESS_Auth_middleware_1 = require("src/middleware/A_EXPRESS_Auth.middleware");
+const A_EXPRESS_HealthRouter_class_1 = require("../global/A_EXPRESS_HealthRouter.class");
+const A_EXPRESS_ServerCommandsController_class_1 = require("../global/A_EXPRESS_ServerCommandsController.class");
+const A_EXPRESS_ServerDelegateController_class_1 = require("../global/A_EXPRESS_ServerDelegateController.class");
+const A_EXPRESS_AppInteractionsController_class_1 = require("../global/A_EXPRESS_AppInteractionsController.class");
 const ROUTES_KEY = Symbol('routes');
 function Route(method, path, middlewares = [], config = {}) {
     return function (target, propertyKey) {
@@ -51,53 +55,57 @@ function A_EXPRESS_Routes(arg1, arg2) {
         controllers = arg1;
     }
     controllers.forEach((controller) => {
-        const instance = controller instanceof A_EXPRESS_Controller_class_1.A_EXPRESS_Controller ? controller : new controller();
+        let instance;
+        if (controller instanceof A_EXPRESS_Controller_class_1.A_EXPRESS_Controller ||
+            controller instanceof A_EXPRESS_EntityController_class_1.A_EXPRESS_EntityController ||
+            controller instanceof A_EXPRESS_HealthRouter_class_1.A_EXPRESS_HealthController ||
+            controller instanceof A_EXPRESS_AppInteractionsController_class_1.A_EXPRESS_AppInteractionsController ||
+            controller instanceof A_EXPRESS_ServerCommandsController_class_1.A_EXPRESS_ServerCommandsController ||
+            controller instanceof A_EXPRESS_ServerDelegateController_class_1.A_EXPRESS_ServerDelegateController) {
+            instance = controller;
+        }
+        else {
+            instance = new controller();
+        }
         const routes = Reflect.getMetadata(ROUTES_KEY, controller) || [];
         routes.forEach((route) => {
             const handler = instance[route.handlerName].bind(instance);
-            let path = route.path;
-            if (path === '__default__' && controller instanceof A_EXPRESS_EntityController_class_1.A_EXPRESS_EntityController) {
-                path = `/${controller.config.entity}`;
-            }
-            if (controller instanceof A_EXPRESS_EntityController_class_1.A_EXPRESS_EntityController) {
-                switch (controller.config.type) {
-                    case 'ServerCommands':
-                        path = `/-s-cmd-${path}`;
-                        break;
-                    case 'ServerDelegate':
-                        path = `/-s-dlg-${path}`;
-                        break;
-                    default:
-                        break;
-                }
-                if (route.config.identity && ['post', 'put', 'delete'].includes(route.method)) {
-                    path = `${path}/:${controller.config.identifierType === 'ASEID' ? 'aseid' : 'id'}`;
-                }
-            }
-            if (controller instanceof A_EXPRESS_Controller_class_1.A_EXPRESS_Controller) {
-                switch (controller.config.type) {
-                    case 'ServerCommands':
-                        path = `/-s-cmd-${path}`;
-                        break;
-                    case 'ServerDelegate':
-                        path = `/-s-dlg-${path}`;
-                        break;
-                    default:
-                        break;
-                }
-                if (route.config.identity && ['post', 'put', 'delete'].includes(route.method)) {
-                    path = `${path}/:${controller.config.identifierType === 'ASEID' ? 'aseid' : 'id'}`;
-                }
-            }
-            const targetMiddlewares = ((route.config.auth === true || route.config.auth === false)
+            let path = instance.config.base || '/';
+            let targetMiddlewares = [];
+            const useAuth = (route.config.auth === true || route.config.auth === false)
                 ? route.config.auth
-                : (controller instanceof A_EXPRESS_Controller_class_1.A_EXPRESS_Controller
-                    ? controller.config.auth
-                    : controller instanceof A_EXPRESS_EntityController_class_1.A_EXPRESS_EntityController
-                        ? controller.config.auth
-                        : false))
-                ? [A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware, ...route.middlewares]
-                : route.middlewares;
+                : instance.config.auth || false;
+            switch (true) {
+                case instance instanceof A_EXPRESS_AppInteractionsController_class_1.A_EXPRESS_AppInteractionsController:
+                    if (useAuth)
+                        targetMiddlewares = [
+                            A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware.AppInteractions_ValidateToken,
+                            ...route.middlewares
+                        ];
+                    break;
+                case instance instanceof A_EXPRESS_ServerCommandsController_class_1.A_EXPRESS_ServerCommandsController:
+                    path = `/-s-cmd-${path}`;
+                    if (useAuth)
+                        targetMiddlewares = [
+                            A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware.ServerCommands_ValidateToken,
+                            ...route.middlewares
+                        ];
+                    break;
+                case instance instanceof A_EXPRESS_ServerDelegateController_class_1.A_EXPRESS_ServerDelegateController:
+                    path = `/-s-dlg-${path}`;
+                    if (useAuth)
+                        targetMiddlewares = [
+                            A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware.ServerDelegate_ValidateToken,
+                            ...route.middlewares
+                        ];
+                    break;
+                default:
+                    break;
+            }
+            if (route.path !== '__default__')
+                path = `${path}/${route.path}`;
+            if (route.config.identity)
+                path = `${path}/:${instance.config.identifierType === 'ASEID' ? 'aseid' : 'id'}`;
             router[route.method](path, ...targetMiddlewares, handler);
         });
     });

@@ -4,6 +4,9 @@ export enum A_EXPRESS_CONSTANTS__ERROR_CODES {
     ENTITY_NOT_FOUND = 'ERR-404-0001',
     SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED = 'ERR-500-0002',
     INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER = 'ERR-500-0003',
+    INVALID_TOKEN_TYPE_FOR_APP_INTERACTION = 'ERR-401-0001',
+    INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS = 'ERR-401-0002',
+    INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE = 'ERR-401-0003',
 };
 
 
@@ -31,5 +34,23 @@ export const A_EXPRESS_CONSTANTS__DEFAULT_ERRORS = {
         code: A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER,
         description: 'The version path for the health controller is incorrect.',
         message: 'Oops... Something went wrong'
+    },
+    INVALID_TOKEN_TYPE_FOR_APP_INTERACTION: {
+        serverCode: 401,
+        code: A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_APP_INTERACTION,
+        description: 'The token type for the app interaction is invalid.',
+        message: 'The token is used to access app-interactions method is not for this kind of operations.'
+    },
+    INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS: {
+        serverCode: 401,
+        code: A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS,
+        description: 'The token type for the server commands is invalid.',
+        message: 'The token is used to access server-commands method is not for this kind of operations.'
+    },
+    INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE: {
+        serverCode: 401,
+        code: A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE,
+        description: 'The token type for the server delegate is invalid.',
+        message: 'The token is used to access server-delegate method is not for this kind of operations.'
     },
 }

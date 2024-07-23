@@ -1,6 +1,6 @@
 import { NextFunction, Request } from "express";
 import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from "../types/A_EXPRESS_Controller.types";
-import { A_ARC_MaskQueryBuilder, A_ARC_ServerDelegate } from "@adaas/a-arc";
+import { A_ARC_MaskQueryBuilder, A_ARC_ServerCommands, A_ARC_ServerDelegate } from "@adaas/a-arc";
 import { A_AUTH_Context, A_AUTH_ServerDelegateAuthenticator } from "@adaas/a-auth";
 import { A_SDK_ServerError } from "@adaas/a-sdk-types";
 
@@ -8,16 +8,18 @@ import { A_SDK_ServerError } from "@adaas/a-sdk-types";
 export function A_EXPRESS_AvailableResources<
     _ContextType = any,
     _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest,
-    _ResponseType extends A_EXPRESS_TYPES__IResponse = A_EXPRESS_TYPES__IResponse
+    _ResourcesKeys extends Array<string> = ['default'],
 >(
-    qb: (
-        qb: A_ARC_MaskQueryBuilder,
-        self: _ContextType,
-        req: _RequestType,
-        res: _ResponseType,
-        next: NextFunction,
+    params: {
+        [key in _ResourcesKeys[number]]: (
+            qb: A_ARC_MaskQueryBuilder,
+            self: _ContextType,
+            req: _RequestType,
+            res: any,
+            next: NextFunction,
 
-    ) => A_ARC_MaskQueryBuilder
+        ) => A_ARC_MaskQueryBuilder
+    }
 ) {
 
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
@@ -25,26 +27,44 @@ export function A_EXPRESS_AvailableResources<
 
         descriptor.value = async function (
             req: _RequestType,
-            res: _ResponseType,
+            res: any,
             next: NextFunction
         ) {
             try {
-                const resultQuery = qb.apply(this, [new A_ARC_MaskQueryBuilder(), this as _ContextType, req, res, next]);
 
-                // Perform the external API request
-                const aseids = await A_ARC_ServerDelegate.Resource.list({
-                    mask: resultQuery.toString(),
-                }, {
-                    authenticator: A_AUTH_Context.getAuthenticator(
-                        req.adaas.user.aseid,
-                        req.adaas.scope
-                    ) as A_AUTH_ServerDelegateAuthenticator
-                });
+                const queries = Object.keys(params).reduce((acc, key) => {
+                    const qb = params[key].apply(this, [new A_ARC_MaskQueryBuilder(), this as _ContextType, req, res, next]);
+                    acc[key] = qb.toString();
 
-                req.adaas.arc = {
-                    ...(req.adaas.arc || {}),
-                    resources: aseids
-                };
+                    return acc;
+                }, {});
+
+                if (req.adaas.user) {
+                    // Perform the external API request
+                    const aseids = await A_ARC_ServerDelegate.Resource.list({
+                        masks: queries,
+                    }, {
+                        authenticator: A_AUTH_Context.getAuthenticator(
+                            req.adaas.user.aseid,
+                            req.adaas.scope
+                        ) as A_AUTH_ServerDelegateAuthenticator
+                    });
+
+                    req.adaas.arc = {
+                        ...req.adaas.arc,
+                        resources: aseids as any,
+                    };
+                } else {
+                    // Perform the external API request
+                    const aseids = await A_ARC_ServerCommands.Resource.list({
+                        masks: queries,
+                    });
+
+                    req.adaas.arc = {
+                        ...req.adaas.arc,
+                        resources: aseids as any,
+                    };
+                }
 
                 // Call the original method with the API response data
                 return originalMethod.apply(this, [req, res, next]);

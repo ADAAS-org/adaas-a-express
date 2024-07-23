@@ -45,9 +45,8 @@ const A_EXPRESS_Controller_class_1 = require("./A_EXPRESS_Controller.class");
 const Route_decorator_1 = require("../decorators/Route.decorator");
 class A_EXPRESS_HealthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_Controller {
     constructor(config) {
-        super();
-        this.config = config || {};
-        if (!this.config.versionPath) {
+        super(config);
+        if (!this.compiledConfig.versionPath) {
             return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER);
         }
     }

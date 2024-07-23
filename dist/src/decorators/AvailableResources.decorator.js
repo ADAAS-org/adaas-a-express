@@ -13,20 +13,33 @@ exports.A_EXPRESS_AvailableResources = A_EXPRESS_AvailableResources;
 const a_arc_1 = require("@adaas/a-arc");
 const a_auth_1 = require("@adaas/a-auth");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
-function A_EXPRESS_AvailableResources(qb) {
+function A_EXPRESS_AvailableResources(params) {
     return function (target, propertyKey, descriptor) {
         const originalMethod = descriptor.value;
         descriptor.value = function (req, res, next) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
-                    const resultQuery = qb.apply(this, [new a_arc_1.A_ARC_MaskQueryBuilder(), this, req, res, next]);
-                    // Perform the external API request
-                    const aseids = yield a_arc_1.A_ARC_ServerDelegate.Resource.list({
-                        mask: resultQuery.toString(),
-                    }, {
-                        authenticator: a_auth_1.A_AUTH_Context.getAuthenticator(req.adaas.user.aseid, req.adaas.scope)
-                    });
-                    req.adaas.arc = Object.assign(Object.assign({}, (req.adaas.arc || {})), { resources: aseids });
+                    const queries = Object.keys(params).reduce((acc, key) => {
+                        const qb = params[key].apply(this, [new a_arc_1.A_ARC_MaskQueryBuilder(), this, req, res, next]);
+                        acc[key] = qb.toString();
+                        return acc;
+                    }, {});
+                    if (req.adaas.user) {
+                        // Perform the external API request
+                        const aseids = yield a_arc_1.A_ARC_ServerDelegate.Resource.list({
+                            masks: queries,
+                        }, {
+                            authenticator: a_auth_1.A_AUTH_Context.getAuthenticator(req.adaas.user.aseid, req.adaas.scope)
+                        });
+                        req.adaas.arc = Object.assign(Object.assign({}, req.adaas.arc), { resources: aseids });
+                    }
+                    else {
+                        // Perform the external API request
+                        const aseids = yield a_arc_1.A_ARC_ServerCommands.Resource.list({
+                            masks: queries,
+                        });
+                        req.adaas.arc = Object.assign(Object.assign({}, req.adaas.arc), { resources: aseids });
+                    }
                     // Call the original method with the API response data
                     return originalMethod.apply(this, [req, res, next]);
                 }

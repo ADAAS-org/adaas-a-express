@@ -1,5 +1,6 @@
-import { A_SDK_TYPES__ObjectKeyEnum, A_SDK_TYPES__IDefaultPagination, A_SDK_TYPES__IRequestPagination } from '@adaas/a-sdk-types';
-import { A_EXPRESS_TYPES__ControllerConfig } from './A_EXPRESS_Controller.types';
+import { A_SDK_TYPES__ObjectKeyEnum, A_SDK_TYPES__IDefaultPagination, A_SDK_TYPES__IRequestPagination, A_SDK_TYPES__Paths, A_SDK_TYPES__DeepPartial } from '@adaas/a-sdk-types';
+import { A_EXPRESS_TYPES__ControllerConfig, A_EXPRESS_TYPES__IRequest } from './A_EXPRESS_Controller.types';
+import { A_ARC_MaskQueryBuilder } from '@adaas/a-arc';
 export interface A_EXPRESS_TYPES__SearchOptions {
     pattern: string | undefined;
     include: string[];
@@ -7,6 +8,10 @@ export interface A_EXPRESS_TYPES__SearchOptions {
 export interface A_EXPRESS_TYPES__GetPageOptions<T> {
     pagination?: Partial<A_SDK_TYPES__IRequestPagination>;
     search?: A_EXPRESS_TYPES__SearchOptions;
+}
+export interface A_EXPRESS_TYPES__IARCRequestParam<_ContextType = any, _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest> {
+    resources: (self: _ContextType, qb: A_ARC_MaskQueryBuilder, req: _RequestType) => A_ARC_MaskQueryBuilder;
+    access: (self: _ContextType, qb: A_ARC_MaskQueryBuilder, req: _RequestType) => A_ARC_MaskQueryBuilder;
 }
 export interface A_EXPRESS_TYPES__IControllerRepository<T> {
     findOne(...args: any): Promise<T | null>;
@@ -23,18 +28,39 @@ export interface A_EXPRESS_TYPES__IControllerRepository<T> {
         [key: string]: any;
     }): Promise<A_SDK_TYPES__IDefaultPagination<T>>;
 }
-export type A_EXPRESS_TYPES__EntityController_ListConfig<_DBEntityType = any, _WhereType = any> = {
-    relations: Array<string>;
-    searchFields: Array<string>;
+export type A_EXPRESS_TYPES__EntityController_ListConfig<_DBEntityType = any, _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest, _ContextType = any, _WhereType = any> = {
+    relations: Array<A_SDK_TYPES__Paths<_DBEntityType>>;
+    searchFields: Array<A_SDK_TYPES__Paths<_DBEntityType>>;
     order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASC'>;
-    where: (req: any) => Promise<_WhereType | Array<_WhereType>>;
+    arc: A_EXPRESS_TYPES__IARCRequestParam<_ContextType, _RequestType>;
+    where: (self: _ContextType, req: _RequestType) => Promise<_WhereType | Array<_WhereType>>;
 };
-export type A_EXPRESS_TYPES__EntityController_GetConfig<_DBEntityType = any, _WhereType = any> = {
-    relations: Array<string>;
+export type A_EXPRESS_TYPES__EntityController_GetConfig<_DBEntityType = any, _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest, _ContextType = any, _WhereType = any> = {
+    relations: Array<A_SDK_TYPES__Paths<_DBEntityType>>;
     order: A_SDK_TYPES__ObjectKeyEnum<_DBEntityType, 'DESC' | 'ASC'>;
-    where: (req: any) => Promise<_WhereType | Array<_WhereType>>;
+    arc: A_EXPRESS_TYPES__IARCRequestParam<_ContextType, _RequestType>;
+    where: (self: _ContextType, req: _RequestType) => Promise<_WhereType | Array<_WhereType>>;
 };
-export interface A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__ControllerConfig {
-    list: Partial<A_EXPRESS_TYPES__EntityController_ListConfig<_DBEntityType>>;
-    get: Partial<A_EXPRESS_TYPES__EntityController_GetConfig<_DBEntityType>>;
+export type A_EXPRESS_TYPES__EntityController_PostConfig<_DBEntityType = any, _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest, _ContextType = any> = {
+    relations: Array<A_SDK_TYPES__Paths<_DBEntityType>>;
+    extend: (req: _RequestType) => Promise<A_SDK_TYPES__DeepPartial<_DBEntityType>>;
+    arc: A_EXPRESS_TYPES__IARCRequestParam<_ContextType, _RequestType>;
+};
+export type A_EXPRESS_TYPES__EntityController_PutConfig<_DBEntityType = any, _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest, _ContextType = any, _WhereType = any> = {
+    relations: Array<A_SDK_TYPES__Paths<_DBEntityType>>;
+    where: (self: _ContextType, req: _RequestType) => Promise<_WhereType | Array<_WhereType>>;
+    extend: (req: _RequestType) => Promise<A_SDK_TYPES__DeepPartial<_DBEntityType>>;
+    arc: A_EXPRESS_TYPES__IARCRequestParam<_ContextType, _RequestType>;
+};
+export type A_EXPRESS_TYPES__EntityController_DeleteConfig<_DBEntityType = any, _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest, _ContextType = any, _WhereType = any> = {
+    where: (self: _ContextType, req: _RequestType) => Promise<_WhereType | Array<_WhereType>>;
+    arc: A_EXPRESS_TYPES__IARCRequestParam<_ContextType, _RequestType>;
+};
+export interface A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType = any, _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest, _ContextType = any> extends A_EXPRESS_TYPES__ControllerConfig {
+    entity: string;
+    list: A_EXPRESS_TYPES__EntityController_ListConfig<_DBEntityType, _RequestType, _ContextType>;
+    get: A_EXPRESS_TYPES__EntityController_GetConfig<_DBEntityType, _RequestType, _ContextType>;
+    post: A_EXPRESS_TYPES__EntityController_PostConfig<_DBEntityType, _RequestType, _ContextType>;
+    put: A_EXPRESS_TYPES__EntityController_PutConfig<_DBEntityType, _RequestType, _ContextType>;
+    delete: A_EXPRESS_TYPES__EntityController_DeleteConfig<_DBEntityType, _RequestType, _ContextType>;
 }

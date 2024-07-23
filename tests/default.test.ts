@@ -10,6 +10,7 @@ import { createServer } from 'http';
 import express, { Router } from 'express';
 import axios from 'axios';
 import { A_EXPRESS_Context } from '@adaas/a-sdk/global/A_EXPRESS_Context.class';
+import { A_EXPRESS_TYPES__IRequest } from '@adaas/a-sdk/types/A_EXPRESS_Controller.types';
 
 describe('Defaults', () => {
     it('Should Assign Router', async () => {
@@ -30,11 +31,13 @@ describe('Defaults', () => {
                         auth: false
                     }
                 })
-                @A_EXPRESS_ValidateAccess<Test>((qb, self, req) => {
-                    return qb.action('read');
-                })
-                @A_EXPRESS_ValidateAccess<Test>((qb, self, req) => {
-                    return qb.action('read2');
+                @A_EXPRESS_ValidateAccess<Test, A_EXPRESS_TYPES__IRequest, ['default', 'test']>({
+                    default: (qb, self, req) => {
+                        return qb.action('read');
+                    },
+                    test: (qb, self, req) => {
+                        return qb.action('test');
+                    }
                 })
                 async test(req: any, res: any, next: any) {
                     console.log('test')

@@ -13,17 +13,26 @@ export interface A_EXPRESS_TYPES__IResponse<_ResponseType = any> extends Respons
 }
 export interface A_EXPRESS_TYPES__ControllerConfig {
     identifierType: 'ASEID' | 'ID';
-    type: 'None' | 'AppInteractions' | 'ServerCommands' | 'ServerDelegate';
-    entity: string;
+    base: string;
     auth: boolean;
+    /**
+     * allows to ignore the default methods in case when they are not needed OR NOT ALLOWED
+     */
+    ignoreDefaultMethods?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>;
 }
-export interface A_EXPRESS_TYPES__IRequest<_ReqBodyType = any, T extends A_EXPRESS_TYPES__IRequestQueryParams = A_EXPRESS_TYPES__IRequestQueryParams, P extends A_EXPRESS_TYPES__IRequestParams = A_EXPRESS_TYPES__IRequestParams> extends Request<P, any, _ReqBodyType, T> {
+export interface A_EXPRESS_TYPES__IRequest<_ReqBodyType = any, T extends A_EXPRESS_TYPES__IRequestQueryParams = A_EXPRESS_TYPES__IRequestQueryParams, P extends A_EXPRESS_TYPES__IRequestParams = A_EXPRESS_TYPES__IRequestParams, _AccessKeys extends Array<string> = ['default'], _ResourcesKeys extends Array<string> = ['default']> extends Request<P, any, _ReqBodyType, T> {
     params: P;
     query: T;
     adaas: {
-        user: A_SDK_User;
-        api: A_SDK_ApiCredentials;
-        app: A_SDK_App;
+        user?: A_SDK_User;
+        /**
+         * The API credentials that used to access the resources
+         */
+        api?: A_SDK_ApiCredentials;
+        /**
+         * The app that attached to API credentials
+         */
+        app?: A_SDK_App;
         /**
          * the selected Scope ASEID that used to access the resources
          */
@@ -32,11 +41,18 @@ export interface A_EXPRESS_TYPES__IRequest<_ReqBodyType = any, T extends A_EXPRE
          * A set of all roles ASEIDs that attached to actor
          */
         roles: Array<string>;
-        arc?: Partial<{
-            resources: Array<string>;
+        /**
+         * A set of properties that related to the ARC
+         */
+        arc: Partial<{
+            resources: {
+                [key in _ResourcesKeys[number]]: Array<string>;
+            };
+            access: {
+                [key in _AccessKeys[number]]: boolean;
+            };
         }>;
     };
-    agentHash?: string;
 }
 export interface A_EXPRESS_TYPES__IController {
     logAlias: string;

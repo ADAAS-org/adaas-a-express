@@ -5,6 +5,9 @@ import { A_EXPRESS_EntityController } from '../global/A_EXPRESS_EntityController
 import { A_EXPRESS_AuthMiddleware } from 'src/middleware/A_EXPRESS_Auth.middleware';
 import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 import { A_EXPRESS_HealthController } from '../global/A_EXPRESS_HealthRouter.class';
+import { A_EXPRESS_ServerCommandsController } from '../global/A_EXPRESS_ServerCommandsController.class';
+import { A_EXPRESS_ServerDelegateController } from '../global/A_EXPRESS_ServerDelegateController.class';
+import { A_EXPRESS_AppInteractionsController } from '../global/A_EXPRESS_AppInteractionsController.class';
 
 const ROUTES_KEY = Symbol('routes');
 
@@ -87,20 +90,34 @@ export function A_EXPRESS_Delete(
 
 
 
+export type A_EXPRESS_TYPES__PossibleControllers = typeof A_EXPRESS_Controller |
+    typeof A_EXPRESS_EntityController |
+    typeof A_EXPRESS_HealthController |
+    typeof A_EXPRESS_AppInteractionsController |
+    typeof A_EXPRESS_ServerCommandsController |
+    typeof A_EXPRESS_ServerDelegateController |
+    A_EXPRESS_Controller |
+    A_EXPRESS_EntityController |
+    A_EXPRESS_HealthController |
+    A_EXPRESS_AppInteractionsController |
+    A_EXPRESS_ServerCommandsController |
+    A_EXPRESS_ServerDelegateController;
+
+
 
 export function A_EXPRESS_Routes(
-    controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | A_EXPRESS_Controller | A_EXPRESS_HealthController>
+    controllers: Array<A_EXPRESS_TYPES__PossibleControllers>
 ): express.Router;
 export function A_EXPRESS_Routes(
     router: express.Router,
-    controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | A_EXPRESS_Controller | A_EXPRESS_HealthController>
+    controllers: Array<A_EXPRESS_TYPES__PossibleControllers>
 ): express.Router;
 export function A_EXPRESS_Routes(
-    arg1: express.Router | Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | A_EXPRESS_Controller | A_EXPRESS_HealthController>,
-    arg2?: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | A_EXPRESS_Controller | A_EXPRESS_HealthController>
+    arg1: express.Router | Array<A_EXPRESS_TYPES__PossibleControllers>,
+    arg2?: Array<A_EXPRESS_TYPES__PossibleControllers>
 ): express.Router {
     let router: express.Router;
-    let controllers: Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | A_EXPRESS_Controller | A_EXPRESS_HealthController>;
+    let controllers: Array<A_EXPRESS_TYPES__PossibleControllers>;
 
 
     if (arg1 instanceof express.Router) {
@@ -111,67 +128,89 @@ export function A_EXPRESS_Routes(
         controllers = arg1 as Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController>;
     }
 
-
     controllers.forEach((controller) => {
-        const instance = controller instanceof A_EXPRESS_Controller ? controller : new controller();
+        let instance: A_EXPRESS_Controller |
+            A_EXPRESS_EntityController |
+            A_EXPRESS_HealthController |
+            A_EXPRESS_AppInteractionsController |
+            A_EXPRESS_ServerCommandsController |
+            A_EXPRESS_ServerDelegateController;
+
+        if (
+            controller instanceof A_EXPRESS_Controller ||
+            controller instanceof A_EXPRESS_EntityController ||
+            controller instanceof A_EXPRESS_HealthController ||
+            controller instanceof A_EXPRESS_AppInteractionsController ||
+            controller instanceof A_EXPRESS_ServerCommandsController ||
+            controller instanceof A_EXPRESS_ServerDelegateController
+
+        ) {
+            instance = controller;
+        }
+        else {
+            instance = new (controller as any)();
+        }
+
         const routes: RouteDefinition[] = Reflect.getMetadata(ROUTES_KEY, controller) || [];
 
         routes.forEach((route) => {
             const handler = instance[route.handlerName].bind(instance);
 
-            let path = route.path;
-            if (path === '__default__' && controller instanceof A_EXPRESS_EntityController) {
-                path = `/${controller.config.entity}`;
+            let path = instance.config.base || '/';
+            let targetMiddlewares: Array<(
+                req: A_EXPRESS_TYPES__IRequest,
+                res: A_EXPRESS_TYPES__IResponse,
+                next: express.NextFunction
+            ) => void> = [];
+
+            const useAuth = (route.config.auth === true || route.config.auth === false)
+                ? route.config.auth
+                : instance.config.auth || false
+
+
+            switch (true) {
+
+                case instance instanceof A_EXPRESS_AppInteractionsController:
+                    if (useAuth)
+                        targetMiddlewares = [
+                            A_EXPRESS_AuthMiddleware.AppInteractions_ValidateToken as any,
+                            ...route.middlewares
+                        ];
+
+                    break;
+
+                case instance instanceof A_EXPRESS_ServerCommandsController:
+                    path = `/-s-cmd-${path}`;
+
+                    if (useAuth)
+                        targetMiddlewares = [
+                            A_EXPRESS_AuthMiddleware.ServerCommands_ValidateToken as any,
+                            ...route.middlewares
+                        ];
+
+                    break;
+
+                case instance instanceof A_EXPRESS_ServerDelegateController:
+                    path = `/-s-dlg-${path}`;
+                    if (useAuth)
+                        targetMiddlewares = [
+                            A_EXPRESS_AuthMiddleware.ServerDelegate_ValidateToken as any,
+                            ...route.middlewares
+                        ];
+
+                    break;
+                default:
+                    break;
             }
 
-            if (controller instanceof A_EXPRESS_EntityController) {
-                switch (controller.config.type) {
-                    case 'ServerCommands':
-                        path = `/-s-cmd-${path}`;
-                        break;
-                    case 'ServerDelegate':
-                        path = `/-s-dlg-${path}`;
-                        break;
-                    default:
-                        break;
-                }
+            if (route.path !== '__default__')
+                path = `${path}/${route.path}`;
 
-                if (route.config.identity && ['post', 'put', 'delete'].includes(route.method)) {
-                    path = `${path}/:${controller.config.identifierType === 'ASEID' ? 'aseid' : 'id'}`;
-                }
-            }
+            if (route.config.identity)
+                path = `${path}/:${instance.config.identifierType === 'ASEID' ? 'aseid' : 'id'}`;
 
-            if (controller instanceof A_EXPRESS_Controller) {
-                switch (controller.config.type) {
-                    case 'ServerCommands':
-                        path = `/-s-cmd-${path}`;
-                        break;
-                    case 'ServerDelegate':
-                        path = `/-s-dlg-${path}`;
-                        break;
-                    default:
-                        break;
-                }
 
-                if (route.config.identity && ['post', 'put', 'delete'].includes(route.method)) {
-                    path = `${path}/:${controller.config.identifierType === 'ASEID' ? 'aseid' : 'id'}`;
-                }
-            }
-
-            const targetMiddlewares = (
-                (route.config.auth === true || route.config.auth === false)
-                    ? route.config.auth
-                    : (
-                        controller instanceof A_EXPRESS_Controller
-                            ? controller.config.auth
-                            : controller instanceof A_EXPRESS_EntityController
-                                ? controller.config.auth
-                                : false
-                    ))
-                ? [A_EXPRESS_AuthMiddleware as any, ...route.middlewares]
-                : route.middlewares;
-
-            router[route.method](path, ...targetMiddlewares, handler);
+            router[route.method](path, ...targetMiddlewares as any, handler);
         });
     });
 
