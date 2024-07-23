@@ -51,7 +51,7 @@
     "@adaas/a-arc": "^0.0.20",
     "@adaas/a-auth": "0.0.37",
     "@adaas/a-sdk": "0.0.19",
-    "@adaas/a-sdk-types": "0.0.39",
+    "@adaas/a-sdk-types": "0.0.40",
     "@types/express": "^4.17.21",
     "@types/node": "^20.10.0",
     "express": "^4.19.2",
