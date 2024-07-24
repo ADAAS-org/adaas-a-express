@@ -70,13 +70,21 @@ function A_EXPRESS_Routes(arg1, arg2) {
         const routes = Reflect.getMetadata(ROUTES_KEY, controller) || [];
         routes.forEach((route) => {
             const handler = instance[route.handlerName].bind(instance);
-            let path = instance.config.base || '/';
+            let path = instance instanceof A_EXPRESS_ServerCommandsController_class_1.A_EXPRESS_ServerCommandsController
+                ? '/-s-cmd-'
+                : instance instanceof A_EXPRESS_ServerDelegateController_class_1.A_EXPRESS_ServerDelegateController
+                    ? '/-s-dlg-'
+                    : instance instanceof A_EXPRESS_AppInteractionsController_class_1.A_EXPRESS_AppInteractionsController
+                        ? instance.config.base || '/'
+                        : instance.config.base || '/';
             let targetMiddlewares = [];
             const useAuth = (route.config.auth === true || route.config.auth === false)
                 ? route.config.auth
                 : instance.config.auth || false;
             switch (true) {
                 case instance instanceof A_EXPRESS_AppInteractionsController_class_1.A_EXPRESS_AppInteractionsController:
+                    if (instance.compiledConfig.entity)
+                        path = `${path}/${instance.compiledConfig.entity}`;
                     if (useAuth)
                         targetMiddlewares = [
                             A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware.AppInteractions_ValidateToken,
@@ -84,7 +92,8 @@ function A_EXPRESS_Routes(arg1, arg2) {
                         ];
                     break;
                 case instance instanceof A_EXPRESS_ServerCommandsController_class_1.A_EXPRESS_ServerCommandsController:
-                    path = `/-s-cmd-${path}`;
+                    if (instance.compiledConfig.entity)
+                        path = `${path}/${instance.compiledConfig.entity}`;
                     if (useAuth)
                         targetMiddlewares = [
                             A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware.ServerCommands_ValidateToken,
@@ -92,7 +101,8 @@ function A_EXPRESS_Routes(arg1, arg2) {
                         ];
                     break;
                 case instance instanceof A_EXPRESS_ServerDelegateController_class_1.A_EXPRESS_ServerDelegateController:
-                    path = `/-s-dlg-${path}`;
+                    if (instance.compiledConfig.entity)
+                        path = `${path}/${instance.compiledConfig.entity}`;
                     if (useAuth)
                         targetMiddlewares = [
                             A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware.ServerDelegate_ValidateToken,
@@ -100,12 +110,21 @@ function A_EXPRESS_Routes(arg1, arg2) {
                         ];
                     break;
                 default:
+                    if (instance instanceof A_EXPRESS_EntityController_class_1.A_EXPRESS_EntityController && instance.compiledConfig.entity) {
+                        path = `${path}/${instance.compiledConfig.entity}`;
+                    }
                     break;
             }
-            if (route.path !== '__default__')
-                path = `${path}/${route.path}`;
+            /**
+             * The identity parameter for the entity controller is added to the path
+             */
             if (route.config.identity)
                 path = `${path}/:${instance.config.identifierType === 'ASEID' ? 'aseid' : 'id'}`;
+            /**
+             * Extra custom path that can be added to the route
+             */
+            if (route.path !== '__default__')
+                path = `${path}/${route.path}`;
             router[route.method](path, ...targetMiddlewares, handler);
         });
     });

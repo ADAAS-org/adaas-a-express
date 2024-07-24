@@ -4,16 +4,17 @@ import { A_SDK_TYPES__Dictionary } from '@adaas/a-sdk-types';
 import { A_ARC_MaskQueryBuilder } from '@adaas/a-arc';
 
 
-export interface A_EXPRESS_TYPES__IRequestQueryParams {
+export type A_EXPRESS_TYPES__IRequestQueryParams = {
     page?: number,
     pageSize?: number
     search?: string
 }
 
-export interface A_EXPRESS_TYPES__IRequestParams {
-    aseid: string
-    id: string
+export type A_EXPRESS_TYPES__IRequestParams<T extends string[] = ['aseid', 'id']> = {
+    [key in T[number]]: string
 }
+
+
 
 export interface A_EXPRESS_TYPES__IResponse<_ResponseType = any> extends Response<_ResponseType, any> {
 }
