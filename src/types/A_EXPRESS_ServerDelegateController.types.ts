@@ -13,9 +13,9 @@ export type A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestQueryParams = {
 
 } & A_EXPRESS_TYPES__IRequestQueryParams
 
-export type A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestParams<T extends string[] = ['aseid', 'id']> = {
-
-} & A_EXPRESS_TYPES__IRequestParams<T>
+export type A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestParams<T extends Array<string> = []> = {
+    [key in T[number]]: string
+} & A_EXPRESS_TYPES__IRequestParams
 
 export interface A_EXPRESS_TYPES__SERVER_DELEGATE_IResponse<_ResponseType = any> extends A_EXPRESS_TYPES__IResponse<_ResponseType> {
 }

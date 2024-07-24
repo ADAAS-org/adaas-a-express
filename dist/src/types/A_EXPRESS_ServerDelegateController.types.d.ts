@@ -3,7 +3,9 @@ import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IRequestParams, A_EXPRESS_T
 import { A_EXPRESS_TYPES__EntityControllerConfig } from "./A_EXPRESS_EntityController.types";
 import { A_AUTH_ServerDelegateAuthenticator } from "@adaas/a-auth";
 export type A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestQueryParams = {} & A_EXPRESS_TYPES__IRequestQueryParams;
-export type A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestParams<T extends string[] = ['aseid', 'id']> = {} & A_EXPRESS_TYPES__IRequestParams<T>;
+export type A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestParams<T extends Array<string> = []> = {
+    [key in T[number]]: string;
+} & A_EXPRESS_TYPES__IRequestParams;
 export interface A_EXPRESS_TYPES__SERVER_DELEGATE_IResponse<_ResponseType = any> extends A_EXPRESS_TYPES__IResponse<_ResponseType> {
 }
 export interface A_EXPRESS_TYPES__SERVER_DELEGATE_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, A_EXPRESS_TYPES__SERVER_DELEGATE_IRequest> {

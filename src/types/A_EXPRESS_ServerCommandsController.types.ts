@@ -12,17 +12,17 @@ export type A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestQueryParams = {
 
 } & A_EXPRESS_TYPES__IRequestQueryParams
 
-export type A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestParams<T extends string[] = ['aseid', 'id']> = {
-
-} & A_EXPRESS_TYPES__IRequestParams<T>
+export type A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestParams<T extends Array<string> = []> = {
+    [key in T[number]]: string
+} & A_EXPRESS_TYPES__IRequestParams
 
 export interface A_EXPRESS_TYPES__SERVER_COMMANDS_IResponse<_ResponseType = any> extends A_EXPRESS_TYPES__IResponse<_ResponseType> {
 }
 
 
+
 export interface A_EXPRESS_TYPES__SERVER_COMMANDS_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, A_EXPRESS_TYPES__SERVER_COMMANDS_IRequest> {
 }
-
 
 
 export interface A_EXPRESS_TYPES__SERVER_COMMANDS_IRequest<

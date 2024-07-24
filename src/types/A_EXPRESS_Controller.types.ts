@@ -4,7 +4,7 @@ import { A_SDK_TYPES__Dictionary } from '@adaas/a-sdk-types';
 import { A_ARC_MaskQueryBuilder } from '@adaas/a-arc';
 
 
-export type A_EXPRESS_TYPES__IRequestQueryParams = {
+export type A_EXPRESS_TYPES__IRequestQueryParams= {
     page?: number,
     pageSize?: number
     search?: string
