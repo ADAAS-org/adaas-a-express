@@ -1,5 +1,4 @@
-import { NextFunction, Request } from "express";
-import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from "../types/A_EXPRESS_Controller.types";
+import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from "../types/A_EXPRESS_Controller.types";
 import { A_ARC_MaskQueryBuilder, A_ARC_ServerCommands, A_ARC_ServerDelegate } from "@adaas/a-arc";
 import { A_AUTH_Context, A_AUTH_ServerDelegateAuthenticator } from "@adaas/a-auth";
 import { A_SDK_ServerError } from "@adaas/a-sdk-types";
@@ -16,7 +15,7 @@ export function A_EXPRESS_AvailableResources<
             self: _ContextType,
             req: _RequestType,
             res: any,
-            next: NextFunction,
+            next: A_EXPRESS_TYPES__INextFunction,
 
         ) => A_ARC_MaskQueryBuilder
     }
@@ -28,7 +27,7 @@ export function A_EXPRESS_AvailableResources<
         descriptor.value = async function (
             req: _RequestType,
             res: any,
-            next: NextFunction
+            next: A_EXPRESS_TYPES__INextFunction
         ) {
             try {
 

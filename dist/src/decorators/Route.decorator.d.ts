@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import express from 'express';
 import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
 import { A_EXPRESS_EntityController } from '../global/A_EXPRESS_EntityController.class';
-import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
+import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 import { A_EXPRESS_HealthController } from '../global/A_EXPRESS_HealthRouter.class';
 import { A_EXPRESS_ServerCommandsController } from '../global/A_EXPRESS_ServerCommandsController.class';
 import { A_EXPRESS_ServerDelegateController } from '../global/A_EXPRESS_ServerDelegateController.class';
@@ -13,7 +13,7 @@ export type A_EXPRESS_TYPES__IDecoratorRouteConfig = {
 };
 export interface A_EXPRESS_TYPES__IDecoratorRouteParams {
     path: string;
-    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: express.NextFunction) => void>;
+    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: A_EXPRESS_TYPES__INextFunction) => void>;
     config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig>;
 }
 export declare function A_EXPRESS_Get(params?: Partial<A_EXPRESS_TYPES__IDecoratorRouteParams>): (target: any, propertyKey: string) => void;

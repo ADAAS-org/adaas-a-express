@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { A_SDK_ApiCredentials, A_SDK_App, A_SDK_User } from '@adaas/a-sdk';
+import { A_SDK_Error } from '@adaas/a-sdk-types';
 export type A_EXPRESS_TYPES__IRequestQueryParams = {
     page?: number;
     pageSize?: number;
@@ -9,6 +10,9 @@ export type A_EXPRESS_TYPES__IRequestParams<T extends string[] = ['aseid', 'id']
     [key in T[number]]: string;
 };
 export interface A_EXPRESS_TYPES__IResponse<_ResponseType = any> extends Response<_ResponseType, any> {
+}
+export interface A_EXPRESS_TYPES__INextFunction extends NextFunction {
+    (err?: A_SDK_Error): void;
 }
 export interface A_EXPRESS_TYPES__ControllerConfig {
     identifierType: 'ASEID' | 'ID';

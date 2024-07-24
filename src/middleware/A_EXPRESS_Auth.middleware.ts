@@ -1,6 +1,5 @@
 import { A_SDK_ApiCredentials, A_SDK_App, A_SDK_User } from '@adaas/a-sdk';
-import { Response, NextFunction } from 'express';
-import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
+import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 import { A_AUTH_ServerCommands, A_AUTH_Context, A_AUTH_ServerDelegateAuthenticator } from '@adaas/a-auth'
 import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
 import { A_SDK_CONSTANTS__ERROR_CODES, A_SDK_ServerError } from '@adaas/a-sdk-types';
@@ -14,7 +13,7 @@ export class A_EXPRESS_AuthMiddleware {
     static async validateToken(
         req: A_EXPRESS_TYPES__IRequest,
         res: A_EXPRESS_TYPES__IResponse,
-        next: NextFunction
+        next: A_EXPRESS_TYPES__INextFunction
     ) {
 
         if (!req.headers.authorization)
@@ -44,7 +43,7 @@ export class A_EXPRESS_AuthMiddleware {
     static async AppInteractions_ValidateToken(
         req: A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest,
         res: A_EXPRESS_TYPES__IResponse,
-        next: NextFunction
+        next: A_EXPRESS_TYPES__INextFunction
     ) {
 
         if (!req.headers.authorization)
@@ -92,7 +91,7 @@ export class A_EXPRESS_AuthMiddleware {
     static async ServerCommands_ValidateToken(
         req: A_EXPRESS_TYPES__SERVER_COMMANDS_IRequest,
         res: A_EXPRESS_TYPES__IResponse,
-        next: NextFunction
+        next: A_EXPRESS_TYPES__INextFunction
     ) {
 
         if (!req.headers.authorization)
@@ -137,7 +136,7 @@ export class A_EXPRESS_AuthMiddleware {
     static async ServerDelegate_ValidateToken(
         req: A_EXPRESS_TYPES__SERVER_DELEGATE_IRequest,
         res: A_EXPRESS_TYPES__IResponse,
-        next: NextFunction
+        next: A_EXPRESS_TYPES__INextFunction
     ) {
 
         if (!req.headers.authorization)

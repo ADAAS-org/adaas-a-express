@@ -1,4 +1,3 @@
-import { NextFunction } from "express";
 import {
     A_SDK_CommonHelper,
     A_SDK_ServerError,
@@ -8,17 +7,11 @@ import {
 } from "@adaas/a-sdk-types";
 import {
     A_EXPRESS_TYPES__IControllerRepository,
-    A_EXPRESS_TYPES__EntityControllerConfig,
-    A_EXPRESS_TYPES__EntityController_GetConfig,
-    A_EXPRESS_TYPES__EntityController_ListConfig,
-    A_EXPRESS_TYPES__EntityController_PostConfig,
-    A_EXPRESS_TYPES__EntityController_PutConfig,
-    A_EXPRESS_TYPES__EntityController_DeleteConfig
+    A_EXPRESS_TYPES__EntityControllerConfig
 } from "../types/A_EXPRESS_EntityController.types";
-import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from "../types/A_EXPRESS_Controller.types"
+import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from "../types/A_EXPRESS_Controller.types"
 import { A_EXPRESS_Controller } from "./A_EXPRESS_Controller.class"
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
-import { A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS } from "@adaas/a-arc";
 import { A_EXPRESS_Context } from "./A_EXPRESS_Context.class";
 import { A_EXPRESS_ValidateAccess } from "../decorators/ValidateAccess.decorator";
 import { A_EXPRESS_AvailableResources } from "../decorators/AvailableResources.decorator";
@@ -87,7 +80,7 @@ export class A_EXPRESS_EntityController<
     async list(
         req: _RequestType,
         res: A_EXPRESS_TYPES__IResponse,
-        next: NextFunction = () => { }
+        next: A_EXPRESS_TYPES__INextFunction
     ): Promise<any> {
         try {
             if (!this.repository)
@@ -125,7 +118,7 @@ export class A_EXPRESS_EntityController<
     async post(
         req: _RequestType,
         res: A_EXPRESS_TYPES__IResponse,
-        next: NextFunction
+        next: A_EXPRESS_TYPES__INextFunction
     ): Promise<any> {
         try {
             if (!this.repository)
@@ -163,7 +156,7 @@ export class A_EXPRESS_EntityController<
     async put(
         req: _RequestType,
         res: A_EXPRESS_TYPES__IResponse,
-        next: NextFunction
+        next: A_EXPRESS_TYPES__INextFunction
     ): Promise<any> {
         try {
             if (!this.repository)
@@ -199,7 +192,7 @@ export class A_EXPRESS_EntityController<
     async get(
         req: _RequestType,
         res: A_EXPRESS_TYPES__IResponse,
-        next: NextFunction
+        next: A_EXPRESS_TYPES__INextFunction
     ): Promise<any> {
         try {
             if (!this.repository)
@@ -233,7 +226,7 @@ export class A_EXPRESS_EntityController<
     async delete(
         req: _RequestType,
         res: A_EXPRESS_TYPES__IResponse,
-        next: NextFunction
+        next: A_EXPRESS_TYPES__INextFunction
     ): Promise<any> {
         try {
             if (!this.repository)

@@ -41,8 +41,8 @@ class A_EXPRESS_EntityController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
     constructor(config) {
         super(a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_EntityController_defaults_1.A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG), config || {}));
     }
-    list(req_1, res_1) {
-        return __awaiter(this, arguments, void 0, function* (req, res, next = () => { }) {
+    list(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (!this.repository)
                     return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);

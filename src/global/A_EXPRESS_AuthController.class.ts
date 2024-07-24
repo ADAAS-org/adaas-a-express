@@ -1,5 +1,4 @@
-import { Response, NextFunction } from 'express';
-import { A_EXPRESS_TYPES__IRequest } from '../types/A_EXPRESS_Controller.types';
+import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 import { A_EXPRESS_Controller } from './A_EXPRESS_Controller.class';
 import { A_SDK_ServerError } from '@adaas/a-sdk-types';
 import {
@@ -25,8 +24,8 @@ export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
     })
     async getSSOUrl(
         req: A_EXPRESS_TYPES__IRequest,
-        res: Response,
-        next: NextFunction
+        res: A_EXPRESS_TYPES__IResponse,
+        next: A_EXPRESS_TYPES__INextFunction
     ): Promise<any> {
         try {
             const url = await A_AUTH_ServerCommands.SSO.getSignInUrl({
@@ -50,8 +49,8 @@ export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
     })
     async getToken(
         req: A_EXPRESS_TYPES__IRequest<A_AUTH_SERVER_COMMANDS_TYPES__GetUserAccessTokenRequest>,
-        res: Response,
-        next: NextFunction
+        res: A_EXPRESS_TYPES__IResponse,
+        next: A_EXPRESS_TYPES__INextFunction
     ): Promise<any> {
         try {
             const authData = await A_AUTH_ServerCommands.Token.getAccessToken({
@@ -75,8 +74,8 @@ export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
     })
     async verifyToken(
         req: A_EXPRESS_TYPES__IRequest<A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenRequest>,
-        res: Response,
-        next: NextFunction
+        res: A_EXPRESS_TYPES__IResponse,
+        next: A_EXPRESS_TYPES__INextFunction
     ): Promise<any> {
         try {
             await A_AUTH_ServerCommands.Token.verify({
@@ -102,8 +101,8 @@ export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
     })
     async refreshToken(
         req: A_EXPRESS_TYPES__IRequest<A_AUTH_SERVER_COMMANDS_TYPES__RefreshTokenRequest>,
-        res: Response,
-        next: NextFunction
+        res: A_EXPRESS_TYPES__IResponse,
+        next: A_EXPRESS_TYPES__INextFunction
     ): Promise<any> {
         try {
             const authData = await A_AUTH_ServerCommands.Token.refresh({
