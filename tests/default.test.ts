@@ -4,13 +4,17 @@ jest.retryTimes(0);
 import { A_EXPRESS_EntityController } from '@adaas/a-sdk/global/A_EXPRESS_EntityController.class';
 import { A_EXPRESS_TYPES__EntityControllerConfig } from '@adaas/a-sdk/types/A_EXPRESS_EntityController.types';
 import { A_EXPRESS_ValidateAccess } from '../src/decorators/ValidateAccess.decorator';
-import { A_SDK_TYPES__Required, A_SDK_TYPES__Dictionary, A_SDK_Error } from '@adaas/a-sdk-types';
+import { A_SDK_TYPES__Required, A_SDK_TYPES__Dictionary, A_SDK_Error, A_SDK_TYPES__ExtractProperties } from '@adaas/a-sdk-types';
 import { A_EXPRESS_Get, A_EXPRESS_Routes } from '@adaas/a-sdk/decorators/Route.decorator';
 import { createServer } from 'http';
 import express, { Router } from 'express';
 import axios from 'axios';
 import { A_EXPRESS_Context } from '@adaas/a-sdk/global/A_EXPRESS_Context.class';
-import { A_EXPRESS_TYPES__IRequest } from '@adaas/a-sdk/types/A_EXPRESS_Controller.types';
+import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest } from '@adaas/a-sdk/types/A_EXPRESS_Controller.types';
+import { A_EXPRESS_ServerDelegateController } from '@adaas/a-sdk/global/A_EXPRESS_ServerDelegateController.class';
+import { A_EXPRESS_TYPES__SERVER_DELEGATE_IRequest } from '@adaas/a-sdk/types/A_EXPRESS_ServerDelegateController.types';
+import { A_ARC_SERVER_DELEGATE_TYPES__ResourceCreateRequest, A_ARC_TYPES__Resource_APIEntity } from '@adaas/a-arc';
+import { A_EXPRESS_TYPES__SERVER_COMMANDS_IRequest, A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestParams, A_EXPRESS_TYPES__SERVER_COMMANDS_IResponse } from '@adaas/a-sdk/types/A_EXPRESS_ServerCommandsController.types';
 
 describe('Defaults', () => {
     it('Should Assign Router', async () => {
@@ -72,5 +76,47 @@ describe('Defaults', () => {
             A_EXPRESS_Context.Logger.error(new A_SDK_Error(error));
         }
     });
+
+
+    it('Should Assign Router', async () => {
+
+        try {
+            type foo = ({
+                magic: string;
+            } & {
+                id: string;
+            }) | ({
+                aseid: string;
+            } & { scope: string });
+
+
+
+            class Test extends A_EXPRESS_ServerDelegateController {
+
+                protected CONTROLLER_CONFIG: A_SDK_TYPES__Required<Partial<A_EXPRESS_TYPES__EntityControllerConfig<A_SDK_TYPES__Dictionary<any>>>, ['entity']> = {
+                    entity: 'users',
+                };
+
+                async post(
+                    req: A_EXPRESS_TYPES__IRequest<foo>,
+                    res: A_EXPRESS_TYPES__SERVER_COMMANDS_IResponse,
+                    next: A_EXPRESS_TYPES__INextFunction
+                ) {
+                    const body =req.body;
+
+                    if('aseid' in body) {
+                        console.log(body.aseid)
+                    }
+                }
+
+            }
+
+        }
+        catch (error) {
+            A_EXPRESS_Context.Logger.error(new A_SDK_Error(error));
+        }
+
+    })
+
 
 });

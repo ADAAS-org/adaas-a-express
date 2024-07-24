@@ -8,9 +8,7 @@ import {
 import { A_EXPRESS_TYPES__EntityControllerConfig } from "./A_EXPRESS_EntityController.types"
 
 
-export type A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestQueryParams = {
-
-} & A_EXPRESS_TYPES__IRequestQueryParams
+export type A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestQueryParams<T extends object ={}> = T & A_EXPRESS_TYPES__IRequestQueryParams
 
 export type A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestParams<T extends Array<string> = []> = {
     [key in T[number]]: string

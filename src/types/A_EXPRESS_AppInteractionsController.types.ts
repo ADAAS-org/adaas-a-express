@@ -6,11 +6,10 @@ import {
     A_EXPRESS_TYPES__IResponse
 } from "./A_EXPRESS_Controller.types"
 import { A_EXPRESS_TYPES__EntityControllerConfig } from "./A_EXPRESS_EntityController.types"
+import { A_ARC_SERVER_DELEGATE_TYPES__ResourceListRequest } from "@adaas/a-arc"
 
 
-export type A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams = {
-
-} & A_EXPRESS_TYPES__IRequestQueryParams
+export type A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams<T extends object ={}> = T & A_EXPRESS_TYPES__IRequestQueryParams
 
 export type A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams<T extends Array<string> = []> = {
     [key in T[number]]: string
@@ -22,7 +21,6 @@ export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IResponse<_ResponseType = any
 
 export interface A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest> {
 }
-
 
 
 export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest<

@@ -29,6 +29,7 @@ const http_1 = require("http");
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const A_EXPRESS_Context_class_1 = require("../src/global/A_EXPRESS_Context.class");
+const A_EXPRESS_ServerDelegateController_class_1 = require("../src/global/A_EXPRESS_ServerDelegateController.class");
 describe('Defaults', () => {
     it('Should Assign Router', () => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -74,6 +75,29 @@ describe('Defaults', () => {
             }))();
             const resp = yield axios_1.default.get(`http://localhost:${port}/test`);
             console.log(resp.data);
+        }
+        catch (error) {
+            A_EXPRESS_Context_class_1.A_EXPRESS_Context.Logger.error(new a_sdk_types_1.A_SDK_Error(error));
+        }
+    }));
+    it('Should Assign Router', () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            class Test extends A_EXPRESS_ServerDelegateController_class_1.A_EXPRESS_ServerDelegateController {
+                constructor() {
+                    super(...arguments);
+                    this.CONTROLLER_CONFIG = {
+                        entity: 'users',
+                    };
+                }
+                post(req, res, next) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        const body = req.body;
+                        if ('aseid' in body) {
+                            console.log(body.aseid);
+                        }
+                    });
+                }
+            }
         }
         catch (error) {
             A_EXPRESS_Context_class_1.A_EXPRESS_Context.Logger.error(new a_sdk_types_1.A_SDK_Error(error));

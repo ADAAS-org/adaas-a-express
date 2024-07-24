@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { A_SDK_ApiCredentials, A_SDK_App, A_SDK_User } from '@adaas/a-sdk';
 import { A_SDK_Error } from '@adaas/a-sdk-types';
-export type A_EXPRESS_TYPES__IRequestQueryParams = {
+export type A_EXPRESS_TYPES__IRequestQueryParams<T extends string[] = []> = {
+    [key in T[number]]: string;
+} & {
     page?: number;
     pageSize?: number;
     search?: string;

@@ -9,9 +9,7 @@ import { A_EXPRESS_TYPES__EntityControllerConfig } from "./A_EXPRESS_EntityContr
 import { A_AUTH_ServerDelegateAuthenticator } from "@adaas/a-auth"
 
 
-export type A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestQueryParams = {
-
-} & A_EXPRESS_TYPES__IRequestQueryParams
+export type A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestQueryParams<T extends object = {}> = T & A_EXPRESS_TYPES__IRequestQueryParams
 
 export type A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestParams<T extends Array<string> = []> = {
     [key in T[number]]: string
