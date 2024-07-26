@@ -48,7 +48,7 @@
   },
   "homepage": "https://github.com/ADAAS-org/adaas-a-express#readme",
   "dependencies": {
-    "@adaas/a-arc": "^0.0.27",
+    "@adaas/a-arc": "^0.0.28",
     "@adaas/a-auth": "0.0.38",
     "@adaas/a-sdk": "0.0.19",
     "@adaas/a-sdk-types": "0.0.41",
