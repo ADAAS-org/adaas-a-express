@@ -120,7 +120,7 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         this.app.use('/', cors(this.config.cors.options));
 
         this.app.use(morgan('combined', {
-            skip: (req) => this.config.defaults.ignoreHealth ? req.baseUrl === '/api/v1/health' : false
+            skip: (req) => this.config.defaults.health.verbose ? false : req.baseUrl === `${this.config.prefix}/v1/health`
         }));
 
         // app.engine('html', require('ejs').renderFile)
@@ -172,11 +172,13 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         if (!defaultRouter)
             this.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.DEFAULT_ROUTER_INITIALIZATION_ERROR)
 
-        if (!this.config.defaults.exclude.health) {
-            defaultRouter.use('/health', A_EXPRESS_Routes([A_EXPRESS_HealthController]));
+        if (!this.config.defaults.health.exclude) {
+            defaultRouter.use('/health', A_EXPRESS_Routes([new A_EXPRESS_HealthController({
+                versionPath: this.config.defaults.health.versionPath
+            })]));
         }
 
-        if (!this.config.defaults.exclude.auth) {
+        if (!this.config.defaults.auth.exclude) {
             defaultRouter.use('/auth', A_EXPRESS_Routes([A_EXPRESS_AuthController]));
         }
 

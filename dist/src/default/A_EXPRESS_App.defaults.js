@@ -12,12 +12,14 @@ exports.A_EXPRESS_DEFAULTS__APP_CONFIG = {
     errors: [],
     routes: [],
     defaults: {
-        ignoreHealth: true,
-        exclude: {
-            health: false,
-            auth: false,
-            metrics: false
-        }
+        health: {
+            exclude: false,
+            versionPath: '',
+            verbose: false
+        },
+        auth: {
+            exclude: false
+        },
     },
 };
 //# sourceMappingURL=A_EXPRESS_App.defaults.js.map

@@ -12,12 +12,14 @@ export const A_EXPRESS_DEFAULTS__APP_CONFIG: A_EXPRESS_TYPES__AppConfig = {
     errors: [],
     routes: [],
     defaults: {
-        ignoreHealth: true,
-        exclude: {
-            health: false,
-            auth: false,
-            metrics: false
-        }
+        health: {
+            exclude: false,
+            versionPath: '',
+            verbose: false
+        },
+        auth: {
+            exclude: false
+        },
     },
 
 }

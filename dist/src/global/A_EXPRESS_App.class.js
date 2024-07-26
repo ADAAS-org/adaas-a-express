@@ -123,7 +123,7 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
             this.Logger.log('Permissions migrated successfully');
             this.app.use('/', (0, cors_1.default)(this.config.cors.options));
             this.app.use((0, morgan_1.default)('combined', {
-                skip: (req) => this.config.defaults.ignoreHealth ? req.baseUrl === '/api/v1/health' : false
+                skip: (req) => this.config.defaults.health.verbose ? false : req.baseUrl === `${this.config.prefix}/v1/health`
             }));
             // app.engine('html', require('ejs').renderFile)
             this.app.use(express_1.default.json());
@@ -157,10 +157,12 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
         const defaultRouter = this.routers.get(`${this.config.prefix}/v1`);
         if (!defaultRouter)
             this.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.DEFAULT_ROUTER_INITIALIZATION_ERROR);
-        if (!this.config.defaults.exclude.health) {
-            defaultRouter.use('/health', (0, Route_decorator_1.A_EXPRESS_Routes)([A_EXPRESS_HealthRouter_class_1.A_EXPRESS_HealthController]));
+        if (!this.config.defaults.health.exclude) {
+            defaultRouter.use('/health', (0, Route_decorator_1.A_EXPRESS_Routes)([new A_EXPRESS_HealthRouter_class_1.A_EXPRESS_HealthController({
+                    versionPath: this.config.defaults.health.versionPath
+                })]));
         }
-        if (!this.config.defaults.exclude.auth) {
+        if (!this.config.defaults.auth.exclude) {
             defaultRouter.use('/auth', (0, Route_decorator_1.A_EXPRESS_Routes)([A_EXPRESS_AuthController_class_1.A_EXPRESS_AuthController]));
         }
         for (const route of this.config.routes) {

@@ -14,11 +14,13 @@ export type A_EXPRESS_TYPES__AppConfig = {
         controllers: Array<A_EXPRESS_TYPES__PossibleControllers>;
     }>;
     defaults: {
-        ignoreHealth: boolean;
-        exclude: {
-            health: boolean;
-            auth: boolean;
-            metrics: boolean;
+        health: {
+            exclude: boolean;
+            versionPath: string;
+            verbose: boolean;
+        };
+        auth: {
+            exclude: boolean;
         };
     };
 } & A_SDK_TYPES__ContextConstructor;
