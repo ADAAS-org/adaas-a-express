@@ -6,6 +6,7 @@ export declare class A_EXPRESS_App extends A_SDK_ContextClass {
     config: A_EXPRESS_TYPES__AppConfig;
     readonly app: import("express-serve-static-core").Express;
     readonly routers: Map<string, express.Router>;
+    private _permissions;
     constructor(config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AppConfig>);
     /**
      * Method that is executed before the server starts

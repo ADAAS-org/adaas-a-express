@@ -4,6 +4,10 @@ exports.A_EXPRESS_DEFAULTS__APP_CONFIG = void 0;
 exports.A_EXPRESS_DEFAULTS__APP_CONFIG = {
     namespace: 'a-express',
     prefix: '/api',
+    cors: {
+        options: {}
+    },
+    permissions: [],
     port: 3000,
     errors: [],
     routes: [],

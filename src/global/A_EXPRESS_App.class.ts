@@ -16,6 +16,7 @@ import { A_EXPRESS_Routes } from "../decorators/Route.decorator";
 import { A_EXPRESS_HealthController } from "./A_EXPRESS_HealthRouter.class";
 import { A_EXPRESS_AuthController } from "./A_EXPRESS_AuthController.class";
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
+import { A_ARC_Permission, A_ARC_ServerCommands } from "@adaas/a-arc";
 
 
 export class A_EXPRESS_App extends A_SDK_ContextClass {
@@ -24,6 +25,8 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
 
     readonly app = express();
     readonly routers = new Map<string, Router>();
+
+    private _permissions: Array<A_ARC_Permission> = [];
 
 
     constructor(config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AppConfig>) {
@@ -44,6 +47,9 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
             mergeParams: true,
             strict: true
         }));
+
+
+        this._permissions = this.config.permissions;
     }
 
 
@@ -96,9 +102,22 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
                 this.onExit(new A_SDK_Error(targetError));
             });
 
+
+        this.Logger.log('Before start hook execution...')
+
         await this.beforeStart();
 
-        this.app.use('/', cors());
+        this.Logger.log('Before start hook executed successfully')
+
+        this.Logger.log('Migrating permissions...')
+
+        await A_ARC_ServerCommands.Permission.migrate({
+            permissions: this._permissions.map(permission => permission.toJSON())
+        });
+
+        this.Logger.log('Permissions migrated successfully')
+
+        this.app.use('/', cors(this.config.cors.options));
 
         this.app.use(morgan('combined', {
             skip: (req) => this.config.defaults.ignoreHealth ? req.baseUrl === '/api/v1/health' : false
@@ -113,8 +132,10 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         this.prepareRoutes();
 
         for (const [key, router] of this.routers) {
-            this.app.use(`/${key}`, router)
+            this.app.use(key, router)
         }
+
+        this.Logger.log('Routes initialized successfully');
 
         // catch 404 and forward to error handler
         this.app.use((req, res, next) => {
@@ -129,13 +150,16 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
                 this.config.port,
                 async () => {
                     this.Logger.log(`Server running on port ${this.config.port}`)
+
                     await this.afterStart();
+
+                    this.Logger.log('After start hook executed successfully')
                 }
             );
     }
 
     async onExit(error?: A_SDK_Error) {
-        this.Logger.log('Server is shutting down')
+        this.Logger.log('Server is shutting down...')
 
         if (!this.CONFIG_IGNORE_ERRORS)
             process.exit(error ? 1 : 0);
@@ -171,6 +195,3 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
     }
 
 }
-
-
-new A_EXPRESS_App().start()
