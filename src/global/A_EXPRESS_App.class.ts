@@ -103,19 +103,25 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
             });
 
 
+        // ==================== Run before start hook
+
         this.Logger.log('Before start hook execution...')
 
         await this.beforeStart();
 
         this.Logger.log('Before start hook executed successfully')
 
-        this.Logger.log('Migrating permissions...')
+        // ==================== Migrate permissions
+        if (this.config.defaults.permissions.migrate && this._permissions.length > 0) {
 
-        await A_ARC_ServerCommands.Permission.migrate({
-            permissions: this._permissions.map(permission => permission.toJSON())
-        });
+            this.Logger.log('Migrating permissions...')
 
-        this.Logger.log('Permissions migrated successfully')
+            await A_ARC_ServerCommands.Permission.migrate({
+                permissions: this._permissions.map(permission => permission.toJSON())
+            });
+
+            this.Logger.log('Permissions migrated successfully')
+        }
 
         this.app.use('/', cors(this.config.cors.options));
 
@@ -128,6 +134,8 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
 
+
+        // ==================== Prepare routes
 
         this.prepareRoutes();
 

@@ -20,6 +20,9 @@ exports.A_EXPRESS_DEFAULTS__APP_CONFIG = {
         auth: {
             exclude: false
         },
+        permissions: {
+            migrate: true
+        }
     },
 };
 //# sourceMappingURL=A_EXPRESS_App.defaults.js.map

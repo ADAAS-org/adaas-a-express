@@ -113,14 +113,18 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
                     // process.exit(1); // exit application
                     this.onExit(new a_sdk_types_1.A_SDK_Error(targetError));
                 });
+            // ==================== Run before start hook
             this.Logger.log('Before start hook execution...');
             yield this.beforeStart();
             this.Logger.log('Before start hook executed successfully');
-            this.Logger.log('Migrating permissions...');
-            yield a_arc_1.A_ARC_ServerCommands.Permission.migrate({
-                permissions: this._permissions.map(permission => permission.toJSON())
-            });
-            this.Logger.log('Permissions migrated successfully');
+            // ==================== Migrate permissions
+            if (this.config.defaults.permissions.migrate && this._permissions.length > 0) {
+                this.Logger.log('Migrating permissions...');
+                yield a_arc_1.A_ARC_ServerCommands.Permission.migrate({
+                    permissions: this._permissions.map(permission => permission.toJSON())
+                });
+                this.Logger.log('Permissions migrated successfully');
+            }
             this.app.use('/', (0, cors_1.default)(this.config.cors.options));
             this.app.use((0, morgan_1.default)('combined', {
                 skip: (req) => this.config.defaults.health.verbose ? false : req.baseUrl === `${this.config.prefix}/v1/health`
@@ -128,6 +132,7 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
             // app.engine('html', require('ejs').renderFile)
             this.app.use(express_1.default.json());
             this.app.use(express_1.default.urlencoded({ extended: true }));
+            // ==================== Prepare routes
             this.prepareRoutes();
             for (const [key, router] of this.routers) {
                 this.app.use(key, router);

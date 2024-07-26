@@ -16,6 +16,9 @@ export type A_EXPRESS_TYPES__AppConfig = {
         controllers: Array<A_EXPRESS_TYPES__PossibleControllers>
     }>
     defaults: {
+        permissions: {
+            migrate: boolean;
+        },
         health: {
             exclude: boolean;
             versionPath: string;

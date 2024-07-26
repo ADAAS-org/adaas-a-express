@@ -20,6 +20,9 @@ export const A_EXPRESS_DEFAULTS__APP_CONFIG: A_EXPRESS_TYPES__AppConfig = {
         auth: {
             exclude: false
         },
+        permissions: {
+            migrate: true
+        }
     },
 
 }
