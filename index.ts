@@ -65,6 +65,10 @@ export {
     A_EXPRESS_TYPES__SERVER_DELEGATE_IResponse
 } from './src/types/A_EXPRESS_ServerDelegateController.types';
 
+export {
+    A_EXPRESS_TYPES__AppConfig
+} from './src/types/A_EXPRESS_App.types';
+
 
 
 
@@ -76,6 +80,7 @@ export { A_EXPRESS_HealthController } from './src/global/A_EXPRESS_HealthRouter.
 export { A_EXPRESS_AppInteractionsController } from './src/global/A_EXPRESS_AppInteractionsController.class';
 export { A_EXPRESS_ServerCommandsController } from './src/global/A_EXPRESS_ServerCommandsController.class';
 export { A_EXPRESS_ServerDelegateController } from './src/global/A_EXPRESS_ServerDelegateController.class';
+export { A_EXPRESS_App } from './src/global/A_EXPRESS_App.class'
 
 // =========== MIDDLEWARES EXPORT
 export { A_EXPRESS_AuthMiddleware } from './src/middleware/A_EXPRESS_Auth.middleware';

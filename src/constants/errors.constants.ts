@@ -4,6 +4,7 @@ export enum A_EXPRESS_CONSTANTS__ERROR_CODES {
     ENTITY_NOT_FOUND = 'ERR-404-0001',
     SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED = 'ERR-500-0002',
     INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER = 'ERR-500-0003',
+    DEFAULT_ROUTER_INITIALIZATION_ERROR = 'ERR-500-0004',
     INVALID_TOKEN_TYPE_FOR_APP_INTERACTION = 'ERR-401-0001',
     INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS = 'ERR-401-0002',
     INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE = 'ERR-401-0003',
@@ -35,6 +36,12 @@ export const A_EXPRESS_CONSTANTS__DEFAULT_ERRORS = {
         description: 'The version path for the health controller is incorrect.',
         message: 'Oops... Something went wrong'
     },
+    DEFAULT_ROUTER_INITIALIZATION_ERROR: {
+        serverCode: 500,
+        code: A_EXPRESS_CONSTANTS__ERROR_CODES.DEFAULT_ROUTER_INITIALIZATION_ERROR,
+        description: 'The default router initialization error. Please make sure that all necessary parameters are provided and mandatory methods overwritten correctly. ',
+        message: 'Oops... Something went wrong'
+    },
     INVALID_TOKEN_TYPE_FOR_APP_INTERACTION: {
         serverCode: 401,
         code: A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_APP_INTERACTION,
@@ -53,4 +60,5 @@ export const A_EXPRESS_CONSTANTS__DEFAULT_ERRORS = {
         description: 'The token type for the server delegate is invalid.',
         message: 'The token is used to access server-delegate method is not for this kind of operations.'
     },
+
 }
