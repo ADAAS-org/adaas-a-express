@@ -1,7 +1,7 @@
 import { A_SDK_CommonHelper, A_SDK_CONSTANTS__ERROR_CODES, A_SDK_TYPES__DeepPartial } from '@adaas/a-sdk-types';
 import { A_EXPRESS_TYPES__ControllerConfig, A_EXPRESS_TYPES__IController, A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 import { A_EXPRESS_Context } from './A_EXPRESS_Context.class';
-import { A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG } from 'src/defaults/A_EXPRESS_Controller.defaults';
+import { A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG } from '../defaults/A_EXPRESS_Controller.defaults';
 
 
 

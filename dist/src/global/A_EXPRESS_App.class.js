@@ -37,17 +37,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_App = void 0;
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
-const A_EXPRESS_App_defaults_1 = require("src/defaults/A_EXPRESS_App.defaults");
 const express_1 = __importStar(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
-const A_EXPRESS_Error_middleware_1 = require("src/middleware/A_EXPRESS_Error.middleware");
 const http_1 = require("http");
 const Route_decorator_1 = require("../decorators/Route.decorator");
 const A_EXPRESS_HealthController_class_1 = require("../controllers/A_EXPRESS_HealthController.class");
 const A_EXPRESS_AuthController_class_1 = require("../controllers/A_EXPRESS_AuthController.class");
 const errors_constants_1 = require("../constants/errors.constants");
 const a_arc_1 = require("@adaas/a-arc");
+const A_EXPRESS_App_defaults_1 = require("../defaults/A_EXPRESS_App.defaults");
+const A_EXPRESS_Error_middleware_1 = require("../middleware/A_EXPRESS_Error.middleware");
 class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
     constructor(config) {
         var _a;

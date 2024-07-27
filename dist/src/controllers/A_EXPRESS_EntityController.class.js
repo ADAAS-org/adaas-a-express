@@ -23,7 +23,7 @@ const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const Access_decorator_1 = require("../decorators/Access.decorator");
 const Resources_decorator_1 = require("../decorators/Resources.decorator");
 const Route_decorator_1 = require("../decorators/Route.decorator");
-const A_EXPRESS_EntityController_defaults_1 = require("src/defaults/A_EXPRESS_EntityController.defaults");
+const A_EXPRESS_EntityController_defaults_1 = require("../defaults/A_EXPRESS_EntityController.defaults");
 /**
  *
  * This class exists ONLY to simplify development. It might be used to simplify access to DB via external operations

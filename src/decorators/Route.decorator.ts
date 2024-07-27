@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import express from 'express';
 import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
 import { A_EXPRESS_EntityController } from '../controllers/A_EXPRESS_EntityController.class';
-import { A_EXPRESS_AuthMiddleware } from 'src/middleware/A_EXPRESS_Auth.middleware';
 import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 import { A_EXPRESS_HealthController } from '../controllers/A_EXPRESS_HealthController.class';
 import { A_EXPRESS_ServerCommandsController } from '../controllers/A_EXPRESS_ServerCommandsController.class';
@@ -11,6 +10,7 @@ import { A_EXPRESS_AppInteractionsController } from '../controllers/A_EXPRESS_Ap
 import { A_EXPRESS_App } from '../global/A_EXPRESS_App.class';
 import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from '../constants/errors.constants';
+import { A_EXPRESS_AuthMiddleware } from '../middleware/A_EXPRESS_Auth.middleware';
 
 const ROUTES_KEY = Symbol('routes');
 

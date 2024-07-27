@@ -16,7 +16,7 @@ import { A_EXPRESS_Context } from "../global/A_EXPRESS_Context.class";
 import { A_EXPRESS_Access } from "../decorators/Access.decorator";
 import { A_EXPRESS_Resources } from "../decorators/Resources.decorator";
 import { A_EXPRESS_Delete, A_EXPRESS_Get, A_EXPRESS_Post, A_EXPRESS_Put } from "../decorators/Route.decorator";
-import { A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG } from "src/defaults/A_EXPRESS_EntityController.defaults";
+import { A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG } from "../defaults/A_EXPRESS_EntityController.defaults";
 
 
 

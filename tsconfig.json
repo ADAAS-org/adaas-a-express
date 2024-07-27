@@ -31,10 +31,13 @@
     ],
     "paths": {
       "@adaas/a-sdk/constants/*": ["src/constants/*"],
+      "@adaas/a-sdk/controllers/*": ["src/controllers/*"],
+      "@adaas/a-sdk/defaults/*": ["src/defaults/*"],
       "@adaas/a-sdk/decorators/*": ["src/decorators/*"],
       "@adaas/a-sdk/global/*": ["src/global/*"],
       "@adaas/a-sdk/types/*": ["src/types/*"],
-      "@adaas/a-sdk/helpers/*": ["src/helpers/*"]
+      "@adaas/a-sdk/helpers/*": ["src/helpers/*"],
+      "@adaas/a-sdk/middleware/*": ["src/middleware/*"]
     },
     "lib": [
       "dom",

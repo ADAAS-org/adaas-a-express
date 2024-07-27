@@ -7,17 +7,17 @@ import {
     A_SDK_TYPES__Required
 } from "@adaas/a-sdk-types";
 import { A_EXPRESS_TYPES__AppManifest } from "../types/A_EXPRESS_App.types";
-import { A_EXPRESS_DEFAULTS__APP_CONFIG } from "src/defaults/A_EXPRESS_App.defaults";
 import express, { Router } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import { A_EXPRESS_ErrorsMiddleware } from "src/middleware/A_EXPRESS_Error.middleware";
 import { createServer, Server } from "http";
 import { A_EXPRESS_Routes } from "../decorators/Route.decorator";
 import { A_EXPRESS_HealthController } from "../controllers/A_EXPRESS_HealthController.class";
 import { A_EXPRESS_AuthController } from "../controllers/A_EXPRESS_AuthController.class";
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
 import { A_ARC_Permission, A_ARC_ServerCommands } from "@adaas/a-arc";
+import { A_EXPRESS_DEFAULTS__APP_CONFIG } from "../defaults/A_EXPRESS_App.defaults";
+import { A_EXPRESS_ErrorsMiddleware } from "../middleware/A_EXPRESS_Error.middleware";
 
 
 

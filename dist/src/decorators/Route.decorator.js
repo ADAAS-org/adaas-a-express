@@ -12,7 +12,6 @@ require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const A_EXPRESS_Controller_class_1 = require("../global/A_EXPRESS_Controller.class");
 const A_EXPRESS_EntityController_class_1 = require("../controllers/A_EXPRESS_EntityController.class");
-const A_EXPRESS_Auth_middleware_1 = require("src/middleware/A_EXPRESS_Auth.middleware");
 const A_EXPRESS_HealthController_class_1 = require("../controllers/A_EXPRESS_HealthController.class");
 const A_EXPRESS_ServerCommandsController_class_1 = require("../controllers/A_EXPRESS_ServerCommandsController.class");
 const A_EXPRESS_ServerDelegateController_class_1 = require("../controllers/A_EXPRESS_ServerDelegateController.class");
@@ -20,6 +19,7 @@ const A_EXPRESS_AppInteractionsController_class_1 = require("../controllers/A_EX
 const A_EXPRESS_App_class_1 = require("../global/A_EXPRESS_App.class");
 const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const errors_constants_1 = require("../constants/errors.constants");
+const A_EXPRESS_Auth_middleware_1 = require("../middleware/A_EXPRESS_Auth.middleware");
 const ROUTES_KEY = Symbol('routes');
 function Route(method, path, middlewares = [], config = {}) {
     return function (target, propertyKey) {
