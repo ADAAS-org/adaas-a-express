@@ -10,13 +10,13 @@ import {
     A_EXPRESS_TYPES__EntityControllerConfig
 } from "../types/A_EXPRESS_EntityController.types";
 import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from "../types/A_EXPRESS_Controller.types"
-import { A_EXPRESS_Controller } from "./A_EXPRESS_Controller.class"
+import { A_EXPRESS_Controller } from "../global/A_EXPRESS_Controller.class"
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
-import { A_EXPRESS_Context } from "./A_EXPRESS_Context.class";
-import { A_EXPRESS_ValidateAccess } from "../decorators/ValidateAccess.decorator";
-import { A_EXPRESS_AvailableResources } from "../decorators/AvailableResources.decorator";
+import { A_EXPRESS_Context } from "../global/A_EXPRESS_Context.class";
+import { A_EXPRESS_Access } from "../decorators/Access.decorator";
+import { A_EXPRESS_Resources } from "../decorators/Resources.decorator";
 import { A_EXPRESS_Delete, A_EXPRESS_Get, A_EXPRESS_Post, A_EXPRESS_Put } from "../decorators/Route.decorator";
-import { A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG } from "src/default/A_EXPRESS_EntityController.defaults";
+import { A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG } from "src/defaults/A_EXPRESS_EntityController.defaults";
 
 
 
@@ -47,7 +47,7 @@ export class A_EXPRESS_EntityController<
         ['entity']
     >
 
-    compiledConfig!: A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, _RequestType>
+    Config!: A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, _RequestType>
 
     protected repository?: _RepositoryType
 
@@ -68,11 +68,14 @@ export class A_EXPRESS_EntityController<
             identity: false
         }
     })
-    @A_EXPRESS_ValidateAccess<A_EXPRESS_EntityController, _RequestType>({
-        default: (qb, self, req) => self.compiledConfig.list.arc.access(self, qb, req)
+    @A_EXPRESS_Access<A_EXPRESS_EntityController, _RequestType>({
+        acl: {
+            default: (qb, self, req) => self.Config.list.arc.access(self, qb, req)
+        },
+        permissions: (self, req) => self.Config.list.arc.permissions(self, req)
     })
-    @A_EXPRESS_AvailableResources<A_EXPRESS_EntityController, _RequestType>({
-        default: (qb, self, req) => self.compiledConfig.list.arc.resources(self, qb, req)
+    @A_EXPRESS_Resources<A_EXPRESS_EntityController, _RequestType>({
+        default: (qb, self, req) => self.Config.list.arc.resources(self, qb, req)
     })
     /**
      * Defines a Default GET method for the controller. Basically it's an endpoint for getting existing entities
@@ -87,17 +90,17 @@ export class A_EXPRESS_EntityController<
                 return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
             const data = await this.repository.getPage({
-                where: await this.compiledConfig.list.where(this, req),
-                relations: this.compiledConfig.list.relations,
+                where: await this.Config.list.where(this, req),
+                relations: this.Config.list.relations,
                 pagination: {
                     page: req.query.page,
                     pageSize: req.query.pageSize
                 },
                 search: {
                     pattern: req.query.search,
-                    include: this.compiledConfig.list.searchFields
+                    include: this.Config.list.searchFields
                 },
-                order: this.compiledConfig.list.order as any
+                order: this.Config.list.order as any
             });
 
             return res.status(200).send(data);
@@ -109,8 +112,11 @@ export class A_EXPRESS_EntityController<
 
 
     @A_EXPRESS_Post()
-    @A_EXPRESS_ValidateAccess<A_EXPRESS_EntityController, _RequestType>({
-        default: (qb, self, req) => self.compiledConfig.post.arc.access(self, qb, req)
+    @A_EXPRESS_Access<A_EXPRESS_EntityController, _RequestType>({
+        acl: {
+            default: (qb, self, req) => self.Config.post.arc.access(self, qb, req)
+        },
+        permissions: (self, req) => self.Config.post.arc.permissions(self, req)
     })
     /**
      * Defines a Default POST method for the controller. Basically it's an endpoint for creating new entities
@@ -132,7 +138,7 @@ export class A_EXPRESS_EntityController<
                 where: {
                     id: (savedEntity as any).id,
                 },
-                relations: this.compiledConfig.post.relations,
+                relations: this.Config.post.relations,
             });
 
             return res.status(200).send(updated);
@@ -147,8 +153,11 @@ export class A_EXPRESS_EntityController<
 
 
     @A_EXPRESS_Put()
-    @A_EXPRESS_ValidateAccess<A_EXPRESS_EntityController, _RequestType>({
-        default: (qb, self, req) => self.compiledConfig.put.arc.access(self, qb, req)
+    @A_EXPRESS_Access<A_EXPRESS_EntityController, _RequestType>({
+        acl: {
+            default: (qb, self, req) => self.Config.put.arc.access(self, qb, req)
+        },
+        permissions: (self, req) => self.Config.put.arc.permissions(self, req)
     })
     /**
      * Defines a Default PUT method for the controller. Basically it's an endpoint for updating existing entities
@@ -163,13 +172,13 @@ export class A_EXPRESS_EntityController<
                 return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
 
-            const where = await this.compiledConfig.put.where(this, req)
+            const where = await this.Config.put.where(this, req)
 
             await this.repository.update(where, req.body);
 
             const updated = await this.repository.findOneOrFail({
                 where,
-                relations: this.compiledConfig.put.relations,
+                relations: this.Config.put.relations,
             });
 
             return res.status(200).send(updated);
@@ -183,8 +192,11 @@ export class A_EXPRESS_EntityController<
 
 
     @A_EXPRESS_Get()
-    @A_EXPRESS_ValidateAccess<A_EXPRESS_EntityController, _RequestType>({
-        default: (qb, self, req) => self.compiledConfig.get.arc.access(self, qb, req)
+    @A_EXPRESS_Access<A_EXPRESS_EntityController, _RequestType>({
+        acl: {
+            default: (qb, self, req) => self.Config.get.arc.access(self, qb, req)
+        },
+        permissions: (self, req) => self.Config.get.arc.permissions(self, req)
     })
     /**
      * Defines a Default GET method for the controller. Basically it's an endpoint for getting existing entities
@@ -199,9 +211,9 @@ export class A_EXPRESS_EntityController<
                 return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
             const entity = await this.repository.findOne({
-                where: await this.compiledConfig.get.where(this, req),
-                relations: this.compiledConfig.get.relations,
-                order: this.compiledConfig.get.order as any
+                where: await this.Config.get.where(this, req),
+                relations: this.Config.get.relations,
+                order: this.Config.get.order as any
             });
 
             if (!entity)
@@ -217,8 +229,11 @@ export class A_EXPRESS_EntityController<
 
 
     @A_EXPRESS_Delete()
-    @A_EXPRESS_ValidateAccess<A_EXPRESS_EntityController, _RequestType>({
-        default: (qb, self, req) => self.compiledConfig.delete.arc.access(self, qb, req)
+    @A_EXPRESS_Access<A_EXPRESS_EntityController, _RequestType>({
+        acl: {
+            default: (qb, self, req) => self.Config.delete.arc.access(self, qb, req)
+        },
+        permissions: (self, req) => self.Config.delete.arc.permissions(self, req)
     })
     /**
      * Defines a Default DELETE method for the controller. Basically it's an endpoint for deleting existing entities
@@ -232,7 +247,7 @@ export class A_EXPRESS_EntityController<
             if (!this.repository)
                 return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
-            await this.repository.delete(await this.compiledConfig.delete.where(this, req));
+            await this.repository.delete(await this.Config.delete.where(this, req));
 
             return res.status(202).send({
                 status: 'OK'

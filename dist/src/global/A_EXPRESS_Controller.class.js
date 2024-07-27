@@ -12,11 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_Controller = void 0;
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const A_EXPRESS_Context_class_1 = require("./A_EXPRESS_Context.class");
-const A_EXPRESS_Controller_defaults_1 = require("src/default/A_EXPRESS_Controller.defaults");
+const A_EXPRESS_Controller_defaults_1 = require("src/defaults/A_EXPRESS_Controller.defaults");
 class A_EXPRESS_Controller {
     constructor(config) {
         this.logAlias = "a-express@abstract-controller";
-        this.compiledConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(this.config, a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_Controller_defaults_1.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG), config || {}));
+        this.Config = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(this.config, a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_Controller_defaults_1.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG), config || {}));
     }
     get(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {

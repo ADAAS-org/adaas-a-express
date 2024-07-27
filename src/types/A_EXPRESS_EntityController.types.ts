@@ -6,7 +6,7 @@ import {
     A_SDK_TYPES__DeepPartial,
 } from '@adaas/a-sdk-types';
 import { A_EXPRESS_TYPES__ControllerConfig, A_EXPRESS_TYPES__IRequest } from './A_EXPRESS_Controller.types';
-import { A_ARC_MaskQueryBuilder } from '@adaas/a-arc';
+import { A_ARC_MaskQueryBuilder, A_ARC_Permission } from '@adaas/a-arc';
 
 
 export interface A_EXPRESS_TYPES__SearchOptions {
@@ -26,6 +26,7 @@ export interface A_EXPRESS_TYPES__IARCRequestParam<
 > {
     resources: (self: _ContextType, qb: A_ARC_MaskQueryBuilder, req: _RequestType) => A_ARC_MaskQueryBuilder
     access: (self: _ContextType, qb: A_ARC_MaskQueryBuilder, req: _RequestType) => A_ARC_MaskQueryBuilder
+    permissions: (self: _ContextType, req: _RequestType) => A_ARC_Permission[]
 }
 
 
@@ -99,7 +100,7 @@ export type A_EXPRESS_TYPES__EntityController_PutConfig<
     _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest,
     _ContextType = any,
     _WhereType = any
-    > = {
+> = {
     relations: Array<A_SDK_TYPES__Paths<_DBEntityType>>,
     where: (self: _ContextType, req: _RequestType) => Promise<_WhereType | Array<_WhereType>>
     extend: (req: _RequestType) => Promise<A_SDK_TYPES__DeepPartial<_DBEntityType>>
@@ -113,7 +114,7 @@ export type A_EXPRESS_TYPES__EntityController_DeleteConfig<
     _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest,
     _ContextType = any,
     _WhereType = any
-    > = {
+> = {
     where: (self: _ContextType, req: _RequestType) => Promise<_WhereType | Array<_WhereType>>
 
     arc: A_EXPRESS_TYPES__IARCRequestParam<_ContextType, _RequestType>

@@ -26,13 +26,21 @@ export interface A_EXPRESS_TYPES__INextFunction extends NextFunction {
 
 
 export interface A_EXPRESS_TYPES__ControllerConfig {
-    identifierType: 'ASEID' | 'ID',
-    base: string,
-    auth: boolean,
-    /**
-     * allows to ignore the default methods in case when they are not needed OR NOT ALLOWED
-     */
-    ignoreDefaultMethods?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>
+    id: 'ASEID' | 'ID',
+    http: {
+        base: string,
+        /**
+         * allows to ignore the default methods in case when they are not needed OR NOT ALLOWED
+         */
+        expose?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>,
+        ignore?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>,
+    }
+    auth: {
+        enable: boolean,
+    },
+    arc: {
+        enable: boolean,
+    }
 }
 
 
@@ -43,6 +51,7 @@ export interface A_EXPRESS_TYPES__IRequest<
     P extends A_EXPRESS_TYPES__IRequestParams = A_EXPRESS_TYPES__IRequestParams,
     _AccessKeys extends Array<string> = ['default'],
     _ResourcesKeys extends Array<string> = ['default'],
+    _PermissionsKeys extends Array<string> = ['default'],
 > extends Request<P, any, _ReqBodyType, T> {
     params: P,
     query: T,
@@ -81,6 +90,9 @@ export interface A_EXPRESS_TYPES__IRequest<
                 [key in _ResourcesKeys[number]]: Array<string>
             },
             access: {
+                [key in _AccessKeys[number]]: boolean
+            },
+            permissions: {
                 [key in _AccessKeys[number]]: boolean
             }
         }>

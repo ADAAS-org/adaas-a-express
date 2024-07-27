@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import express from 'express';
 import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
-import { A_EXPRESS_EntityController } from '../global/A_EXPRESS_EntityController.class';
+import { A_EXPRESS_EntityController } from '../controllers/A_EXPRESS_EntityController.class';
 import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
-import { A_EXPRESS_HealthController } from '../global/A_EXPRESS_HealthRouter.class';
-import { A_EXPRESS_ServerCommandsController } from '../global/A_EXPRESS_ServerCommandsController.class';
-import { A_EXPRESS_ServerDelegateController } from '../global/A_EXPRESS_ServerDelegateController.class';
-import { A_EXPRESS_AppInteractionsController } from '../global/A_EXPRESS_AppInteractionsController.class';
+import { A_EXPRESS_HealthController } from '../controllers/A_EXPRESS_HealthController.class';
+import { A_EXPRESS_ServerCommandsController } from '../controllers/A_EXPRESS_ServerCommandsController.class';
+import { A_EXPRESS_ServerDelegateController } from '../controllers/A_EXPRESS_ServerDelegateController.class';
+import { A_EXPRESS_AppInteractionsController } from '../controllers/A_EXPRESS_AppInteractionsController.class';
 export type A_EXPRESS_TYPES__IDecoratorRouteConfig = {
     identity: boolean;
     auth: boolean;

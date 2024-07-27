@@ -7,11 +7,18 @@ import { A_SDK_CommonHelper } from "@adaas/a-sdk-types";
 
 
 export const A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__EntityControllerConfig<any, A_EXPRESS_TYPES__IRequest> = {
-    base: '',
-    auth: false,
+    id: 'ASEID',
     entity: '',
-    identifierType: 'ASEID',
-    ignoreDefaultMethods: [],
+    http: {
+        base: '/',
+        expose: ['post', 'get', 'put', 'delete', 'list']
+    },
+    auth: {
+        enable: false,
+    },
+    arc: {
+        enable: true,
+    },
     list: {
         relations: [],
         searchFields: [],
@@ -19,6 +26,7 @@ export const A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Entity
             created_at: 'DESC'
         },
         arc: {
+            permissions: (self, req) => [],
             resources: (self, qb) => {
                 if (!self.config.entity)
                     return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
@@ -52,6 +60,7 @@ export const A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Entity
             created_at: 'DESC'
         },
         arc: {
+            permissions: (self, req) => [],
             resources: (self, qb) => qb,
             access: (self, qb, req) => {
                 if (!self.config.entity)
@@ -86,6 +95,7 @@ export const A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Entity
         relations: [],
         extend: async () => ({} as any),
         arc: {
+            permissions: (self, req) => [],
             resources: (self, qb) => qb,
             access: (self, qb) => {
                 if (!self.config.entity)
@@ -110,6 +120,7 @@ export const A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Entity
         },
         extend: async (req) => ({} as any),
         arc: {
+            permissions: (self, req) => [],
             resources: (self, qb) => qb,
             access: (self, qb, req) => {
                 if (!self.config.entity)
@@ -142,6 +153,7 @@ export const A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Entity
             }
         },
         arc: {
+            permissions: (self, req) => [],
             resources: (self, qb) => qb,
             access: (self, qb) => {
                 if (!self.config.entity)

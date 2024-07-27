@@ -1,9 +1,9 @@
 import { config } from 'dotenv';
 config();
 jest.retryTimes(0);
-import { A_EXPRESS_EntityController } from '@adaas/a-sdk/global/A_EXPRESS_EntityController.class';
+import { A_EXPRESS_EntityController } from 'src/controllers/A_EXPRESS_EntityController.class';
 import { A_EXPRESS_TYPES__EntityControllerConfig } from '@adaas/a-sdk/types/A_EXPRESS_EntityController.types';
-import { A_EXPRESS_ValidateAccess } from '../src/decorators/ValidateAccess.decorator';
+import { A_EXPRESS_Access } from '../src/decorators/Access.decorator';
 import { A_SDK_TYPES__Required, A_SDK_TYPES__Dictionary, A_SDK_Error, A_SDK_TYPES__ExtractProperties } from '@adaas/a-sdk-types';
 import { A_EXPRESS_Get, A_EXPRESS_Routes } from '@adaas/a-sdk/decorators/Route.decorator';
 import { createServer } from 'http';
@@ -11,7 +11,7 @@ import express, { Router } from 'express';
 import axios from 'axios';
 import { A_EXPRESS_Context } from '@adaas/a-sdk/global/A_EXPRESS_Context.class';
 import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest } from '@adaas/a-sdk/types/A_EXPRESS_Controller.types';
-import { A_EXPRESS_ServerDelegateController } from '@adaas/a-sdk/global/A_EXPRESS_ServerDelegateController.class';
+import { A_EXPRESS_ServerDelegateController } from 'src/controllers/A_EXPRESS_ServerDelegateController.class';
 import { A_EXPRESS_TYPES__SERVER_DELEGATE_IRequest } from '@adaas/a-sdk/types/A_EXPRESS_ServerDelegateController.types';
 import { A_ARC_SERVER_DELEGATE_TYPES__ResourceCreateRequest, A_ARC_TYPES__Resource_APIEntity } from '@adaas/a-arc';
 import { A_EXPRESS_TYPES__SERVER_COMMANDS_IRequest, A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestParams, A_EXPRESS_TYPES__SERVER_COMMANDS_IResponse } from '@adaas/a-sdk/types/A_EXPRESS_ServerCommandsController.types';
@@ -35,12 +35,14 @@ describe('Defaults', () => {
                         auth: false
                     }
                 })
-                @A_EXPRESS_ValidateAccess<Test, A_EXPRESS_TYPES__IRequest, ['default', 'test']>({
-                    default: (qb, self, req) => {
-                        return qb.action('read');
-                    },
-                    test: (qb, self, req) => {
-                        return qb.action('test');
+                @A_EXPRESS_Access<Test, A_EXPRESS_TYPES__IRequest, ['default', 'test']>({
+                    acl: {
+                        default: (qb, self, req) => {
+                            return qb.action('read');
+                        },
+                        test: (qb, self, req) => {
+                            return qb.action('test');
+                        }
                     }
                 })
                 async test(req: any, res: any, next: any) {
@@ -102,9 +104,9 @@ describe('Defaults', () => {
                     res: A_EXPRESS_TYPES__SERVER_COMMANDS_IResponse,
                     next: A_EXPRESS_TYPES__INextFunction
                 ) {
-                    const body =req.body;
+                    const body = req.body;
 
-                    if('aseid' in body) {
+                    if ('aseid' in body) {
                         console.log(body.aseid)
                     }
                 }

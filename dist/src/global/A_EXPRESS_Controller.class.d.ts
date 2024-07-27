@@ -3,7 +3,7 @@ import { A_EXPRESS_TYPES__ControllerConfig, A_EXPRESS_TYPES__IController, A_EXPR
 export declare class A_EXPRESS_Controller implements A_EXPRESS_TYPES__IController {
     logAlias: string;
     config: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__ControllerConfig>;
-    compiledConfig: A_EXPRESS_TYPES__ControllerConfig;
+    Config: A_EXPRESS_TYPES__ControllerConfig;
     constructor(config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__ControllerConfig>);
     get(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: A_EXPRESS_TYPES__INextFunction): Promise<any>;
     post(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: A_EXPRESS_TYPES__INextFunction): Promise<any>;

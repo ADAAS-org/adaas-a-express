@@ -21,15 +21,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 jest.retryTimes(0);
-const A_EXPRESS_EntityController_class_1 = require("../src/global/A_EXPRESS_EntityController.class");
-const ValidateAccess_decorator_1 = require("../src/decorators/ValidateAccess.decorator");
+const A_EXPRESS_EntityController_class_1 = require("src/controllers/A_EXPRESS_EntityController.class");
+const Access_decorator_1 = require("../src/decorators/Access.decorator");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const Route_decorator_1 = require("../src/decorators/Route.decorator");
 const http_1 = require("http");
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const A_EXPRESS_Context_class_1 = require("../src/global/A_EXPRESS_Context.class");
-const A_EXPRESS_ServerDelegateController_class_1 = require("../src/global/A_EXPRESS_ServerDelegateController.class");
+const A_EXPRESS_ServerDelegateController_class_1 = require("src/controllers/A_EXPRESS_ServerDelegateController.class");
 describe('Defaults', () => {
     it('Should Assign Router', () => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -57,12 +57,14 @@ describe('Defaults', () => {
                         auth: false
                     }
                 }),
-                (0, ValidateAccess_decorator_1.A_EXPRESS_ValidateAccess)({
-                    default: (qb, self, req) => {
-                        return qb.action('read');
-                    },
-                    test: (qb, self, req) => {
-                        return qb.action('test');
+                (0, Access_decorator_1.A_EXPRESS_Access)({
+                    acl: {
+                        default: (qb, self, req) => {
+                            return qb.action('read');
+                        },
+                        test: (qb, self, req) => {
+                            return qb.action('test');
+                        }
                     }
                 })
             ], Test.prototype, "test", null);

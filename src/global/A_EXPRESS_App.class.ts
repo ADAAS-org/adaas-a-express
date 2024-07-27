@@ -3,25 +3,28 @@ import {
     A_SDK_CONSTANTS__ERROR_CODES,
     A_SDK_ContextClass,
     A_SDK_Error,
-    A_SDK_TYPES__DeepPartial
+    A_SDK_TYPES__DeepPartial,
+    A_SDK_TYPES__Required
 } from "@adaas/a-sdk-types";
-import { A_EXPRESS_TYPES__AppConfig } from "../types/A_EXPRESS_App.types";
-import { A_EXPRESS_DEFAULTS__APP_CONFIG } from "src/default/A_EXPRESS_App.defaults";
+import { A_EXPRESS_TYPES__AppManifest } from "../types/A_EXPRESS_App.types";
+import { A_EXPRESS_DEFAULTS__APP_CONFIG } from "src/defaults/A_EXPRESS_App.defaults";
 import express, { Router } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { A_EXPRESS_ErrorsMiddleware } from "src/middleware/A_EXPRESS_Error.middleware";
 import { createServer, Server } from "http";
 import { A_EXPRESS_Routes } from "../decorators/Route.decorator";
-import { A_EXPRESS_HealthController } from "./A_EXPRESS_HealthRouter.class";
-import { A_EXPRESS_AuthController } from "./A_EXPRESS_AuthController.class";
+import { A_EXPRESS_HealthController } from "../controllers/A_EXPRESS_HealthController.class";
+import { A_EXPRESS_AuthController } from "../controllers/A_EXPRESS_AuthController.class";
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
 import { A_ARC_Permission, A_ARC_ServerCommands } from "@adaas/a-arc";
 
 
+
+
 export class A_EXPRESS_App extends A_SDK_ContextClass {
 
-    config!: A_EXPRESS_TYPES__AppConfig
+    config!: A_EXPRESS_TYPES__AppManifest
 
     readonly app = express();
     readonly routers = new Map<string, Router>();
@@ -29,11 +32,14 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
     private _permissions: Array<A_ARC_Permission> = [];
 
 
-    constructor(config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AppConfig>) {
+    constructor(config?: A_SDK_TYPES__Required<
+        A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AppManifest>,
+        ['app', 'context']
+    >) {
         super({
-            namespace: config?.namespace || 'a-express',
+            namespace: config?.context?.namespace || A_EXPRESS_DEFAULTS__APP_CONFIG.context.namespace,
             // TODO: fix whenever time comes
-            errors: (config as any)?.errors || []
+            errors: (config as any)?.errors || A_EXPRESS_DEFAULTS__APP_CONFIG.context.errors
         })
 
         this.config = A_SDK_CommonHelper.deepMerge(
@@ -42,7 +48,7 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         );
 
         //Initialize default router
-        this.routers.set(`${this.config.prefix}/v1`, Router({
+        this.routers.set(`${this.config.http.prefix}/v1`, Router({
             caseSensitive: true,
             mergeParams: true,
             strict: true
@@ -123,10 +129,10 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
             this.Logger.log('Permissions migrated successfully')
         }
 
-        this.app.use('/', cors(this.config.cors.options));
+        this.app.use('/', cors(this.config.http.cors.options));
 
         this.app.use(morgan('combined', {
-            skip: (req) => this.config.defaults.health.verbose ? false : req.baseUrl === `${this.config.prefix}/v1/health`
+            skip: (req) => this.config.defaults.health.verbose ? false : req.baseUrl === `${this.config.http.prefix}/v1/health`
         }));
 
         // app.engine('html', require('ejs').renderFile)
@@ -155,9 +161,9 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
 
         return await createServer(this.app)
             .listen(
-                this.config.port,
+                this.config.http.port,
                 async () => {
-                    this.Logger.log(`Server running on port ${this.config.port}`)
+                    this.Logger.log(`Server running on port ${this.config.http.port}`)
 
                     await this.afterStart();
 
@@ -175,18 +181,18 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
 
 
     private prepareRoutes() {
-        const defaultRouter = this.routers.get(`${this.config.prefix}/v1`);
+        const defaultRouter = this.routers.get(`${this.config.http.prefix}/v1`);
 
         if (!defaultRouter)
             this.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.DEFAULT_ROUTER_INITIALIZATION_ERROR)
 
-        if (!this.config.defaults.health.exclude) {
+        if (this.config.defaults.health.enable) {
             defaultRouter.use('/health', A_EXPRESS_Routes([new A_EXPRESS_HealthController({
                 versionPath: this.config.defaults.health.versionPath
             })]));
         }
 
-        if (!this.config.defaults.auth.exclude) {
+        if (this.config.defaults.auth.enable) {
             defaultRouter.use('/auth', A_EXPRESS_Routes([new A_EXPRESS_AuthController({
                 redirectUrl: this.config.defaults.auth.redirectUrl
             })]));
@@ -194,7 +200,7 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
 
 
         for (const route of this.config.routes) {
-            const targetRouter = this.routers.get(`${this.config.prefix}/${route.version}`) || Router({
+            const targetRouter = this.routers.get(`${this.config.http.prefix}/${route.version}`) || Router({
                 caseSensitive: true,
                 mergeParams: true,
                 strict: true
@@ -202,8 +208,7 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
 
             targetRouter.use('/', A_EXPRESS_Routes(route.controllers));
 
-            this.routers.set(`${this.config.prefix}/${route.version}`, targetRouter);
+            this.routers.set(`${this.config.http.prefix}/${route.version}`, targetRouter);
         }
     }
-
 }

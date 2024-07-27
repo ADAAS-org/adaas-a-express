@@ -1,13 +1,16 @@
-import { A_SDK_ContextClass, A_SDK_Error, A_SDK_TYPES__DeepPartial } from "@adaas/a-sdk-types";
-import { A_EXPRESS_TYPES__AppConfig } from "../types/A_EXPRESS_App.types";
+import { A_SDK_ContextClass, A_SDK_Error, A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
+import { A_EXPRESS_TYPES__AppManifest } from "../types/A_EXPRESS_App.types";
 import express from 'express';
 import { Server } from "http";
 export declare class A_EXPRESS_App extends A_SDK_ContextClass {
-    config: A_EXPRESS_TYPES__AppConfig;
+    config: A_EXPRESS_TYPES__AppManifest;
     readonly app: import("express-serve-static-core").Express;
     readonly routers: Map<string, express.Router>;
     private _permissions;
-    constructor(config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AppConfig>);
+    constructor(config?: A_SDK_TYPES__Required<A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AppManifest>, [
+        'app',
+        'context'
+    ]>);
     /**
      * Method that is executed before the server starts
      * Could be used to set up some initial configurations

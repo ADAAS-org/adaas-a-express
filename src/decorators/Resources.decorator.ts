@@ -4,7 +4,7 @@ import { A_AUTH_Context, A_AUTH_ServerDelegateAuthenticator } from "@adaas/a-aut
 import { A_SDK_ServerError } from "@adaas/a-sdk-types";
 
 
-export function A_EXPRESS_AvailableResources<
+export function A_EXPRESS_Resources<
     _ContextType = any,
     _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest,
     _ResourcesKeys extends Array<string> = ['default'],

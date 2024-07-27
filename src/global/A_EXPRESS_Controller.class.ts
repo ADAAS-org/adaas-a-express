@@ -1,7 +1,7 @@
 import { A_SDK_CommonHelper, A_SDK_CONSTANTS__ERROR_CODES, A_SDK_TYPES__DeepPartial } from '@adaas/a-sdk-types';
 import { A_EXPRESS_TYPES__ControllerConfig, A_EXPRESS_TYPES__IController, A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 import { A_EXPRESS_Context } from './A_EXPRESS_Context.class';
-import { A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG } from 'src/default/A_EXPRESS_Controller.defaults';
+import { A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG } from 'src/defaults/A_EXPRESS_Controller.defaults';
 
 
 
@@ -11,13 +11,13 @@ export class A_EXPRESS_Controller implements A_EXPRESS_TYPES__IController {
 
     config!: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__ControllerConfig>
 
-    compiledConfig!: A_EXPRESS_TYPES__ControllerConfig
+    Config!: A_EXPRESS_TYPES__ControllerConfig
 
 
     constructor(
         config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__ControllerConfig>
     ) {
-        this.compiledConfig = A_SDK_CommonHelper.deepMerge(
+        this.Config = A_SDK_CommonHelper.deepMerge(
             this.config, A_SDK_CommonHelper.deepMerge(
                 {
                     ...A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG

@@ -4,11 +4,56 @@ import { CorsOptions } from "cors";
 import { A_ARC_Permission } from "@adaas/a-arc";
 
 
-export type A_EXPRESS_TYPES__AppConfig = {
-    port: number;
-    prefix: string;
-    cors: {
-        options: CorsOptions
+export type A_EXPRESS_TYPES__AppManifest = {
+    /**
+     * App information will automatically be added to the manifest
+     * and will be used to display information about the app
+     */
+    app: {
+        /**
+         * Public Name of the app
+         */
+        name: string;
+        /**
+         * Version of the app
+         */
+        version: string;
+        /**
+         * Description of the app
+         */
+        description?: string;
+        /**
+         * Author of the app
+         */
+        author?: string;
+        /**
+         * License of the app
+         */
+        license?: string;
+        /**
+         * Repository of the app
+         */
+        repository?: string;
+        /**
+         * Logo of the app
+         */
+        logo?: string;
+    }
+    /**
+     * Configurations for the HTTP Server
+     */
+    http: {
+        port: number;
+        prefix: string;
+        cors: {
+            options: CorsOptions
+        }
+    },
+    /**
+     * Configurations for the Event Stream to enable Server Events
+     */
+    es: {
+
     }
     permissions: Array<A_ARC_Permission>
     routes: Array<{
@@ -20,13 +65,14 @@ export type A_EXPRESS_TYPES__AppConfig = {
             migrate: boolean;
         },
         health: {
-            exclude: boolean;
+            enable: boolean;
             versionPath: string;
             verbose: boolean;
         },
         auth: {
-            exclude: boolean;
+            enable: boolean;
             redirectUrl: string;
         }
     }
-} & A_SDK_TYPES__ContextConstructor
+    context: A_SDK_TYPES__ContextConstructor
+} 

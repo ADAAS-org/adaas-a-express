@@ -3,8 +3,8 @@ export { A_EXPRESS_Context } from './src/global/A_EXPRESS_Context.class'
 
 
 // =========== DECORATORS EXPORT 
-export { A_EXPRESS_AvailableResources } from './src/decorators/AvailableResources.decorator';
-export { A_EXPRESS_ValidateAccess } from './src/decorators/ValidateAccess.decorator';
+export { A_EXPRESS_Resources } from './src/decorators/Resources.decorator';
+export { A_EXPRESS_Access } from './src/decorators/Access.decorator';
 export {
     A_EXPRESS_Delete,
     A_EXPRESS_Get,
@@ -39,7 +39,7 @@ export {
 
 export {
     A_EXPRESS_TYPES__HealthControllerConfig
-} from './src/types/A_EXPRESS_HealthRouter.types'
+} from './src/types/A_EXPRESS_HealthController.types'
 
 export {
     A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig,
@@ -66,20 +66,20 @@ export {
 } from './src/types/A_EXPRESS_ServerDelegateController.types';
 
 export {
-    A_EXPRESS_TYPES__AppConfig
+    A_EXPRESS_TYPES__AppManifest
 } from './src/types/A_EXPRESS_App.types';
 
 
 
 
 // =========== DEFAULT ENTITIES EXPORT
-export { A_EXPRESS_AuthController } from './src/global/A_EXPRESS_AuthController.class';
+export { A_EXPRESS_AuthController } from './src/controllers/A_EXPRESS_AuthController.class';
 export { A_EXPRESS_Controller } from './src/global/A_EXPRESS_Controller.class';
-export { A_EXPRESS_EntityController } from './src/global/A_EXPRESS_EntityController.class';
-export { A_EXPRESS_HealthController } from './src/global/A_EXPRESS_HealthRouter.class';
-export { A_EXPRESS_AppInteractionsController } from './src/global/A_EXPRESS_AppInteractionsController.class';
-export { A_EXPRESS_ServerCommandsController } from './src/global/A_EXPRESS_ServerCommandsController.class';
-export { A_EXPRESS_ServerDelegateController } from './src/global/A_EXPRESS_ServerDelegateController.class';
+export { A_EXPRESS_EntityController } from './src/controllers/A_EXPRESS_EntityController.class';
+export { A_EXPRESS_HealthController } from './src/controllers/A_EXPRESS_HealthController.class';
+export { A_EXPRESS_AppInteractionsController } from './src/controllers/A_EXPRESS_AppInteractionsController.class';
+export { A_EXPRESS_ServerCommandsController } from './src/controllers/A_EXPRESS_ServerCommandsController.class';
+export { A_EXPRESS_ServerDelegateController } from './src/controllers/A_EXPRESS_ServerDelegateController.class';
 export { A_EXPRESS_App } from './src/global/A_EXPRESS_App.class'
 
 // =========== MIDDLEWARES EXPORT

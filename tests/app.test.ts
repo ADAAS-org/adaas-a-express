@@ -8,7 +8,13 @@ jest.retryTimes(0);
 describe('App', () => {
     it('Should create an app', async () => {
         const app = new A_EXPRESS_App({
-            namespace: 'test',
+            app: {
+                name: 'test',
+            },
+            context: {
+                namespace: 'test',
+                errors: []
+            },
             routes: [
                 {
                     version: 'v1',

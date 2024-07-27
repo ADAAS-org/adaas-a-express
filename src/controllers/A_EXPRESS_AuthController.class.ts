@@ -1,5 +1,5 @@
 import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
-import { A_EXPRESS_Controller } from './A_EXPRESS_Controller.class';
+import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
 import { A_SDK_ServerError, A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Required } from '@adaas/a-sdk-types';
 import {
     A_AUTH_SERVER_COMMANDS_TYPES__GetUserAccessTokenRequest,
@@ -9,7 +9,7 @@ import {
 } from '@adaas/a-auth';
 import { A_EXPRESS_Post } from '../decorators/Route.decorator';
 import { A_EXPRESS_TYPES__AuthControllerConfig } from '../types/A_EXPRESS_AuthController.types';
-import { A_EXPRESS_Context } from './A_EXPRESS_Context.class';
+import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from '../constants/errors.constants';
 
 
@@ -17,7 +17,7 @@ export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
 
     config!: Partial<A_EXPRESS_TYPES__AuthControllerConfig>
 
-    compiledConfig!: A_EXPRESS_TYPES__AuthControllerConfig;
+    Config!: A_EXPRESS_TYPES__AuthControllerConfig;
 
 
     constructor(config?:
@@ -25,7 +25,7 @@ export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
     ) {
         super(config);
 
-        if (!this.compiledConfig.redirectUrl) {
+        if (!this.Config.redirectUrl) {
             return A_EXPRESS_Context.Errors.throw(
                 A_EXPRESS_CONSTANTS__ERROR_CODES.AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED);
         }
@@ -47,7 +47,7 @@ export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
     ): Promise<any> {
         try {
             const url = await A_AUTH_ServerCommands.SSO.getSignInUrl({
-                redirectURL: this.compiledConfig.redirectUrl
+                redirectURL: this.Config.redirectUrl
             });
 
             return res.status(200).send(url)
