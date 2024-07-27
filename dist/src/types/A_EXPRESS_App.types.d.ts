@@ -69,6 +69,9 @@ export type A_EXPRESS_TYPES__AppManifest = {
             enable: boolean;
             redirectUrl: string;
         };
+        arc: {
+            enable: boolean;
+        };
     };
     context: A_SDK_TYPES__ContextConstructor;
 };

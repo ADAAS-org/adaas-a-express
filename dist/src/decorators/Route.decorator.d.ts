@@ -7,6 +7,16 @@ import { A_EXPRESS_HealthController } from '../controllers/A_EXPRESS_HealthContr
 import { A_EXPRESS_ServerCommandsController } from '../controllers/A_EXPRESS_ServerCommandsController.class';
 import { A_EXPRESS_ServerDelegateController } from '../controllers/A_EXPRESS_ServerDelegateController.class';
 import { A_EXPRESS_AppInteractionsController } from '../controllers/A_EXPRESS_AppInteractionsController.class';
+import { A_EXPRESS_App } from '../global/A_EXPRESS_App.class';
+export type A_EXPRESS_TYPES__RouteDefinition = {
+    handlerName: string;
+} & A_EXPRESS_TYPES__IDecoratorRouteParam;
+export type A_EXPRESS_TYPES__IDecoratorRouteParam = {
+    path: string;
+    method: 'get' | 'post' | 'put' | 'delete';
+    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: A_EXPRESS_TYPES__INextFunction) => void>;
+    config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig>;
+};
 export type A_EXPRESS_TYPES__IDecoratorRouteConfig = {
     identity: boolean;
     auth: boolean;
@@ -22,4 +32,6 @@ export declare function A_EXPRESS_Put(params?: Partial<A_EXPRESS_TYPES__IDecorat
 export declare function A_EXPRESS_Delete(params?: Partial<A_EXPRESS_TYPES__IDecoratorRouteParams>): (target: any, propertyKey: string) => void;
 export type A_EXPRESS_TYPES__PossibleControllers = typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController | typeof A_EXPRESS_AppInteractionsController | typeof A_EXPRESS_ServerCommandsController | typeof A_EXPRESS_ServerDelegateController | A_EXPRESS_Controller | A_EXPRESS_EntityController | A_EXPRESS_HealthController | A_EXPRESS_AppInteractionsController | A_EXPRESS_ServerCommandsController | A_EXPRESS_ServerDelegateController;
 export declare function A_EXPRESS_Routes(controllers: Array<A_EXPRESS_TYPES__PossibleControllers>): express.Router;
+export declare function A_EXPRESS_Routes(controllers: Array<A_EXPRESS_TYPES__PossibleControllers>, app: A_EXPRESS_App): express.Router;
 export declare function A_EXPRESS_Routes(router: express.Router, controllers: Array<A_EXPRESS_TYPES__PossibleControllers>): express.Router;
+export declare function A_EXPRESS_Routes(router: express.Router, controllers: Array<A_EXPRESS_TYPES__PossibleControllers>, app: A_EXPRESS_App): express.Router;

@@ -14,7 +14,7 @@ export {
 } from './src/decorators/Route.decorator';
 
 
-// =========== TYPES EXPORT
+// =========== TYPES EXPORT 
 export {
     A_EXPRESS_TYPES__IDecoratorRouteConfig,
     A_EXPRESS_TYPES__IDecoratorRouteParams
@@ -25,7 +25,9 @@ export {
     A_EXPRESS_TYPES__IRequest,
     A_EXPRESS_TYPES__IRequestParams,
     A_EXPRESS_TYPES__IRequestQueryParams,
-    A_EXPRESS_TYPES__IResponse
+    A_EXPRESS_TYPES__IResponse,
+    A_EXPRESS_TYPES__ControllerConfig,
+    A_EXPRESS_TYPES__INextFunction
 } from './src/types/A_EXPRESS_Controller.types';
 
 export {

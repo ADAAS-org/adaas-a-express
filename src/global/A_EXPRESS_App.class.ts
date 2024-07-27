@@ -206,7 +206,7 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
                 strict: true
             });
 
-            targetRouter.use('/', A_EXPRESS_Routes(route.controllers));
+            targetRouter.use('/', A_EXPRESS_Routes(route.controllers, this));
 
             this.routers.set(`${this.config.http.prefix}/${route.version}`, targetRouter);
         }

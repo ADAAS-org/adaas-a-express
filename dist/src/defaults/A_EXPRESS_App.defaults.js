@@ -33,6 +33,9 @@ exports.A_EXPRESS_DEFAULTS__APP_CONFIG = {
         },
         permissions: {
             migrate: true
+        },
+        arc: {
+            enable: true,
         }
     },
 };

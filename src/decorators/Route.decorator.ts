@@ -8,15 +8,21 @@ import { A_EXPRESS_HealthController } from '../controllers/A_EXPRESS_HealthContr
 import { A_EXPRESS_ServerCommandsController } from '../controllers/A_EXPRESS_ServerCommandsController.class';
 import { A_EXPRESS_ServerDelegateController } from '../controllers/A_EXPRESS_ServerDelegateController.class';
 import { A_EXPRESS_AppInteractionsController } from '../controllers/A_EXPRESS_AppInteractionsController.class';
+import { A_EXPRESS_App } from '../global/A_EXPRESS_App.class';
+import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
+import { A_EXPRESS_CONSTANTS__ERROR_CODES } from '../constants/errors.constants';
 
 const ROUTES_KEY = Symbol('routes');
 
-interface RouteDefinition {
+export type A_EXPRESS_TYPES__RouteDefinition = {
+    handlerName: string;
+} & A_EXPRESS_TYPES__IDecoratorRouteParam
+
+export type A_EXPRESS_TYPES__IDecoratorRouteParam = {
     path: string;
     method: 'get' | 'post' | 'put' | 'delete';
     middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: A_EXPRESS_TYPES__INextFunction) => void>;
     config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig>
-    handlerName: string;
 }
 
 export type A_EXPRESS_TYPES__IDecoratorRouteConfig = {
@@ -38,7 +44,7 @@ function Route(
 ) {
 
     return function (target: any, propertyKey: string) {
-        const routes: RouteDefinition[] = Reflect.getMetadata(ROUTES_KEY, target.constructor) || [];
+        const routes: A_EXPRESS_TYPES__RouteDefinition[] = Reflect.getMetadata(ROUTES_KEY, target.constructor) || [];
         routes.push({
             method,
             path,
@@ -109,24 +115,68 @@ export function A_EXPRESS_Routes(
     controllers: Array<A_EXPRESS_TYPES__PossibleControllers>
 ): express.Router;
 export function A_EXPRESS_Routes(
+    controllers: Array<A_EXPRESS_TYPES__PossibleControllers>,
+    app: A_EXPRESS_App
+): express.Router;
+export function A_EXPRESS_Routes(
     router: express.Router,
     controllers: Array<A_EXPRESS_TYPES__PossibleControllers>
 ): express.Router;
 export function A_EXPRESS_Routes(
+    router: express.Router,
+    controllers: Array<A_EXPRESS_TYPES__PossibleControllers>,
+    app: A_EXPRESS_App
+): express.Router;
+export function A_EXPRESS_Routes(
     arg1: express.Router | Array<A_EXPRESS_TYPES__PossibleControllers>,
-    arg2?: Array<A_EXPRESS_TYPES__PossibleControllers>
+    arg2?: Array<A_EXPRESS_TYPES__PossibleControllers> | A_EXPRESS_App,
+    arg3?: A_EXPRESS_App
 ): express.Router {
-    let router: express.Router;
-    let controllers: Array<A_EXPRESS_TYPES__PossibleControllers>;
+    let router!: express.Router;
+    let controllers!: Array<A_EXPRESS_TYPES__PossibleControllers>;
+    let app: A_EXPRESS_App;
+
+    switch (true) {
+
+        /**
+         * A_EXPRESS_Routes([])
+         */
+        case Array.isArray(arg1) && !arg2:
+            router = express.Router();
+            controllers = arg1!;
+            break;
+
+        /**
+         * A_EXPRESS_Routes(Router(), [])
+         */
+        case arg1 instanceof express.Router && Array.isArray(arg2) && !arg3:
+            router = arg1 as express.Router;
+            controllers = arg2;
+            break;
 
 
-    if (arg1 instanceof express.Router) {
-        router = arg1 as express.Router;
-        controllers = arg2!;
-    } else {
-        router = express.Router();
-        controllers = arg1 as Array<typeof A_EXPRESS_Controller | typeof A_EXPRESS_EntityController | typeof A_EXPRESS_HealthController>;
+        /**
+         * A_EXPRESS_Routes([], App)
+         */
+        case Array.isArray(arg1) && arg2 instanceof A_EXPRESS_App:
+            router = express.Router();
+            controllers = arg1;
+            app = arg2;
+            break;
+
+        /**
+         * A_EXPRESS_Routes(Router(), [], App)
+         */
+        case arg1 instanceof express.Router && Array.isArray(arg2) && arg3 instanceof A_EXPRESS_App:
+            router = arg1 as express.Router;
+            controllers = arg2;
+            app = arg3;
+            break;
+
+        default:
+            A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_ROUTE_DECORATOR_PARAMS);
     }
+
 
     controllers.forEach((controller) => {
         let instance: A_EXPRESS_Controller |
@@ -148,19 +198,32 @@ export function A_EXPRESS_Routes(
             instance = controller;
         }
         else {
-            instance = new (controller as any)();
+            instance = new (controller as typeof A_EXPRESS_Controller)({
+                arc: {
+                    enable: app ? app.config.defaults.arc.enable : true
+                },
+                auth: {
+                    enable: app ? app.config.defaults.auth.enable : false
+                }
+            });
         }
 
-        const routes: RouteDefinition[] = Reflect.getMetadata(ROUTES_KEY, controller) || [];
+        const routes: A_EXPRESS_TYPES__RouteDefinition[] = Reflect.getMetadata(ROUTES_KEY, controller) || [];
 
         routes.forEach((route) => {
             /**
              * If the method is not exposed or is ignored, skip the route
              */
             if (
-                instance.Config.http.expose?.indexOf(route.method) === -1
+                !(instance.Config.http.expose)
                 ||
-                instance.Config.http.ignore?.indexOf(route.method) !== -1
+                instance.Config.http.expose.indexOf(route.method) === -1
+                ||
+                (
+                    instance.Config.http.ignore
+                    &&
+                    instance.Config.http.ignore?.indexOf(route.method) !== -1
+                )
             ) return;
 
 

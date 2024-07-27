@@ -6,6 +6,7 @@ export enum A_EXPRESS_CONSTANTS__ERROR_CODES {
     INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER = 'ERR-500-0003',
     DEFAULT_ROUTER_INITIALIZATION_ERROR = 'ERR-500-0004',
     AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED = 'ERR-500-0005',
+    INVALID_ROUTE_DECORATOR_PARAMS = 'ERR-500-0006',
     INVALID_TOKEN_TYPE_FOR_APP_INTERACTION = 'ERR-401-0001',
     INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS = 'ERR-401-0002',
     INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE = 'ERR-401-0003',
@@ -48,6 +49,12 @@ export const A_EXPRESS_CONSTANTS__DEFAULT_ERRORS = {
         code: A_EXPRESS_CONSTANTS__ERROR_CODES.AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED,
         description: 'The redirect URL is not specified in the auth controller configuration.',
         message: 'Oops... Something went wrong'
+    },
+    INVALID_ROUTE_DECORATOR_PARAMS: {
+        serverCode: 500,
+        code: A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_ROUTE_DECORATOR_PARAMS,
+        description: 'The route decorator parameters are invalid.',
+        message: 'The route decorator parameters are invalid or not provided.'
     },
     INVALID_TOKEN_TYPE_FOR_APP_INTERACTION: {
         serverCode: 401,

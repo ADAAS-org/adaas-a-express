@@ -17,6 +17,9 @@ const A_EXPRESS_HealthController_class_1 = require("../controllers/A_EXPRESS_Hea
 const A_EXPRESS_ServerCommandsController_class_1 = require("../controllers/A_EXPRESS_ServerCommandsController.class");
 const A_EXPRESS_ServerDelegateController_class_1 = require("../controllers/A_EXPRESS_ServerDelegateController.class");
 const A_EXPRESS_AppInteractionsController_class_1 = require("../controllers/A_EXPRESS_AppInteractionsController.class");
+const A_EXPRESS_App_class_1 = require("../global/A_EXPRESS_App.class");
+const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
+const errors_constants_1 = require("../constants/errors.constants");
 const ROUTES_KEY = Symbol('routes');
 function Route(method, path, middlewares = [], config = {}) {
     return function (target, propertyKey) {
@@ -43,16 +46,43 @@ function A_EXPRESS_Put(params = {}) {
 function A_EXPRESS_Delete(params = {}) {
     return Route('delete', params.path || '__default__', params.middlewares, Object.assign(Object.assign({}, (params.config || {})), { identity: true }));
 }
-function A_EXPRESS_Routes(arg1, arg2) {
+function A_EXPRESS_Routes(arg1, arg2, arg3) {
     let router;
     let controllers;
-    if (arg1 instanceof express_1.default.Router) {
-        router = arg1;
-        controllers = arg2;
-    }
-    else {
-        router = express_1.default.Router();
-        controllers = arg1;
+    let app;
+    switch (true) {
+        /**
+         * A_EXPRESS_Routes([])
+         */
+        case Array.isArray(arg1) && !arg2:
+            router = express_1.default.Router();
+            controllers = arg1;
+            break;
+        /**
+         * A_EXPRESS_Routes(Router(), [])
+         */
+        case arg1 instanceof express_1.default.Router && Array.isArray(arg2) && !arg3:
+            router = arg1;
+            controllers = arg2;
+            break;
+        /**
+         * A_EXPRESS_Routes([], App)
+         */
+        case Array.isArray(arg1) && arg2 instanceof A_EXPRESS_App_class_1.A_EXPRESS_App:
+            router = express_1.default.Router();
+            controllers = arg1;
+            app = arg2;
+            break;
+        /**
+         * A_EXPRESS_Routes(Router(), [], App)
+         */
+        case arg1 instanceof express_1.default.Router && Array.isArray(arg2) && arg3 instanceof A_EXPRESS_App_class_1.A_EXPRESS_App:
+            router = arg1;
+            controllers = arg2;
+            app = arg3;
+            break;
+        default:
+            A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_ROUTE_DECORATOR_PARAMS);
     }
     controllers.forEach((controller) => {
         let instance;
@@ -65,17 +95,28 @@ function A_EXPRESS_Routes(arg1, arg2) {
             instance = controller;
         }
         else {
-            instance = new controller();
+            instance = new controller({
+                arc: {
+                    enable: app ? app.config.defaults.arc.enable : true
+                },
+                auth: {
+                    enable: app ? app.config.defaults.auth.enable : false
+                }
+            });
         }
         const routes = Reflect.getMetadata(ROUTES_KEY, controller) || [];
         routes.forEach((route) => {
-            var _a, _b;
+            var _a;
             /**
              * If the method is not exposed or is ignored, skip the route
              */
-            if (((_a = instance.Config.http.expose) === null || _a === void 0 ? void 0 : _a.indexOf(route.method)) === -1
+            if (!(instance.Config.http.expose)
                 ||
-                    ((_b = instance.Config.http.ignore) === null || _b === void 0 ? void 0 : _b.indexOf(route.method)) !== -1)
+                    instance.Config.http.expose.indexOf(route.method) === -1
+                ||
+                    (instance.Config.http.ignore
+                        &&
+                            ((_a = instance.Config.http.ignore) === null || _a === void 0 ? void 0 : _a.indexOf(route.method)) !== -1))
                 return;
             /**
              * Bind the handler=actual class method to the instance

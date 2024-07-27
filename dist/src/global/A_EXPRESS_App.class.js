@@ -179,7 +179,7 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
                 mergeParams: true,
                 strict: true
             });
-            targetRouter.use('/', (0, Route_decorator_1.A_EXPRESS_Routes)(route.controllers));
+            targetRouter.use('/', (0, Route_decorator_1.A_EXPRESS_Routes)(route.controllers, this));
             this.routers.set(`${this.config.http.prefix}/${route.version}`, targetRouter);
         }
     }
