@@ -9,7 +9,7 @@ import { A_EXPRESS_TYPES__EntityControllerConfig } from "./A_EXPRESS_EntityContr
 import { A_ARC_SERVER_DELEGATE_TYPES__ResourceListRequest } from "@adaas/a-arc"
 
 
-export type A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams<T extends object ={}> = T & A_EXPRESS_TYPES__IRequestQueryParams
+export type A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams<T extends object = {}> = T & A_EXPRESS_TYPES__IRequestQueryParams
 
 export type A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams<T extends Array<string> = []> = {
     [key in T[number]]: string
@@ -27,9 +27,10 @@ export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest<
     _ReqBodyType = any,
     _AccessKeys extends string[] = ['default'],
     _ResourcesKeys extends string[] = ['default'],
+    _PermissionsKeys extends string[] = [],
     P extends A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams = A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams,
     T extends A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams = A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams,
-> extends A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys> {
+> extends A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys, _PermissionsKeys> {
     params: P,
     query: T,
     adaas: {
@@ -50,7 +51,7 @@ export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest<
         roles: Array<string>,
 
 
-    } & A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys>['adaas'],
+    } & A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys, _PermissionsKeys>['adaas'],
 
     /**
      * The hash of the agent that used to access the resources

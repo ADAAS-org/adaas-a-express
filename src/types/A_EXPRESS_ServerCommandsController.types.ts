@@ -8,7 +8,7 @@ import {
 import { A_EXPRESS_TYPES__EntityControllerConfig } from "./A_EXPRESS_EntityController.types"
 
 
-export type A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestQueryParams<T extends object ={}> = T & A_EXPRESS_TYPES__IRequestQueryParams
+export type A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestQueryParams<T extends object = {}> = T & A_EXPRESS_TYPES__IRequestQueryParams
 
 export type A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestParams<T extends Array<string> = []> = {
     [key in T[number]]: string
@@ -27,9 +27,10 @@ export interface A_EXPRESS_TYPES__SERVER_COMMANDS_IRequest<
     _ReqBodyType = any,
     _AccessKeys extends Array<string> = ['default'],
     _ResourcesKeys extends Array<string> = ['default'],
+    _PermissionsKeys extends string[] = [],
     P extends A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestParams = A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestParams,
     T extends A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestQueryParams = A_EXPRESS_TYPES__SERVER_COMMANDS_IRequestQueryParams,
-> extends A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys> {
+> extends A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys, _PermissionsKeys> {
     params: P,
     query: T,
     adaas: {
@@ -56,5 +57,5 @@ export interface A_EXPRESS_TYPES__SERVER_COMMANDS_IRequest<
         roles: Array<string>,
 
 
-    } & A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys>['adaas'],
+    } & A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys, _PermissionsKeys>['adaas'],
 }

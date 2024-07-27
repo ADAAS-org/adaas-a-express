@@ -51,7 +51,7 @@ export interface A_EXPRESS_TYPES__IRequest<
     P extends A_EXPRESS_TYPES__IRequestParams = A_EXPRESS_TYPES__IRequestParams,
     _AccessKeys extends Array<string> = ['default'],
     _ResourcesKeys extends Array<string> = ['default'],
-    _PermissionsKeys extends Array<string> = ['default'],
+    _PermissionsKeys extends Array<string> = [],
 > extends Request<P, any, _ReqBodyType, T> {
     params: P,
     query: T,
@@ -93,7 +93,7 @@ export interface A_EXPRESS_TYPES__IRequest<
                 [key in _AccessKeys[number]]: boolean
             },
             permissions: {
-                [key in _AccessKeys[number]]: boolean
+                [key in _PermissionsKeys[number]]: boolean
             }
         }>
     }

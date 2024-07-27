@@ -9,7 +9,7 @@ export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IResponse<_ResponseType = any
 }
 export interface A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest> {
 }
-export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest<_ReqBodyType = any, _AccessKeys extends string[] = ['default'], _ResourcesKeys extends string[] = ['default'], P extends A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams = A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams, T extends A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams = A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams> extends A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys> {
+export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest<_ReqBodyType = any, _AccessKeys extends string[] = ['default'], _ResourcesKeys extends string[] = ['default'], _PermissionsKeys extends string[] = [], P extends A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams = A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams, T extends A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams = A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams> extends A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys, _PermissionsKeys> {
     params: P;
     query: T;
     adaas: {
@@ -25,7 +25,7 @@ export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest<_ReqBodyType = any, 
          * A set of all roles ASEIDs that attached to actor
          */
         roles: Array<string>;
-    } & A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys>['adaas'];
+    } & A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys, _PermissionsKeys>['adaas'];
     /**
      * The hash of the agent that used to access the resources
      */

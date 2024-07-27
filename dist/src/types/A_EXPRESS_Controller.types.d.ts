@@ -33,7 +33,7 @@ export interface A_EXPRESS_TYPES__ControllerConfig {
         enable: boolean;
     };
 }
-export interface A_EXPRESS_TYPES__IRequest<_ReqBodyType = any, T extends A_EXPRESS_TYPES__IRequestQueryParams = A_EXPRESS_TYPES__IRequestQueryParams, P extends A_EXPRESS_TYPES__IRequestParams = A_EXPRESS_TYPES__IRequestParams, _AccessKeys extends Array<string> = ['default'], _ResourcesKeys extends Array<string> = ['default'], _PermissionsKeys extends Array<string> = ['default']> extends Request<P, any, _ReqBodyType, T> {
+export interface A_EXPRESS_TYPES__IRequest<_ReqBodyType = any, T extends A_EXPRESS_TYPES__IRequestQueryParams = A_EXPRESS_TYPES__IRequestQueryParams, P extends A_EXPRESS_TYPES__IRequestParams = A_EXPRESS_TYPES__IRequestParams, _AccessKeys extends Array<string> = ['default'], _ResourcesKeys extends Array<string> = ['default'], _PermissionsKeys extends Array<string> = []> extends Request<P, any, _ReqBodyType, T> {
     params: P;
     query: T;
     adaas: {
@@ -65,7 +65,7 @@ export interface A_EXPRESS_TYPES__IRequest<_ReqBodyType = any, T extends A_EXPRE
                 [key in _AccessKeys[number]]: boolean;
             };
             permissions: {
-                [key in _AccessKeys[number]]: boolean;
+                [key in _PermissionsKeys[number]]: boolean;
             };
         }>;
     };
