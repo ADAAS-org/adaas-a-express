@@ -18,7 +18,8 @@ export const A_EXPRESS_DEFAULTS__APP_CONFIG: A_EXPRESS_TYPES__AppConfig = {
             verbose: false
         },
         auth: {
-            exclude: false
+            exclude: false,
+            redirectUrl: ''
         },
         permissions: {
             migrate: true

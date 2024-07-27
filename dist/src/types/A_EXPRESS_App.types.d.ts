@@ -24,6 +24,7 @@ export type A_EXPRESS_TYPES__AppConfig = {
         };
         auth: {
             exclude: boolean;
+            redirectUrl: string;
         };
     };
 } & A_SDK_TYPES__ContextConstructor;

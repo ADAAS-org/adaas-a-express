@@ -187,7 +187,9 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         }
 
         if (!this.config.defaults.auth.exclude) {
-            defaultRouter.use('/auth', A_EXPRESS_Routes([A_EXPRESS_AuthController]));
+            defaultRouter.use('/auth', A_EXPRESS_Routes([new A_EXPRESS_AuthController({
+                redirectUrl: this.config.defaults.auth.redirectUrl
+            })]));
         }
 
 

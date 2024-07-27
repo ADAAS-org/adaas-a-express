@@ -18,7 +18,8 @@ exports.A_EXPRESS_DEFAULTS__APP_CONFIG = {
             verbose: false
         },
         auth: {
-            exclude: false
+            exclude: false,
+            redirectUrl: ''
         },
         permissions: {
             migrate: true

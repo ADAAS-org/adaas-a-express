@@ -168,7 +168,9 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
                 })]));
         }
         if (!this.config.defaults.auth.exclude) {
-            defaultRouter.use('/auth', (0, Route_decorator_1.A_EXPRESS_Routes)([A_EXPRESS_AuthController_class_1.A_EXPRESS_AuthController]));
+            defaultRouter.use('/auth', (0, Route_decorator_1.A_EXPRESS_Routes)([new A_EXPRESS_AuthController_class_1.A_EXPRESS_AuthController({
+                    redirectUrl: this.config.defaults.auth.redirectUrl
+                })]));
         }
         for (const route of this.config.routes) {
             const targetRouter = this.routers.get(`${this.config.prefix}/${route.version}`) || (0, express_1.Router)({

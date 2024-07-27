@@ -5,6 +5,7 @@ export enum A_EXPRESS_CONSTANTS__ERROR_CODES {
     SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED = 'ERR-500-0002',
     INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER = 'ERR-500-0003',
     DEFAULT_ROUTER_INITIALIZATION_ERROR = 'ERR-500-0004',
+    AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED = 'ERR-500-0005',
     INVALID_TOKEN_TYPE_FOR_APP_INTERACTION = 'ERR-401-0001',
     INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS = 'ERR-401-0002',
     INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE = 'ERR-401-0003',
@@ -40,6 +41,12 @@ export const A_EXPRESS_CONSTANTS__DEFAULT_ERRORS = {
         serverCode: 500,
         code: A_EXPRESS_CONSTANTS__ERROR_CODES.DEFAULT_ROUTER_INITIALIZATION_ERROR,
         description: 'The default router initialization error. Please make sure that all necessary parameters are provided and mandatory methods overwritten correctly. ',
+        message: 'Oops... Something went wrong'
+    },
+    AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED: {
+        serverCode: 500,
+        code: A_EXPRESS_CONSTANTS__ERROR_CODES.AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED,
+        description: 'The redirect URL is not specified in the auth controller configuration.',
         message: 'Oops... Something went wrong'
     },
     INVALID_TOKEN_TYPE_FOR_APP_INTERACTION: {
