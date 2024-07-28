@@ -42,19 +42,29 @@ exports.A_EXPRESS_HealthController = void 0;
 const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const errors_constants_1 = require("../constants/errors.constants");
 const A_EXPRESS_Controller_class_1 = require("../global/A_EXPRESS_Controller.class");
-const Route_decorator_1 = require("../decorators/Route.decorator");
+const Methods_decorator_1 = require("../decorators/Methods.decorator");
+const a_sdk_types_1 = require("@adaas/a-sdk-types");
+const A_EXPRESS_Controller_defaults_1 = require("../defaults/A_EXPRESS_Controller.defaults");
 class A_EXPRESS_HealthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_Controller {
     constructor(config) {
         super(config);
-        if (!this.Config.versionPath) {
-            return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER);
-        }
+        this.CUSTOM_CONFIG = {};
+    }
+    get config() {
+        if (!this._compiledConfig)
+            this._compiledConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_Controller_defaults_1.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG), this._constructorConfig || {}), this.CUSTOM_CONFIG);
+        return this._compiledConfig;
     }
     get(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
-                const version = yield Promise.resolve(`${this.config.versionPath}`).then(s => __importStar(require(s)));
-                return res.status(200).send(version);
+                const packageJSON = yield Promise.resolve(`${this.config.versionPath}`).then(s => __importStar(require(s)));
+                // then extract properties defined in config
+                return res.status(200).send((_a = this.config.exposedProperties) === null || _a === void 0 ? void 0 : _a.reduce((acc, prop) => {
+                    acc[prop] = packageJSON[prop];
+                    return acc;
+                }, {}));
             }
             catch (error) {
                 return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER));
@@ -64,8 +74,8 @@ class A_EXPRESS_HealthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
 }
 exports.A_EXPRESS_HealthController = A_EXPRESS_HealthController;
 __decorate([
-    (0, Route_decorator_1.A_EXPRESS_Get)({
-        path: '/',
+    (0, Methods_decorator_1.A_EXPRESS_Get)({
+        path: '/health',
         config: {
             auth: false,
             identity: false

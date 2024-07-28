@@ -6,19 +6,20 @@ export { A_EXPRESS_Context } from './src/global/A_EXPRESS_Context.class'
 export { A_EXPRESS_Resources } from './src/decorators/Resources.decorator';
 export { A_EXPRESS_Access } from './src/decorators/Access.decorator';
 export {
-    A_EXPRESS_Delete,
-    A_EXPRESS_Get,
-    A_EXPRESS_Post,
-    A_EXPRESS_Put,
+  
     A_EXPRESS_Routes,
-} from './src/decorators/Route.decorator';
+} from './src/decorators/Routes.decorator';
 
 
 // =========== TYPES EXPORT 
 export {
+    A_EXPRESS_Delete,
+    A_EXPRESS_Get,
+    A_EXPRESS_Post,
+    A_EXPRESS_Put,
     A_EXPRESS_TYPES__IDecoratorRouteConfig,
     A_EXPRESS_TYPES__IDecoratorRouteParams
-} from './src/decorators/Route.decorator';
+} from './src/decorators/Methods.decorator';
 
 export {
     A_EXPRESS_TYPES__IController,

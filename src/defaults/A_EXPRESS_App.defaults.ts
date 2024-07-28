@@ -25,7 +25,8 @@ export const A_EXPRESS_DEFAULTS__APP_CONFIG: A_EXPRESS_TYPES__AppManifest = {
         health: {
             enable: true,
             versionPath: '',
-            verbose: false
+            verbose: false,
+            exposedProperties: ['version']
         },
         auth: {
             enable: true,

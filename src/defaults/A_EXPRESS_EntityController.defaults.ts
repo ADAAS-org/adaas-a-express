@@ -6,7 +6,7 @@ import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants"
 import { A_SDK_CommonHelper } from "@adaas/a-sdk-types";
 
 
-export const A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__EntityControllerConfig<any, A_EXPRESS_TYPES__IRequest> = {
+export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__EntityControllerConfig<any, A_EXPRESS_TYPES__IRequest> = {
     id: 'ASEID',
     entity: '',
     http: {
@@ -83,7 +83,7 @@ export const A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Entity
             }
         },
         where: async (self, req) => {
-            if (self.config.identifierType === 'ID') {
+            if (self.config.id === 'ID') {
                 return { id: req.adaas.arc!.resources!.default?.map(r => isNaN(parseInt(r)) ? r : parseInt(r)) }
             }
             else {

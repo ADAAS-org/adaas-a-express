@@ -25,7 +25,8 @@ exports.A_EXPRESS_DEFAULTS__APP_CONFIG = {
         health: {
             enable: true,
             versionPath: '',
-            verbose: false
+            verbose: false,
+            exposedProperties: ['version']
         },
         auth: {
             enable: true,

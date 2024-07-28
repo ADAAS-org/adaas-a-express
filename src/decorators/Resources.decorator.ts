@@ -2,10 +2,11 @@ import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TY
 import { A_ARC_MaskQueryBuilder, A_ARC_ServerCommands, A_ARC_ServerDelegate } from "@adaas/a-arc";
 import { A_AUTH_Context, A_AUTH_ServerDelegateAuthenticator } from "@adaas/a-auth";
 import { A_SDK_ServerError } from "@adaas/a-sdk-types";
+import { A_EXPRESS_Controller } from "../global/A_EXPRESS_Controller.class";
 
 
 export function A_EXPRESS_Resources<
-    _ContextType = any,
+    _ContextType = A_EXPRESS_Controller,
     _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest,
     _ResourcesKeys extends Array<string> = ['default'],
 >(
@@ -30,6 +31,9 @@ export function A_EXPRESS_Resources<
             next: A_EXPRESS_TYPES__INextFunction
         ) {
             try {
+                if (!((this as any) as A_EXPRESS_Controller).config.arc.enable)
+                    // Call the original method with the API response data
+                    return originalMethod.apply(this, [req, res, next]);
 
                 const queries = Object.keys(params).reduce((acc, key) => {
                     const qb = params[key].apply(this, [new A_ARC_MaskQueryBuilder(), this as _ContextType, req, res, next]);

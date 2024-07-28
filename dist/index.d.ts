@@ -1,8 +1,8 @@
 export { A_EXPRESS_Context } from './src/global/A_EXPRESS_Context.class';
 export { A_EXPRESS_Resources } from './src/decorators/Resources.decorator';
 export { A_EXPRESS_Access } from './src/decorators/Access.decorator';
-export { A_EXPRESS_Delete, A_EXPRESS_Get, A_EXPRESS_Post, A_EXPRESS_Put, A_EXPRESS_Routes, } from './src/decorators/Route.decorator';
-export { A_EXPRESS_TYPES__IDecoratorRouteConfig, A_EXPRESS_TYPES__IDecoratorRouteParams } from './src/decorators/Route.decorator';
+export { A_EXPRESS_Routes, } from './src/decorators/Routes.decorator';
+export { A_EXPRESS_Delete, A_EXPRESS_Get, A_EXPRESS_Post, A_EXPRESS_Put, A_EXPRESS_TYPES__IDecoratorRouteConfig, A_EXPRESS_TYPES__IDecoratorRouteParams } from './src/decorators/Methods.decorator';
 export { A_EXPRESS_TYPES__IController, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IRequestParams, A_EXPRESS_TYPES__IRequestQueryParams, A_EXPRESS_TYPES__IResponse, A_EXPRESS_TYPES__ControllerConfig, A_EXPRESS_TYPES__INextFunction } from './src/types/A_EXPRESS_Controller.types';
 export { A_EXPRESS_TYPES__EntityControllerConfig, A_EXPRESS_TYPES__EntityController_GetConfig, A_EXPRESS_TYPES__EntityController_ListConfig, A_EXPRESS_TYPES__GetPageOptions, A_EXPRESS_TYPES__IControllerRepository, A_EXPRESS_TYPES__SearchOptions } from './src/types/A_EXPRESS_EntityController.types';
 export { A_EXPRESS_TYPES__HealthControllerConfig } from './src/types/A_EXPRESS_HealthController.types';

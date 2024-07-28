@@ -19,21 +19,27 @@ exports.A_EXPRESS_AuthController = void 0;
 const A_EXPRESS_Controller_class_1 = require("../global/A_EXPRESS_Controller.class");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const a_auth_1 = require("@adaas/a-auth");
-const Route_decorator_1 = require("../decorators/Route.decorator");
+const Methods_decorator_1 = require("../decorators/Methods.decorator");
 const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const errors_constants_1 = require("../constants/errors.constants");
+const A_EXPRESS_Controller_defaults_1 = require("../defaults/A_EXPRESS_Controller.defaults");
 class A_EXPRESS_AuthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_Controller {
     constructor(config) {
         super(config);
-        if (!this.Config.redirectUrl) {
+    }
+    get config() {
+        if (!this._compiledConfig)
+            this._compiledConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_Controller_defaults_1.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG), this._constructorConfig || {}), this.CUSTOM_CONFIG);
+        if (!this._compiledConfig.redirectUrl) {
             return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED);
         }
+        return this._compiledConfig;
     }
     getSSOUrl(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const url = yield a_auth_1.A_AUTH_ServerCommands.SSO.getSignInUrl({
-                    redirectURL: this.Config.redirectUrl
+                    redirectURL: this.config.redirectUrl
                 });
                 return res.status(200).send(url);
             }
@@ -86,7 +92,7 @@ class A_EXPRESS_AuthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_Co
 }
 exports.A_EXPRESS_AuthController = A_EXPRESS_AuthController;
 __decorate([
-    (0, Route_decorator_1.A_EXPRESS_Post)({
+    (0, Methods_decorator_1.A_EXPRESS_Post)({
         path: '/adaas/url',
         config: {
             identity: false,
@@ -95,7 +101,7 @@ __decorate([
     })
 ], A_EXPRESS_AuthController.prototype, "getSSOUrl", null);
 __decorate([
-    (0, Route_decorator_1.A_EXPRESS_Post)({
+    (0, Methods_decorator_1.A_EXPRESS_Post)({
         path: '/token',
         config: {
             identity: false,
@@ -104,7 +110,7 @@ __decorate([
     })
 ], A_EXPRESS_AuthController.prototype, "getToken", null);
 __decorate([
-    (0, Route_decorator_1.A_EXPRESS_Post)({
+    (0, Methods_decorator_1.A_EXPRESS_Post)({
         path: '/token/verify',
         config: {
             identity: false,
@@ -113,7 +119,7 @@ __decorate([
     })
 ], A_EXPRESS_AuthController.prototype, "verifyToken", null);
 __decorate([
-    (0, Route_decorator_1.A_EXPRESS_Post)({
+    (0, Methods_decorator_1.A_EXPRESS_Post)({
         path: '/token/refresh',
         config: {
             identity: false,

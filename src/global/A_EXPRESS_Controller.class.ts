@@ -9,22 +9,30 @@ export class A_EXPRESS_Controller implements A_EXPRESS_TYPES__IController {
 
     logAlias = "a-express@abstract-controller"
 
-    config!: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__ControllerConfig>
+    protected CUSTOM_CONFIG: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__ControllerConfig> = {}
 
-    Config!: A_EXPRESS_TYPES__ControllerConfig
-
+    protected _compiledConfig?: A_EXPRESS_TYPES__ControllerConfig
+    protected _constructorConfig?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__ControllerConfig>
 
     constructor(
         config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__ControllerConfig>
     ) {
-        this.Config = A_SDK_CommonHelper.deepMerge(
-            this.config, A_SDK_CommonHelper.deepMerge(
-                {
-                    ...A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG
-                },
-                config || {}
-            )
-        );
+        this._constructorConfig = config;
+    }
+
+    get config(): A_EXPRESS_TYPES__ControllerConfig {
+        if (!this._compiledConfig)
+            this._compiledConfig = A_SDK_CommonHelper.deepMerge(
+                A_SDK_CommonHelper.deepMerge(
+                    {
+                        ...A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG
+                    },
+                    this._constructorConfig || {}
+                ),
+                this.CUSTOM_CONFIG
+            );
+
+        return this._compiledConfig;
     }
 
 

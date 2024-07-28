@@ -16,7 +16,13 @@ const A_EXPRESS_Controller_defaults_1 = require("../defaults/A_EXPRESS_Controlle
 class A_EXPRESS_Controller {
     constructor(config) {
         this.logAlias = "a-express@abstract-controller";
-        this.Config = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(this.config, a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_Controller_defaults_1.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG), config || {}));
+        this.CUSTOM_CONFIG = {};
+        this._constructorConfig = config;
+    }
+    get config() {
+        if (!this._compiledConfig)
+            this._compiledConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_Controller_defaults_1.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG), this._constructorConfig || {}), this.CUSTOM_CONFIG);
+        return this._compiledConfig;
     }
     get(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {

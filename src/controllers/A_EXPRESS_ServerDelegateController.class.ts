@@ -15,14 +15,12 @@ export class A_EXPRESS_ServerDelegateController<
     _DBEntityType,
     _RepositoryType
 > {
-    
 
-    config!: A_SDK_TYPES__Required<
+
+    protected CUSTOM_CONFIG!: A_SDK_TYPES__Required<
         A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__SERVER_DELEGATE_ControllerConfig<_DBEntityType>>,
         ['entity']
     >
-
-    Config!: A_EXPRESS_TYPES__SERVER_DELEGATE_ControllerConfig<_DBEntityType>
 
 
     constructor(

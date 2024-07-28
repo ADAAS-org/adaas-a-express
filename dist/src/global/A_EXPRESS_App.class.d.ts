@@ -2,15 +2,19 @@ import { A_SDK_ContextClass, A_SDK_Error, A_SDK_TYPES__DeepPartial, A_SDK_TYPES_
 import { A_EXPRESS_TYPES__AppManifest } from "../types/A_EXPRESS_App.types";
 import express from 'express';
 import { Server } from "http";
+import { A_EXPRESS_Logger } from "./A_EXPRESS_Logger.class";
 export declare class A_EXPRESS_App extends A_SDK_ContextClass {
     config: A_EXPRESS_TYPES__AppManifest;
-    readonly app: import("express-serve-static-core").Express;
-    readonly routers: Map<string, express.Router>;
+    app: import("express-serve-static-core").Express;
+    routers: Map<string, express.Router>;
+    Logger: A_EXPRESS_Logger;
     private _permissions;
+    private monitoringInterval;
     constructor(config?: A_SDK_TYPES__Required<A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AppManifest>, [
         'app',
         'context'
     ]>);
+    protected defaultInit(): void;
     /**
      * Method that is executed before the server starts
      * Could be used to set up some initial configurations
@@ -37,4 +41,30 @@ export declare class A_EXPRESS_App extends A_SDK_ContextClass {
     start(): Promise<Server>;
     onExit(error?: A_SDK_Error): Promise<void>;
     private prepareRoutes;
+    protected displayMonitoringInfo(): void;
+    protected getNodeProcessInfo(): {
+        memoryUsage: {
+            rss: string;
+            heapTotal: string;
+            heapUsed: string;
+            external: string;
+        };
+        cpuLoad: {
+            core: number;
+            load: {
+                user: string;
+                nice: string;
+                sys: string;
+                idle: string;
+                irq: string;
+            };
+        }[];
+        uptime: string;
+        platform: NodeJS.Platform;
+        nodeVersion: string;
+        processId: number;
+        processTitle: string;
+        cwd: string;
+        env: NodeJS.ProcessEnv;
+    };
 }

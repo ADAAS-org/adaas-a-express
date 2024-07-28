@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG = void 0;
+exports.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG = void 0;
 const a_arc_1 = require("@adaas/a-arc");
 const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const errors_constants_1 = require("../constants/errors.constants");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
-exports.A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG = {
+exports.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG = {
     id: 'ASEID',
     entity: '',
     http: {
@@ -87,7 +87,7 @@ exports.A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG = {
         },
         where: (self, req) => __awaiter(void 0, void 0, void 0, function* () {
             var _a;
-            if (self.config.identifierType === 'ID') {
+            if (self.config.id === 'ID') {
                 return { id: (_a = req.adaas.arc.resources.default) === null || _a === void 0 ? void 0 : _a.map(r => isNaN(parseInt(r)) ? r : parseInt(r)) };
             }
             else {

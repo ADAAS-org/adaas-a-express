@@ -2,7 +2,11 @@ import 'reflect-metadata';
 import express from 'express';
 import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
 import { A_EXPRESS_EntityController } from '../controllers/A_EXPRESS_EntityController.class';
-import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
+import {
+    A_EXPRESS_TYPES__INextFunction,
+    A_EXPRESS_TYPES__IRequest,
+    A_EXPRESS_TYPES__IResponse
+} from '../types/A_EXPRESS_Controller.types';
 import { A_EXPRESS_HealthController } from '../controllers/A_EXPRESS_HealthController.class';
 import { A_EXPRESS_ServerCommandsController } from '../controllers/A_EXPRESS_ServerCommandsController.class';
 import { A_EXPRESS_ServerDelegateController } from '../controllers/A_EXPRESS_ServerDelegateController.class';
@@ -11,88 +15,7 @@ import { A_EXPRESS_App } from '../global/A_EXPRESS_App.class';
 import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from '../constants/errors.constants';
 import { A_EXPRESS_AuthMiddleware } from '../middleware/A_EXPRESS_Auth.middleware';
-
-const ROUTES_KEY = Symbol('routes');
-
-export type A_EXPRESS_TYPES__RouteDefinition = {
-    handlerName: string;
-} & A_EXPRESS_TYPES__IDecoratorRouteParam
-
-export type A_EXPRESS_TYPES__IDecoratorRouteParam = {
-    path: string;
-    method: 'get' | 'post' | 'put' | 'delete';
-    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: A_EXPRESS_TYPES__INextFunction) => void>;
-    config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig>
-}
-
-export type A_EXPRESS_TYPES__IDecoratorRouteConfig = {
-    identity: boolean,
-    auth: boolean
-}
-
-export interface A_EXPRESS_TYPES__IDecoratorRouteParams {
-    path: string,
-    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: A_EXPRESS_TYPES__INextFunction) => void>
-    config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig>
-}
-
-function Route(
-    method: 'get' | 'post' | 'put' | 'delete',
-    path: string,
-    middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: A_EXPRESS_TYPES__INextFunction) => void> = [],
-    config: Partial<A_EXPRESS_TYPES__IDecoratorRouteConfig> = {}
-) {
-
-    return function (target: any, propertyKey: string) {
-        const routes: A_EXPRESS_TYPES__RouteDefinition[] = Reflect.getMetadata(ROUTES_KEY, target.constructor) || [];
-        routes.push({
-            method,
-            path,
-            middlewares,
-            handlerName: propertyKey,
-            config
-        });
-        Reflect.defineMetadata(ROUTES_KEY, routes, target.constructor);
-    };
-}
-
-
-
-export function A_EXPRESS_Get(
-    params: Partial<A_EXPRESS_TYPES__IDecoratorRouteParams> = {}
-) {
-    return Route('get', params.path || '__default__', params.middlewares, {
-        ...(params.config || {}),
-        identity: true,
-    });
-}
-
-export function A_EXPRESS_Post(
-    params: Partial<A_EXPRESS_TYPES__IDecoratorRouteParams> = {}
-) {
-    return Route('post', params.path || '__default__', params.middlewares, {
-        ...(params.config || {}),
-        identity: true,
-    });
-}
-
-export function A_EXPRESS_Put(
-    params: Partial<A_EXPRESS_TYPES__IDecoratorRouteParams> = {}
-) {
-    return Route('put', params.path || '__default__', params.middlewares, {
-        ...(params.config || {}),
-        identity: true,
-    });
-}
-
-export function A_EXPRESS_Delete(
-    params: Partial<A_EXPRESS_TYPES__IDecoratorRouteParams> = {}
-) {
-    return Route('delete', params.path || '__default__', params.middlewares, {
-        ...(params.config || {}),
-        identity: true,
-    });
-}
+import { A_EXPRESS_TYPES__RouteDefinition, A_EXPRESS_TYPES__ROUTES_KEY } from './Methods.decorator';
 
 
 
@@ -135,6 +58,7 @@ export function A_EXPRESS_Routes(
     let router!: express.Router;
     let controllers!: Array<A_EXPRESS_TYPES__PossibleControllers>;
     let app: A_EXPRESS_App;
+
 
     switch (true) {
 
@@ -198,7 +122,7 @@ export function A_EXPRESS_Routes(
             instance = controller;
         }
         else {
-            instance = new (controller as typeof A_EXPRESS_Controller)({
+            instance = new (controller as any)({
                 arc: {
                     enable: app ? app.config.defaults.arc.enable : true
                 },
@@ -208,21 +132,31 @@ export function A_EXPRESS_Routes(
             });
         }
 
-        const routes: A_EXPRESS_TYPES__RouteDefinition[] = Reflect.getMetadata(ROUTES_KEY, controller) || [];
+
+        const routes1: A_EXPRESS_TYPES__RouteDefinition[] = Reflect.getMetadata(A_EXPRESS_TYPES__ROUTES_KEY, controller.constructor) || [];
+        const routes2: A_EXPRESS_TYPES__RouteDefinition[] = Reflect.getMetadata(A_EXPRESS_TYPES__ROUTES_KEY, controller) || [];
+
+
+        const routes = [
+            ...routes1,
+            ...routes2
+        ];
+
 
         routes.forEach((route) => {
+
             /**
              * If the method is not exposed or is ignored, skip the route
              */
             if (
-                !(instance.Config.http.expose)
+                !(instance.config?.http?.expose)
                 ||
-                instance.Config.http.expose.indexOf(route.method) === -1
+                instance.config.http.expose.indexOf(route.method) === -1
                 ||
                 (
-                    instance.Config.http.ignore
+                    instance.config.http.ignore
                     &&
-                    instance.Config.http.ignore?.indexOf(route.method) !== -1
+                    instance.config.http.ignore?.indexOf(route.method) !== -1
                 )
             ) return;
 
@@ -238,8 +172,11 @@ export function A_EXPRESS_Routes(
                 : instance instanceof A_EXPRESS_ServerDelegateController
                     ? '/-s-dlg-'
                     : instance instanceof A_EXPRESS_AppInteractionsController
-                        ? instance.Config.http.base || '/'
-                        : instance.Config.http.base || '/';
+                        ? instance.config.http.base || '/'
+                        : instance.config.http.base || '/';
+
+            path = /\//.test(path) ? '' : path;
+
 
             let targetMiddlewares: Array<(
                 req: A_EXPRESS_TYPES__IRequest,
@@ -249,14 +186,14 @@ export function A_EXPRESS_Routes(
 
             const useAuth = (route.config.auth === true || route.config.auth === false)
                 ? route.config.auth
-                : instance.config.auth || false
+                : instance.config.auth.enable || false
 
 
             switch (true) {
 
                 case instance instanceof A_EXPRESS_AppInteractionsController:
-                    if (instance.Config.entity)
-                        path = `${path}/${instance.Config.entity}`;
+                    if (instance.config.entity)
+                        path = `${path}/${instance.config.entity}`;
 
                     if (useAuth)
                         targetMiddlewares = [
@@ -267,8 +204,8 @@ export function A_EXPRESS_Routes(
                     break;
 
                 case instance instanceof A_EXPRESS_ServerCommandsController:
-                    if (instance.Config.entity)
-                        path = `${path}/${instance.Config.entity}`;
+                    if (instance.config.entity)
+                        path = `${path}/${instance.config.entity}`;
 
                     if (useAuth)
                         targetMiddlewares = [
@@ -279,8 +216,8 @@ export function A_EXPRESS_Routes(
                     break;
 
                 case instance instanceof A_EXPRESS_ServerDelegateController:
-                    if (instance.Config.entity)
-                        path = `${path}/${instance.Config.entity}`;
+                    if (instance.config.entity)
+                        path = `${path}/${instance.config.entity}`;
 
                     if (useAuth)
                         targetMiddlewares = [
@@ -291,8 +228,8 @@ export function A_EXPRESS_Routes(
                     break;
 
                 default:
-                    if (instance instanceof A_EXPRESS_EntityController && instance.Config.entity) {
-                        path = `${path}/${instance.Config.entity}`;
+                    if (instance instanceof A_EXPRESS_EntityController && instance.config.entity) {
+                        path = `${path}/${instance.config.entity}`;
                     }
 
                     break;
@@ -304,11 +241,13 @@ export function A_EXPRESS_Routes(
             if (route.config.identity)
                 path = `${path}/:${instance.config.id === 'ASEID' ? 'aseid' : 'id'}`;
 
+
+
             /**
              * Extra custom path that can be added to the route
              */
             if (route.path !== '__default__')
-                path = `${path}/${route.path}`;
+                path = `${path}${route.path}`;
 
 
             router[route.method](path, ...targetMiddlewares as any, handler);

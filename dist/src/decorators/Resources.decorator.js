@@ -19,6 +19,9 @@ function A_EXPRESS_Resources(params) {
         descriptor.value = function (req, res, next) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
+                    if (!this.config.arc.enable)
+                        // Call the original method with the API response data
+                        return originalMethod.apply(this, [req, res, next]);
                     const queries = Object.keys(params).reduce((acc, key) => {
                         const qb = params[key].apply(this, [new a_arc_1.A_ARC_MaskQueryBuilder(), this, req, res, next]);
                         acc[key] = qb.toString();

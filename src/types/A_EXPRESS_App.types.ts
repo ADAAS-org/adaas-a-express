@@ -1,7 +1,8 @@
 import { A_SDK_TYPES__ContextConstructor } from "@adaas/a-sdk-types/dist/src/types/A_SDK_Context.types";
-import { A_EXPRESS_TYPES__PossibleControllers } from "../decorators/Route.decorator";
+import { A_EXPRESS_TYPES__PossibleControllers } from "../decorators/Routes.decorator";
 import { CorsOptions } from "cors";
 import { A_ARC_Permission } from "@adaas/a-arc";
+import { A_EXPRESS_TYPES__HealthControllerConfig } from "./A_EXPRESS_HealthController.types";
 
 
 export type A_EXPRESS_TYPES__AppManifest = {
@@ -68,12 +69,13 @@ export type A_EXPRESS_TYPES__AppManifest = {
             enable: boolean;
             versionPath: string;
             verbose: boolean;
+            exposedProperties: A_EXPRESS_TYPES__HealthControllerConfig['exposedProperties']
         },
         auth: {
             enable: boolean;
             redirectUrl: string;
         },
-        arc:{
+        arc: {
             enable: boolean;
         }
     }

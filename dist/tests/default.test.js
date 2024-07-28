@@ -24,19 +24,20 @@ jest.retryTimes(0);
 const A_EXPRESS_EntityController_class_1 = require("src/controllers/A_EXPRESS_EntityController.class");
 const Access_decorator_1 = require("../src/decorators/Access.decorator");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
-const Route_decorator_1 = require("../src/decorators/Route.decorator");
+const Methods_decorator_1 = require("../src/decorators/Methods.decorator");
 const http_1 = require("http");
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const A_EXPRESS_Context_class_1 = require("../src/global/A_EXPRESS_Context.class");
 const A_EXPRESS_ServerDelegateController_class_1 = require("src/controllers/A_EXPRESS_ServerDelegateController.class");
+const Routes_decorator_1 = require("../src/decorators/Routes.decorator");
 describe('Defaults', () => {
     it('Should Assign Router', () => __awaiter(void 0, void 0, void 0, function* () {
         try {
             class Test extends A_EXPRESS_EntityController_class_1.A_EXPRESS_EntityController {
                 constructor() {
                     super(...arguments);
-                    this.CONTROLLER_CONFIG = {
+                    this.CUSTOM_CONFIG = {
                         entity: 'users',
                     };
                 }
@@ -50,7 +51,7 @@ describe('Defaults', () => {
                 }
             }
             __decorate([
-                (0, Route_decorator_1.A_EXPRESS_Get)({
+                (0, Methods_decorator_1.A_EXPRESS_Get)({
                     path: '/test',
                     config: {
                         identity: false,
@@ -69,7 +70,7 @@ describe('Defaults', () => {
                 })
             ], Test.prototype, "test", null);
             const app = (0, express_1.default)();
-            app.use((0, Route_decorator_1.A_EXPRESS_Routes)([Test]));
+            app.use((0, Routes_decorator_1.A_EXPRESS_Routes)([Test]));
             const port = 3000;
             (() => __awaiter(void 0, void 0, void 0, function* () {
                 const server = (0, http_1.createServer)(app);
@@ -87,7 +88,7 @@ describe('Defaults', () => {
             class Test extends A_EXPRESS_ServerDelegateController_class_1.A_EXPRESS_ServerDelegateController {
                 constructor() {
                     super(...arguments);
-                    this.CONTROLLER_CONFIG = {
+                    this.CUSTOM_CONFIG = {
                         entity: 'users',
                     };
                 }

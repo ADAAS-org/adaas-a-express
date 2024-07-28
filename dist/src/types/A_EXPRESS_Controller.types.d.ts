@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { A_SDK_ApiCredentials, A_SDK_App, A_SDK_User } from '@adaas/a-sdk';
 import { A_SDK_Error } from '@adaas/a-sdk-types';
+import { A_EXPRESS_App } from '../global/A_EXPRESS_App.class';
 export type A_EXPRESS_TYPES__IRequestQueryParams<T extends string[] = []> = {
     [key in T[number]]: string;
 } & {
@@ -37,6 +38,7 @@ export interface A_EXPRESS_TYPES__IRequest<_ReqBodyType = any, T extends A_EXPRE
     params: P;
     query: T;
     adaas: {
+        context: A_EXPRESS_App;
         user?: A_SDK_User;
         /**
          * The API credentials that used to access the resources

@@ -15,10 +15,8 @@ import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants"
 import { A_EXPRESS_Context } from "../global/A_EXPRESS_Context.class";
 import { A_EXPRESS_Access } from "../decorators/Access.decorator";
 import { A_EXPRESS_Resources } from "../decorators/Resources.decorator";
-import { A_EXPRESS_Delete, A_EXPRESS_Get, A_EXPRESS_Post, A_EXPRESS_Put } from "../decorators/Route.decorator";
-import { A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG } from "../defaults/A_EXPRESS_EntityController.defaults";
-
-
+import { A_EXPRESS_Delete, A_EXPRESS_Get, A_EXPRESS_Post, A_EXPRESS_Put } from "../decorators/Methods.decorator";
+import { A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG } from "../defaults/A_EXPRESS_EntityController.defaults";
 
 /**
  * 
@@ -42,23 +40,30 @@ export class A_EXPRESS_EntityController<
 >
     extends A_EXPRESS_Controller {
 
-    config!: A_SDK_TYPES__Required<
+    protected CUSTOM_CONFIG!: A_SDK_TYPES__Required<
         A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, _RequestType>>,
         ['entity']
     >
 
-    Config!: A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, _RequestType>
+
 
     protected repository?: _RepositoryType
+    protected _compiledConfig?: A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, _RequestType>
 
 
+    get config(): A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, _RequestType> {
+        if (!this._compiledConfig)
+            this._compiledConfig = A_SDK_CommonHelper.deepMerge(
+                A_SDK_CommonHelper.deepMerge(
+                    {
+                        ...A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG
+                    },
+                    this._constructorConfig || {}
+                ),
+                this.CUSTOM_CONFIG
+            );
 
-    constructor(
-        config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, _RequestType>>
-    ) {
-        super(A_SDK_CommonHelper.deepMerge({
-            ...A_EXPRESS_DEFAULT_ENTITY_CONTROLLER_CONFIG
-        }, config || {}));
+        return this._compiledConfig;
     }
 
 
@@ -70,12 +75,12 @@ export class A_EXPRESS_EntityController<
     })
     @A_EXPRESS_Access<A_EXPRESS_EntityController, _RequestType>({
         acl: {
-            default: (qb, self, req) => self.Config.list.arc.access(self, qb, req)
+            default: (qb, self, req) => self.config.list.arc.access(self, qb, req)
         },
-        permissions: (self, req) => self.Config.list.arc.permissions(self, req)
+        permissions: (self, req) => self.config.list.arc.permissions(self, req)
     })
     @A_EXPRESS_Resources<A_EXPRESS_EntityController, _RequestType>({
-        default: (qb, self, req) => self.Config.list.arc.resources(self, qb, req)
+        default: (qb, self, req) => self.config.list.arc.resources(self, qb, req)
     })
     /**
      * Defines a Default GET method for the controller. Basically it's an endpoint for getting existing entities
@@ -89,18 +94,20 @@ export class A_EXPRESS_EntityController<
             if (!this.repository)
                 return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
+            const listConfig = A_SDK_CommonHelper.deepMerge({ ...A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.list }, this.config.list)
+
             const data = await this.repository.getPage({
-                where: await this.Config.list.where(this, req),
-                relations: this.Config.list.relations,
+                where: await listConfig.where(this, req),
+                relations: listConfig.relations,
                 pagination: {
                     page: req.query.page,
                     pageSize: req.query.pageSize
                 },
                 search: {
                     pattern: req.query.search,
-                    include: this.Config.list.searchFields
+                    include: listConfig.searchFields
                 },
-                order: this.Config.list.order as any
+                order: listConfig.order as any
             });
 
             return res.status(200).send(data);
@@ -114,9 +121,9 @@ export class A_EXPRESS_EntityController<
     @A_EXPRESS_Post()
     @A_EXPRESS_Access<A_EXPRESS_EntityController, _RequestType>({
         acl: {
-            default: (qb, self, req) => self.Config.post.arc.access(self, qb, req)
+            default: (qb, self, req) => self.config.post.arc.access(self, qb, req)
         },
-        permissions: (self, req) => self.Config.post.arc.permissions(self, req)
+        permissions: (self, req) => self.config.post.arc.permissions(self, req)
     })
     /**
      * Defines a Default POST method for the controller. Basically it's an endpoint for creating new entities
@@ -134,11 +141,13 @@ export class A_EXPRESS_EntityController<
 
             const savedEntity = await this.repository.save(newEntity);
 
+            const postConfig = A_SDK_CommonHelper.deepMerge({ ...A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.post }, this.config.post)
+
             const updated = await this.repository.findOneOrFail({
                 where: {
                     id: (savedEntity as any).id,
                 },
-                relations: this.Config.post.relations,
+                relations: postConfig.relations,
             });
 
             return res.status(200).send(updated);
@@ -155,9 +164,9 @@ export class A_EXPRESS_EntityController<
     @A_EXPRESS_Put()
     @A_EXPRESS_Access<A_EXPRESS_EntityController, _RequestType>({
         acl: {
-            default: (qb, self, req) => self.Config.put.arc.access(self, qb, req)
+            default: (qb, self, req) => self.config.put.arc.access(self, qb, req)
         },
-        permissions: (self, req) => self.Config.put.arc.permissions(self, req)
+        permissions: (self, req) => self.config.put.arc.permissions(self, req)
     })
     /**
      * Defines a Default PUT method for the controller. Basically it's an endpoint for updating existing entities
@@ -171,14 +180,15 @@ export class A_EXPRESS_EntityController<
             if (!this.repository)
                 return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
+            const putConfig = A_SDK_CommonHelper.deepMerge({ ...A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.put }, this.config.put)
 
-            const where = await this.Config.put.where(this, req)
+            const where = await putConfig.where(this, req)
 
             await this.repository.update(where, req.body);
 
             const updated = await this.repository.findOneOrFail({
                 where,
-                relations: this.Config.put.relations,
+                relations: putConfig.relations,
             });
 
             return res.status(200).send(updated);
@@ -194,9 +204,9 @@ export class A_EXPRESS_EntityController<
     @A_EXPRESS_Get()
     @A_EXPRESS_Access<A_EXPRESS_EntityController, _RequestType>({
         acl: {
-            default: (qb, self, req) => self.Config.get.arc.access(self, qb, req)
+            default: (qb, self, req) => self.config.get.arc.access(self, qb, req)
         },
-        permissions: (self, req) => self.Config.get.arc.permissions(self, req)
+        permissions: (self, req) => self.config.get.arc.permissions(self, req)
     })
     /**
      * Defines a Default GET method for the controller. Basically it's an endpoint for getting existing entities
@@ -210,10 +220,12 @@ export class A_EXPRESS_EntityController<
             if (!this.repository)
                 return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
+            const getConfig = A_SDK_CommonHelper.deepMerge({ ...A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.get }, this.config.get)
+
             const entity = await this.repository.findOne({
-                where: await this.Config.get.where(this, req),
-                relations: this.Config.get.relations,
-                order: this.Config.get.order as any
+                where: await getConfig.where(this, req),
+                relations: getConfig.relations,
+                order: getConfig.order
             });
 
             if (!entity)
@@ -231,9 +243,9 @@ export class A_EXPRESS_EntityController<
     @A_EXPRESS_Delete()
     @A_EXPRESS_Access<A_EXPRESS_EntityController, _RequestType>({
         acl: {
-            default: (qb, self, req) => self.Config.delete.arc.access(self, qb, req)
+            default: (qb, self, req) => self.config.delete.arc.access(self, qb, req)
         },
-        permissions: (self, req) => self.Config.delete.arc.permissions(self, req)
+        permissions: (self, req) => self.config.delete.arc.permissions(self, req)
     })
     /**
      * Defines a Default DELETE method for the controller. Basically it's an endpoint for deleting existing entities
@@ -247,7 +259,9 @@ export class A_EXPRESS_EntityController<
             if (!this.repository)
                 return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
-            await this.repository.delete(await this.Config.delete.where(this, req));
+            const deleteConfig = A_SDK_CommonHelper.deepMerge({ ...A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.delete }, this.config.delete)
+
+            await this.repository.delete(await deleteConfig.where(this, req));
 
             return res.status(202).send({
                 status: 'OK'

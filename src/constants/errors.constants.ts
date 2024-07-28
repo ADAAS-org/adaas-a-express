@@ -36,7 +36,7 @@ export const A_EXPRESS_CONSTANTS__DEFAULT_ERRORS = {
         serverCode: 500,
         code: A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER,
         description: 'The version path for the health controller is incorrect.',
-        message: 'Oops... Something went wrong'
+        message: 'Version path for the health controller is incorrect.'
     },
     DEFAULT_ROUTER_INITIALIZATION_ERROR: {
         serverCode: 500,

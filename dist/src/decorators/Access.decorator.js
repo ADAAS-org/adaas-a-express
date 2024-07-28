@@ -19,6 +19,9 @@ function A_EXPRESS_Access(params) {
         descriptor.value = function (req, res, next) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
+                    if (!this.config.arc.enable)
+                        // Call the original method with the API response data
+                        return originalMethod.apply(this, [req, res, next]);
                     /**
                      * The queries that will be sent to the ARC
                      * It is a combination of ACL and permissions
@@ -80,8 +83,7 @@ function A_EXPRESS_Access(params) {
                     return originalMethod.apply(this, [req, res, next]);
                 }
                 catch (error) {
-                    console.log('A_EXPRESS_Access error', error);
-                    return next(new a_sdk_types_1.A_SDK_ServerError(error));
+                    return next(new a_sdk_types_1.A_SDK_Error(error));
                 }
             });
         };

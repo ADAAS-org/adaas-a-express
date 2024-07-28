@@ -10,12 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_ErrorsMiddleware = void 0;
-const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
+const a_sdk_types_1 = require("@adaas/a-sdk-types");
 class A_EXPRESS_ErrorsMiddleware {
     static handleError(error, req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            A_EXPRESS_Context_class_1.A_EXPRESS_Context.Logger.error(error);
-            return res.status(error.serverCode || 500).send(error);
+            const serverError = new a_sdk_types_1.A_SDK_ServerError(error);
+            req.adaas.context.Logger.error(serverError);
+            return res.status(serverError.serverCode).send(serverError);
         });
     }
 }
