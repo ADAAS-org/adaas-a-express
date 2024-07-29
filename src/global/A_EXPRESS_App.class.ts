@@ -121,14 +121,6 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
      */
     async start(): Promise<Server> {
 
-        // First await rediness of the SDKs
-        await A_SDK_Context.ready
-        await A_ARC_Context.ready
-        await A_AUTH_Context.ready
-        await A_EXPRESS_Context.ready
-
-        await this.ready;
-
 
         if (!this.CONFIG_IGNORE_ERRORS)
             process.on('unhandledRejection', (reason, promise) => {
@@ -145,6 +137,14 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
                 this.onExit(new A_SDK_Error(targetError));
             });
 
+
+        // First await rediness of the SDKs
+        await A_SDK_Context.ready
+        await A_ARC_Context.ready
+        await A_AUTH_Context.ready
+        await A_EXPRESS_Context.ready
+
+        await this.ready;
 
         // ==================== Run before start hook
 

@@ -120,12 +120,6 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
      */
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            // First await rediness of the SDKs
-            yield a_sdk_types_1.A_SDK_Context.ready;
-            yield a_arc_1.A_ARC_Context.ready;
-            yield a_auth_1.A_AUTH_Context.ready;
-            yield A_EXPRESS_Context_class_1.A_EXPRESS_Context.ready;
-            yield this.ready;
             if (!this.CONFIG_IGNORE_ERRORS)
                 process_1.default.on('unhandledRejection', (reason, promise) => {
                     this.Logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
@@ -138,6 +132,12 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
                     this.Logger.error(targetError);
                     this.onExit(new a_sdk_types_1.A_SDK_Error(targetError));
                 });
+            // First await rediness of the SDKs
+            yield a_sdk_types_1.A_SDK_Context.ready;
+            yield a_arc_1.A_ARC_Context.ready;
+            yield a_auth_1.A_AUTH_Context.ready;
+            yield A_EXPRESS_Context_class_1.A_EXPRESS_Context.ready;
+            yield this.ready;
             // ==================== Run before start hook
             this.Logger.log('Before start hook execution...');
             yield this.beforeStart();
