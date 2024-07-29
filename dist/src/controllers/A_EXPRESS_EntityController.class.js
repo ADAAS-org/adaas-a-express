@@ -19,7 +19,6 @@ exports.A_EXPRESS_EntityController = void 0;
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const A_EXPRESS_Controller_class_1 = require("../global/A_EXPRESS_Controller.class");
 const errors_constants_1 = require("../constants/errors.constants");
-const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const Access_decorator_1 = require("../decorators/Access.decorator");
 const Resources_decorator_1 = require("../decorators/Resources.decorator");
 const Methods_decorator_1 = require("../decorators/Methods.decorator");
@@ -38,6 +37,9 @@ const A_EXPRESS_EntityController_defaults_1 = require("../defaults/A_EXPRESS_Ent
  *
  */
 class A_EXPRESS_EntityController extends A_EXPRESS_Controller_class_1.A_EXPRESS_Controller {
+    constructor(context, config) {
+        super(context, config);
+    }
     get config() {
         if (!this._compiledConfig)
             this._compiledConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_EntityController_defaults_1.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG), this._constructorConfig || {}), this.CUSTOM_CONFIG);
@@ -47,7 +49,7 @@ class A_EXPRESS_EntityController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (!this.repository)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);
+                    return this.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);
                 const listConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_EntityController_defaults_1.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.list), this.config.list);
                 const data = yield this.repository.getPage({
                     where: yield listConfig.where(this, req),
@@ -73,7 +75,7 @@ class A_EXPRESS_EntityController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (!this.repository)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);
+                    return this.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);
                 const newEntity = this.repository.create(req.body);
                 const savedEntity = yield this.repository.save(newEntity);
                 const postConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_EntityController_defaults_1.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.post), this.config.post);
@@ -94,7 +96,7 @@ class A_EXPRESS_EntityController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (!this.repository)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);
+                    return this.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);
                 const putConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_EntityController_defaults_1.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.put), this.config.put);
                 const where = yield putConfig.where(this, req);
                 yield this.repository.update(where, req.body);
@@ -113,7 +115,7 @@ class A_EXPRESS_EntityController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (!this.repository)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);
+                    return this.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);
                 const getConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_EntityController_defaults_1.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.get), this.config.get);
                 const entity = yield this.repository.findOne({
                     where: yield getConfig.where(this, req),
@@ -121,7 +123,7 @@ class A_EXPRESS_EntityController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
                     order: getConfig.order
                 });
                 if (!entity)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.ENTITY_NOT_FOUND);
+                    return this.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.ENTITY_NOT_FOUND);
                 return res.status(200).send(entity);
             }
             catch (error) {
@@ -133,7 +135,7 @@ class A_EXPRESS_EntityController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (!this.repository)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);
+                    return this.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY);
                 const deleteConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_EntityController_defaults_1.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.delete), this.config.delete);
                 yield this.repository.delete(yield deleteConfig.where(this, req));
                 return res.status(202).send({

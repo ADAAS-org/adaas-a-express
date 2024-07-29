@@ -1,7 +1,6 @@
 import { A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS } from "@adaas/a-arc";
 import { A_EXPRESS_TYPES__EntityControllerConfig } from "../types/A_EXPRESS_EntityController.types";
 import { A_EXPRESS_TYPES__IRequest } from "../types/A_EXPRESS_Controller.types";
-import { A_EXPRESS_Context } from "../global/A_EXPRESS_Context.class";
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
 import { A_SDK_CommonHelper } from "@adaas/a-sdk-types";
 
@@ -29,7 +28,7 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
             permissions: (self, req) => [],
             resources: (self, qb) => {
                 if (!self.config.entity)
-                    return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
+                    return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
 
                 return qb
                     .entity(self.config.entity)
@@ -64,7 +63,7 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
             resources: (self, qb) => qb,
             access: (self, qb, req) => {
                 if (!self.config.entity)
-                    return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
+                    return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
 
                 const query = qb
                     .entity(self.config.entity)
@@ -99,7 +98,7 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
             resources: (self, qb) => qb,
             access: (self, qb) => {
                 if (!self.config.entity)
-                    return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
+                    return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
 
                 return qb
                     .entity(self.config.entity)
@@ -124,7 +123,7 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
             resources: (self, qb) => qb,
             access: (self, qb, req) => {
                 if (!self.config.entity)
-                    return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
+                    return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
 
                 const query = qb
                     .entity(self.config.entity)
@@ -157,7 +156,7 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
             resources: (self, qb) => qb,
             access: (self, qb) => {
                 if (!self.config.entity)
-                    return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
+                    return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
 
                 return qb
                     .entity(self.config.entity)

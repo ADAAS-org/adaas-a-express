@@ -9,9 +9,9 @@ import {
 } from '@adaas/a-auth';
 import { A_EXPRESS_Post } from '../decorators/Methods.decorator';
 import { A_EXPRESS_TYPES__AuthControllerConfig } from '../types/A_EXPRESS_AuthController.types';
-import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from '../constants/errors.constants';
 import { A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG } from '../defaults/A_EXPRESS_Controller.defaults';
+import { A_EXPRESS_App } from '../global/A_EXPRESS_App.class';
 
 
 export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
@@ -21,10 +21,12 @@ export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
     protected _compiledConfig?: A_EXPRESS_TYPES__AuthControllerConfig
 
 
-    constructor(config?:
-        A_SDK_TYPES__Required<A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AuthControllerConfig>, ['redirectUrl']>
+    constructor(
+        context: A_EXPRESS_App,
+        config?:
+            A_SDK_TYPES__Required<A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AuthControllerConfig>, ['redirectUrl']>
     ) {
-        super(config);
+        super(context, config);
 
     }
 
@@ -42,7 +44,7 @@ export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
 
 
         if (!this._compiledConfig.redirectUrl) {
-            return A_EXPRESS_Context.Errors.throw(
+            return this.context.Errors.throw(
                 A_EXPRESS_CONSTANTS__ERROR_CODES.AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED);
         }
 

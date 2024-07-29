@@ -39,15 +39,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_HealthController = void 0;
-const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const errors_constants_1 = require("../constants/errors.constants");
 const A_EXPRESS_Controller_class_1 = require("../global/A_EXPRESS_Controller.class");
 const Methods_decorator_1 = require("../decorators/Methods.decorator");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const A_EXPRESS_Controller_defaults_1 = require("../defaults/A_EXPRESS_Controller.defaults");
 class A_EXPRESS_HealthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_Controller {
-    constructor(config) {
-        super(config);
+    constructor(context, config) {
+        super(context, config);
         this.CUSTOM_CONFIG = {};
     }
     get config() {
@@ -67,7 +66,7 @@ class A_EXPRESS_HealthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
                 }, {}));
             }
             catch (error) {
-                return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER));
+                return next(this.context.Errors.getError(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER));
             }
         });
     }

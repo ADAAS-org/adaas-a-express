@@ -45,17 +45,15 @@
   },
   "homepage": "https://github.com/ADAAS-org/adaas-a-express#readme",
   "dependencies": {
-    "@adaas/a-arc": "^0.0.28",
-    "@adaas/a-auth": "0.0.38",
-    "@adaas/a-sdk": "0.0.19",
+    "@adaas/a-arc": "^0.0.29",
+    "@adaas/a-auth": "0.0.39",
+    "@adaas/a-sdk": "0.0.20",
     "@adaas/a-sdk-types": "0.0.42",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.10.0",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "lodash": "^4.17.21",
-    "morgan": "^1.10.0",
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {

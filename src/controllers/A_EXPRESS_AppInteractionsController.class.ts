@@ -2,6 +2,7 @@ import { A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Dictionary, A_SDK_TYPES__Require
 import { A_EXPRESS_TYPES__IControllerRepository } from "../types/A_EXPRESS_EntityController.types";
 import { A_EXPRESS_EntityController } from "./A_EXPRESS_EntityController.class";
 import { A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig, A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest } from "../types/A_EXPRESS_AppInteractionsController.types";
+import { A_EXPRESS_App } from "../global/A_EXPRESS_App.class";
 
 
 
@@ -19,5 +20,12 @@ export class A_EXPRESS_AppInteractionsController<
         A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType>>,
         ['entity']
     >
+
+    constructor(
+        context: A_EXPRESS_App,
+        config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType>>
+    ) {
+        super(context, config);
+    }
 
 }

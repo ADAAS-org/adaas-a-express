@@ -51,7 +51,7 @@ ${' '.repeat(this.namespace.length + 3)}|-------------------------------\x1b[0m`
     serverReady(
         params: {
             port: number,
-           
+
             app: {
                 name: string,
                 version: string
@@ -64,7 +64,11 @@ ${' '.repeat(this.namespace.length + 3)}|-------------------------------\x1b[0m`
 ${' '.repeat(this.namespace.length + 3)}|-------------------------------
 ${' '.repeat(this.namespace.length + 3)}| ${params.app.name} v${params.app.version} is running on port ${params.port}
 ${' '.repeat(this.namespace.length + 3)}| Process ID: ${processId}
-${' '.repeat(this.namespace.length + 3)}|-------------------------------\x1b[0m`);
+${' '.repeat(this.namespace.length + 3)}|-------------------------------
+${' '.repeat(this.namespace.length + 3)}| ==============================
+${' '.repeat(this.namespace.length + 3)}|          LISTENING...         
+${' '.repeat(this.namespace.length + 3)}| ==============================
+\x1b[0m`);
     }
 
 }

@@ -12,14 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_AuthMiddleware = void 0;
 const a_sdk_1 = require("@adaas/a-sdk");
 const a_auth_1 = require("@adaas/a-auth");
-const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const errors_constants_1 = require("../constants/errors.constants");
 class A_EXPRESS_AuthMiddleware {
     static validateToken(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.headers.authorization)
-                return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED));
+                return next(req.adaas.context.Errors.getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED));
             try {
                 const [bearer, receivedToken] = req.headers.authorization.split(' ');
                 /**
@@ -39,7 +38,7 @@ class A_EXPRESS_AuthMiddleware {
     static AppInteractions_ValidateToken(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.headers.authorization)
-                return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED));
+                return next(req.adaas.context.Errors.getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED));
             try {
                 const [bearer, receivedToken] = req.headers.authorization.split(' ');
                 /**
@@ -50,7 +49,7 @@ class A_EXPRESS_AuthMiddleware {
                     token: receivedToken
                 });
                 if (!user)
-                    return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_APP_INTERACTION));
+                    return next(req.adaas.context.Errors.getError(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_APP_INTERACTION));
                 req.adaas.user = new a_sdk_1.A_SDK_User(user);
                 /**
                  * In case when API Credentials are used the APP is will be in request as well as roles
@@ -68,7 +67,7 @@ class A_EXPRESS_AuthMiddleware {
     static ServerCommands_ValidateToken(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.headers.authorization)
-                return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED));
+                return next(req.adaas.context.Errors.getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED));
             try {
                 const [bearer, receivedToken] = req.headers.authorization.split(' ');
                 /**
@@ -79,7 +78,7 @@ class A_EXPRESS_AuthMiddleware {
                     token: receivedToken
                 });
                 if (!app || !api)
-                    return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS));
+                    return next(req.adaas.context.Errors.getError(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS));
                 req.adaas.app = new a_sdk_1.A_SDK_App(app);
                 req.adaas.api = new a_sdk_1.A_SDK_ApiCredentials(api);
                 req.adaas.scope = scope;
@@ -94,7 +93,7 @@ class A_EXPRESS_AuthMiddleware {
     static ServerDelegate_ValidateToken(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.headers.authorization)
-                return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED));
+                return next(req.adaas.context.Errors.getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED));
             try {
                 const [bearer, receivedToken] = req.headers.authorization.split(' ');
                 /**
@@ -105,7 +104,7 @@ class A_EXPRESS_AuthMiddleware {
                     token: receivedToken
                 });
                 if (!app || !api || !user)
-                    return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.getError(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE));
+                    return next(req.adaas.context.Errors.getError(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE));
                 req.adaas.app = new a_sdk_1.A_SDK_App(app);
                 req.adaas.api = new a_sdk_1.A_SDK_ApiCredentials(api);
                 req.adaas.user = new a_sdk_1.A_SDK_User(user);

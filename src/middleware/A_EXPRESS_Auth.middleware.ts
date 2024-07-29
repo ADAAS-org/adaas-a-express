@@ -1,7 +1,6 @@
 import { A_SDK_ApiCredentials, A_SDK_App, A_SDK_User } from '@adaas/a-sdk';
 import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 import { A_AUTH_ServerCommands, A_AUTH_Context, A_AUTH_ServerDelegateAuthenticator } from '@adaas/a-auth'
-import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
 import { A_SDK_CONSTANTS__ERROR_CODES, A_SDK_ServerError } from '@adaas/a-sdk-types';
 import { A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest, A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams } from '../types/A_EXPRESS_AppInteractionsController.types';
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from '../constants/errors.constants';
@@ -17,7 +16,7 @@ export class A_EXPRESS_AuthMiddleware {
     ) {
 
         if (!req.headers.authorization)
-            return next(A_EXPRESS_Context.Errors.getError(A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED))
+            return next(req.adaas.context.Errors.getError(A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED))
 
         try {
             const [bearer, receivedToken] = req.headers.authorization.split(' ');
@@ -47,7 +46,7 @@ export class A_EXPRESS_AuthMiddleware {
     ) {
 
         if (!req.headers.authorization)
-            return next(A_EXPRESS_Context.Errors.getError(A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED))
+            return next(req.adaas.context.Errors.getError(A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED))
 
         try {
             const [bearer, receivedToken] = req.headers.authorization.split(' ');
@@ -66,7 +65,7 @@ export class A_EXPRESS_AuthMiddleware {
             });
 
             if (!user)
-                return next(A_EXPRESS_Context.Errors.getError(A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_APP_INTERACTION))
+                return next(req.adaas.context.Errors.getError(A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_APP_INTERACTION))
 
             req.adaas.user = new A_SDK_User(user);
 
@@ -95,7 +94,7 @@ export class A_EXPRESS_AuthMiddleware {
     ) {
 
         if (!req.headers.authorization)
-            return next(A_EXPRESS_Context.Errors.getError(A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED))
+            return next(req.adaas.context.Errors.getError(A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED))
 
         try {
             const [bearer, receivedToken] = req.headers.authorization.split(' ');
@@ -114,7 +113,7 @@ export class A_EXPRESS_AuthMiddleware {
             });
 
             if (!app || !api)
-                return next(A_EXPRESS_Context.Errors.getError(A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS))
+                return next(req.adaas.context.Errors.getError(A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS))
 
             req.adaas.app = new A_SDK_App(app);
             req.adaas.api = new A_SDK_ApiCredentials(api);
@@ -140,7 +139,7 @@ export class A_EXPRESS_AuthMiddleware {
     ) {
 
         if (!req.headers.authorization)
-            return next(A_EXPRESS_Context.Errors.getError(A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED))
+            return next(req.adaas.context.Errors.getError(A_SDK_CONSTANTS__ERROR_CODES.TOKEN_NOT_PROVIDED))
 
         try {
             const [bearer, receivedToken] = req.headers.authorization.split(' ');
@@ -160,7 +159,7 @@ export class A_EXPRESS_AuthMiddleware {
             });
 
             if (!app || !api || !user)
-                return next(A_EXPRESS_Context.Errors.getError(A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE))
+                return next(req.adaas.context.Errors.getError(A_EXPRESS_CONSTANTS__ERROR_CODES.INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE))
 
             req.adaas.app = new A_SDK_App(app);
             req.adaas.api = new A_SDK_ApiCredentials(api);

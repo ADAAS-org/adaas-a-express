@@ -214,14 +214,14 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
                 this.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.DEFAULT_ROUTER_INITIALIZATION_ERROR);
             if (this.config.defaults.health.enable) {
                 const { A_EXPRESS_HealthController } = yield Promise.resolve().then(() => __importStar(require('../controllers/A_EXPRESS_HealthController.class')));
-                defaultRouter.use('/', (0, Routes_decorator_1.A_EXPRESS_Routes)([new A_EXPRESS_HealthController({
+                defaultRouter.use('/', (0, Routes_decorator_1.A_EXPRESS_Routes)([new A_EXPRESS_HealthController(this, {
                         versionPath: this.config.defaults.health.versionPath,
                         exposedProperties: this.config.defaults.health.exposedProperties
                     })], this));
             }
             if (this.config.defaults.auth.enable) {
                 const { A_EXPRESS_AuthController } = yield Promise.resolve().then(() => __importStar(require('../controllers/A_EXPRESS_AuthController.class')));
-                defaultRouter.use('/', (0, Routes_decorator_1.A_EXPRESS_Routes)([new A_EXPRESS_AuthController({
+                defaultRouter.use('/', (0, Routes_decorator_1.A_EXPRESS_Routes)([new A_EXPRESS_AuthController(this, {
                         redirectUrl: this.config.defaults.auth.redirectUrl
                     })], this));
             }

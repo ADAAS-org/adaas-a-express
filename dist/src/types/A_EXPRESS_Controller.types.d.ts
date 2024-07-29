@@ -74,6 +74,8 @@ export interface A_EXPRESS_TYPES__IRequest<_ReqBodyType = any, T extends A_EXPRE
 }
 export interface A_EXPRESS_TYPES__IController {
     logAlias: string;
+    config: A_EXPRESS_TYPES__ControllerConfig;
+    context: A_EXPRESS_App;
     get(req: A_EXPRESS_TYPES__IRequest<any, A_EXPRESS_TYPES__IRequestQueryParams, A_EXPRESS_TYPES__IRequestParams>, res: Response, next: NextFunction): void;
     post(req: A_EXPRESS_TYPES__IRequest<any, A_EXPRESS_TYPES__IRequestQueryParams, A_EXPRESS_TYPES__IRequestParams>, res: Response, next: NextFunction): void;
     put(req: A_EXPRESS_TYPES__IRequest<any, A_EXPRESS_TYPES__IRequestQueryParams, A_EXPRESS_TYPES__IRequestParams>, res: Response, next: NextFunction): void;

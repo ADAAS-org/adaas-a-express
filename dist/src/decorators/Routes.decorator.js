@@ -66,7 +66,7 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
             instance = controller;
         }
         else {
-            instance = new controller({
+            instance = new controller(app, {
                 arc: {
                     enable: app ? app.config.defaults.arc.enable : true
                 },

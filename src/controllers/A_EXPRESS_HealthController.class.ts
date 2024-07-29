@@ -1,11 +1,11 @@
 import { A_EXPRESS_TYPES__HealthControllerConfig } from '../types/A_EXPRESS_HealthController.types';
-import { A_EXPRESS_Context } from '../global/A_EXPRESS_Context.class';
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from '../constants/errors.constants';
 import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
 import { A_EXPRESS_Get } from '../decorators/Methods.decorator';
 import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
 import { A_SDK_CommonHelper, A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Required } from '@adaas/a-sdk-types';
 import { A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG } from '../defaults/A_EXPRESS_Controller.defaults';
+import { A_EXPRESS_App } from '../global/A_EXPRESS_App.class';
 
 
 
@@ -18,10 +18,12 @@ export class A_EXPRESS_HealthController extends A_EXPRESS_Controller {
     protected _compiledConfig?: A_EXPRESS_TYPES__HealthControllerConfig
 
 
-    constructor(config?:
-        A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__HealthControllerConfig>
+    constructor(
+        context: A_EXPRESS_App,
+        config?:
+            A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__HealthControllerConfig>
     ) {
-        super(config);
+        super(context, config);
     }
 
 
@@ -64,7 +66,7 @@ export class A_EXPRESS_HealthController extends A_EXPRESS_Controller {
                 }, {})
             )
         } catch (error) {
-            return next(A_EXPRESS_Context.Errors.getError(A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER));
+            return next(this.context.Errors.getError(A_EXPRESS_CONSTANTS__ERROR_CODES.INCORRECT_VERSION_PATH_FOR_HEALTH_CONTROLLER));
         }
     }
 

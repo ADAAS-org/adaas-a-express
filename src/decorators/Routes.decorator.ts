@@ -122,14 +122,16 @@ export function A_EXPRESS_Routes(
             instance = controller;
         }
         else {
-            instance = new (controller as any)({
-                arc: {
-                    enable: app ? app.config.defaults.arc.enable : true
-                },
-                auth: {
-                    enable: app ? app.config.defaults.auth.enable : false
-                }
-            });
+            instance = new (controller as any)(
+                app,
+                {
+                    arc: {
+                        enable: app ? app.config.defaults.arc.enable : true
+                    },
+                    auth: {
+                        enable: app ? app.config.defaults.auth.enable : false
+                    }
+                });
         }
 
 

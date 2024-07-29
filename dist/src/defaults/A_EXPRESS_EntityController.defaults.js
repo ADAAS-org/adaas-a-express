@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG = void 0;
 const a_arc_1 = require("@adaas/a-arc");
-const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const errors_constants_1 = require("../constants/errors.constants");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 exports.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG = {
@@ -37,7 +36,7 @@ exports.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG = {
             permissions: (self, req) => [],
             resources: (self, qb) => {
                 if (!self.config.entity)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED);
+                    return self.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED);
                 return qb
                     .entity(self.config.entity)
                     .action(a_arc_1.A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.LIST)
@@ -70,7 +69,7 @@ exports.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG = {
             resources: (self, qb) => qb,
             access: (self, qb, req) => {
                 if (!self.config.entity)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED);
+                    return self.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED);
                 const query = qb
                     .entity(self.config.entity)
                     .action(a_arc_1.A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.READ)
@@ -103,7 +102,7 @@ exports.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG = {
             resources: (self, qb) => qb,
             access: (self, qb) => {
                 if (!self.config.entity)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED);
+                    return self.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED);
                 return qb
                     .entity(self.config.entity)
                     .action(a_arc_1.A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.CREATE)
@@ -127,7 +126,7 @@ exports.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG = {
             resources: (self, qb) => qb,
             access: (self, qb, req) => {
                 if (!self.config.entity)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED);
+                    return self.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED);
                 const query = qb
                     .entity(self.config.entity)
                     .action(a_arc_1.A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.UPDATE)
@@ -157,7 +156,7 @@ exports.A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG = {
             resources: (self, qb) => qb,
             access: (self, qb) => {
                 if (!self.config.entity)
-                    return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED);
+                    return self.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED);
                 return qb
                     .entity(self.config.entity)
                     .action(a_arc_1.A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.DELETE)

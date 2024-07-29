@@ -11,13 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_Controller = void 0;
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
-const A_EXPRESS_Context_class_1 = require("./A_EXPRESS_Context.class");
 const A_EXPRESS_Controller_defaults_1 = require("../defaults/A_EXPRESS_Controller.defaults");
 class A_EXPRESS_Controller {
-    constructor(config) {
+    constructor(context, config) {
         this.logAlias = "a-express@abstract-controller";
         this.CUSTOM_CONFIG = {};
         this._constructorConfig = config;
+        this.context = context;
     }
     get config() {
         if (!this._compiledConfig)
@@ -26,31 +26,31 @@ class A_EXPRESS_Controller {
     }
     get(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors
+            return next(this.context.Errors
                 .getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED));
         });
     }
     post(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors
+            return next(this.context.Errors
                 .getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED));
         });
     }
     put(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors
+            return next(this.context.Errors
                 .getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED));
         });
     }
     delete(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors
+            return next(this.context.Errors
                 .getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED));
         });
     }
     list(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            return next(A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors
+            return next(this.context.Errors
                 .getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED));
         });
     }

@@ -20,18 +20,17 @@ const A_EXPRESS_Controller_class_1 = require("../global/A_EXPRESS_Controller.cla
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const a_auth_1 = require("@adaas/a-auth");
 const Methods_decorator_1 = require("../decorators/Methods.decorator");
-const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const errors_constants_1 = require("../constants/errors.constants");
 const A_EXPRESS_Controller_defaults_1 = require("../defaults/A_EXPRESS_Controller.defaults");
 class A_EXPRESS_AuthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_Controller {
-    constructor(config) {
-        super(config);
+    constructor(context, config) {
+        super(context, config);
     }
     get config() {
         if (!this._compiledConfig)
             this._compiledConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_Controller_defaults_1.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG), this._constructorConfig || {}), this.CUSTOM_CONFIG);
         if (!this._compiledConfig.redirectUrl) {
-            return A_EXPRESS_Context_class_1.A_EXPRESS_Context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED);
+            return this.context.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED);
         }
         return this._compiledConfig;
     }

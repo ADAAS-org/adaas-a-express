@@ -124,9 +124,9 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         // First await rediness of the SDKs
         await A_SDK_Context.ready
         await A_ARC_Context.ready
-        await A_AUTH_Context.ready   
+        await A_AUTH_Context.ready
         await A_EXPRESS_Context.ready
-        
+
         await this.ready;
 
 
@@ -232,7 +232,7 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
 
                     this.Logger.serverReady({
                         port: this.config.http.port,
-                        app:{
+                        app: {
                             name: this.config.app.name,
                             version: this.config.app.version
                         }
@@ -262,20 +262,23 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         if (this.config.defaults.health.enable) {
             const { A_EXPRESS_HealthController } = await import('../controllers/A_EXPRESS_HealthController.class');
 
-            defaultRouter.use('/', A_EXPRESS_Routes([new A_EXPRESS_HealthController({
-                versionPath: this.config.defaults.health.versionPath,
-                exposedProperties: this.config.defaults.health.exposedProperties
-            })], this));
+            defaultRouter.use('/', A_EXPRESS_Routes([new A_EXPRESS_HealthController(
+                this,
+                {
+                    versionPath: this.config.defaults.health.versionPath,
+                    exposedProperties: this.config.defaults.health.exposedProperties
+                })], this));
         }
 
         if (this.config.defaults.auth.enable) {
             const { A_EXPRESS_AuthController } = await import('../controllers/A_EXPRESS_AuthController.class');
 
-            defaultRouter.use('/', A_EXPRESS_Routes([new A_EXPRESS_AuthController({
-                redirectUrl: this.config.defaults.auth.redirectUrl
-            })], this));
+            defaultRouter.use('/', A_EXPRESS_Routes([new A_EXPRESS_AuthController(
+                this,
+                {
+                    redirectUrl: this.config.defaults.auth.redirectUrl
+                })], this));
         }
-
 
 
         for (const route of this.config.routes) {

@@ -12,11 +12,11 @@ import {
 import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from "../types/A_EXPRESS_Controller.types"
 import { A_EXPRESS_Controller } from "../global/A_EXPRESS_Controller.class"
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
-import { A_EXPRESS_Context } from "../global/A_EXPRESS_Context.class";
 import { A_EXPRESS_Access } from "../decorators/Access.decorator";
 import { A_EXPRESS_Resources } from "../decorators/Resources.decorator";
 import { A_EXPRESS_Delete, A_EXPRESS_Get, A_EXPRESS_Post, A_EXPRESS_Put } from "../decorators/Methods.decorator";
 import { A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG } from "../defaults/A_EXPRESS_EntityController.defaults";
+import { A_EXPRESS_App } from "../global/A_EXPRESS_App.class";
 
 /**
  * 
@@ -46,6 +46,13 @@ export class A_EXPRESS_EntityController<
     >
 
 
+
+    constructor(
+        context: A_EXPRESS_App,
+        config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, _RequestType>>
+    ) {
+        super(context, config);
+    }
 
     protected repository?: _RepositoryType
     protected _compiledConfig?: A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, _RequestType>
@@ -92,7 +99,7 @@ export class A_EXPRESS_EntityController<
     ): Promise<any> {
         try {
             if (!this.repository)
-                return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
+                return this.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
             const listConfig = A_SDK_CommonHelper.deepMerge({ ...A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.list }, this.config.list)
 
@@ -135,7 +142,7 @@ export class A_EXPRESS_EntityController<
     ): Promise<any> {
         try {
             if (!this.repository)
-                return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
+                return this.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
             const newEntity = this.repository.create(req.body);
 
@@ -178,7 +185,7 @@ export class A_EXPRESS_EntityController<
     ): Promise<any> {
         try {
             if (!this.repository)
-                return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
+                return this.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
             const putConfig = A_SDK_CommonHelper.deepMerge({ ...A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.put }, this.config.put)
 
@@ -218,7 +225,7 @@ export class A_EXPRESS_EntityController<
     ): Promise<any> {
         try {
             if (!this.repository)
-                return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
+                return this.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
             const getConfig = A_SDK_CommonHelper.deepMerge({ ...A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.get }, this.config.get)
 
@@ -229,7 +236,7 @@ export class A_EXPRESS_EntityController<
             });
 
             if (!entity)
-                return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.ENTITY_NOT_FOUND)
+                return this.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.ENTITY_NOT_FOUND)
 
             return res.status(200).send(entity)
 
@@ -257,7 +264,7 @@ export class A_EXPRESS_EntityController<
     ): Promise<any> {
         try {
             if (!this.repository)
-                return A_EXPRESS_Context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
+                return this.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.OVERRIDE_METHOD_OR_PROVIDE_REPOSITORY)
 
             const deleteConfig = A_SDK_CommonHelper.deepMerge({ ...A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG.delete }, this.config.delete)
 
