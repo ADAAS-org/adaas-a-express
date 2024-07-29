@@ -3,12 +3,19 @@ export { A_EXPRESS_Context } from './src/global/A_EXPRESS_Context.class'
 
 
 // =========== DECORATORS EXPORT 
-export { A_EXPRESS_Resources } from './src/decorators/Resources.decorator';
-export { A_EXPRESS_Access } from './src/decorators/Access.decorator';
+export { A_EXPRESS_Resources } from './src/decorators/A_EXPRESS_Resources.decorator';
+export { A_EXPRESS_Access } from './src/decorators/A_EXPRESS_Access.decorator';
 export {
-  
+    A_EXPRESS_AppInteractions,
+    A_EXPRESS_Controller,
+    A_EXPRESS_ControllerDefinition,
+    A_EXPRESS_ServerCommands,
+    A_EXPRESS_ServerDelegate
+} from './src/decorators/A_EXPRESS_Controller.decorator';
+export {
+
     A_EXPRESS_Routes,
-} from './src/decorators/Routes.decorator';
+} from './src/decorators/A_EXPRESS_Routes.decorator';
 
 
 // =========== TYPES EXPORT 
@@ -19,7 +26,7 @@ export {
     A_EXPRESS_Put,
     A_EXPRESS_TYPES__IDecoratorRouteConfig,
     A_EXPRESS_TYPES__IDecoratorRouteParams
-} from './src/decorators/Methods.decorator';
+} from './src/decorators/A_EXPRESS_Methods.decorator';
 
 export {
     A_EXPRESS_TYPES__IController,
@@ -27,21 +34,21 @@ export {
     A_EXPRESS_TYPES__IRequestParams,
     A_EXPRESS_TYPES__IRequestQueryParams,
     A_EXPRESS_TYPES__IResponse,
-    A_EXPRESS_TYPES__ControllerConfig,
+    A_EXPRESS_TYPES__IControllerConfig,
     A_EXPRESS_TYPES__INextFunction
 } from './src/types/A_EXPRESS_Controller.types';
 
 export {
-    A_EXPRESS_TYPES__EntityControllerConfig,
-    A_EXPRESS_TYPES__EntityController_GetConfig,
-    A_EXPRESS_TYPES__EntityController_ListConfig,
-    A_EXPRESS_TYPES__GetPageOptions,
-    A_EXPRESS_TYPES__IControllerRepository,
-    A_EXPRESS_TYPES__SearchOptions
-} from './src/types/A_EXPRESS_EntityController.types';
+    A_EXPRESS_TYPES__ICRUDControllerConfig,
+    A_EXPRESS_TYPES__Controller_DeleteConfig,
+    A_EXPRESS_TYPES__Controller_GetConfig,
+    A_EXPRESS_TYPES__Controller_ListConfig,
+    A_EXPRESS_TYPES__Controller_PostConfig,
+    A_EXPRESS_TYPES__Controller_PutConfig
+} from './src/types/A_EXPRESS_CRUDController.types';
 
 export {
-    A_EXPRESS_TYPES__HealthControllerConfig
+    A_EXPRESS_TYPES__IHealthControllerConfig
 } from './src/types/A_EXPRESS_HealthController.types'
 
 export {
@@ -77,12 +84,8 @@ export {
 
 // =========== DEFAULT ENTITIES EXPORT
 export { A_EXPRESS_AuthController } from './src/controllers/A_EXPRESS_AuthController.class';
-export { A_EXPRESS_Controller } from './src/global/A_EXPRESS_Controller.class';
-export { A_EXPRESS_EntityController } from './src/controllers/A_EXPRESS_EntityController.class';
+export { A_EXPRESS_CRUDController } from './src/global/A_EXPRESS_CRUDController.class';
 export { A_EXPRESS_HealthController } from './src/controllers/A_EXPRESS_HealthController.class';
-export { A_EXPRESS_AppInteractionsController } from './src/controllers/A_EXPRESS_AppInteractionsController.class';
-export { A_EXPRESS_ServerCommandsController } from './src/controllers/A_EXPRESS_ServerCommandsController.class';
-export { A_EXPRESS_ServerDelegateController } from './src/controllers/A_EXPRESS_ServerDelegateController.class';
 export { A_EXPRESS_App } from './src/global/A_EXPRESS_App.class'
 
 // =========== MIDDLEWARES EXPORT

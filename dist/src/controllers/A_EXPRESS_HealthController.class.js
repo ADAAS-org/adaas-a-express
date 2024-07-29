@@ -40,19 +40,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_HealthController = void 0;
 const errors_constants_1 = require("../constants/errors.constants");
-const A_EXPRESS_Controller_class_1 = require("../global/A_EXPRESS_Controller.class");
-const Methods_decorator_1 = require("../decorators/Methods.decorator");
-const a_sdk_types_1 = require("@adaas/a-sdk-types");
-const A_EXPRESS_Controller_defaults_1 = require("../defaults/A_EXPRESS_Controller.defaults");
-class A_EXPRESS_HealthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_Controller {
+const A_EXPRESS_Methods_decorator_1 = require("../decorators/A_EXPRESS_Methods.decorator");
+const A_EXPRESS_Controller_decorator_1 = require("../decorators/A_EXPRESS_Controller.decorator");
+let A_EXPRESS_HealthController = class A_EXPRESS_HealthController {
     constructor(context, config) {
-        super(context, config);
-        this.CUSTOM_CONFIG = {};
-    }
-    get config() {
-        if (!this._compiledConfig)
-            this._compiledConfig = a_sdk_types_1.A_SDK_CommonHelper.deepMerge(a_sdk_types_1.A_SDK_CommonHelper.deepMerge(Object.assign({}, A_EXPRESS_Controller_defaults_1.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG), this._constructorConfig || {}), this.CUSTOM_CONFIG);
-        return this._compiledConfig;
+        this.context = context;
+        this.config = config;
     }
     get(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -70,10 +63,10 @@ class A_EXPRESS_HealthController extends A_EXPRESS_Controller_class_1.A_EXPRESS_
             }
         });
     }
-}
+};
 exports.A_EXPRESS_HealthController = A_EXPRESS_HealthController;
 __decorate([
-    (0, Methods_decorator_1.A_EXPRESS_Get)({
+    (0, A_EXPRESS_Methods_decorator_1.A_EXPRESS_Get)({
         path: '/health',
         config: {
             auth: false,
@@ -81,4 +74,7 @@ __decorate([
         }
     })
 ], A_EXPRESS_HealthController.prototype, "get", null);
+exports.A_EXPRESS_HealthController = A_EXPRESS_HealthController = __decorate([
+    (0, A_EXPRESS_Controller_decorator_1.A_EXPRESS_Controller)()
+], A_EXPRESS_HealthController);
 //# sourceMappingURL=A_EXPRESS_HealthController.class.js.map

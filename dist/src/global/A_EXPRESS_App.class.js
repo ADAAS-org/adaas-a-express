@@ -42,7 +42,7 @@ const cors_1 = __importDefault(require("cors"));
 const os_1 = __importDefault(require("os"));
 const process_1 = __importDefault(require("process"));
 const http_1 = require("http");
-const Routes_decorator_1 = require("../decorators/Routes.decorator");
+const A_EXPRESS_Routes_decorator_1 = require("../decorators/A_EXPRESS_Routes.decorator");
 // import { A_EXPRESS_HealthController } from "../controllers/A_EXPRESS_HealthController.class";
 // import { A_EXPRESS_AuthController } from "../controllers/A_EXPRESS_AuthController.class";
 const errors_constants_1 = require("../constants/errors.constants");
@@ -54,6 +54,7 @@ const A_EXPRESS_Logger_class_1 = require("./A_EXPRESS_Logger.class");
 const A_EXPRESS_Logger_middleware_1 = require("../middleware/A_EXPRESS_Logger.middleware");
 const a_auth_1 = require("@adaas/a-auth");
 const A_EXPRESS_Context_class_1 = require("./A_EXPRESS_Context.class");
+const A_EXPRESS_Decorators_storage_1 = require("src/storage/A_EXPRESS_Decorators.storage");
 class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
     constructor(config) {
         var _a;
@@ -211,16 +212,17 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
                 this.Errors.throw(errors_constants_1.A_EXPRESS_CONSTANTS__ERROR_CODES.DEFAULT_ROUTER_INITIALIZATION_ERROR);
             if (this.config.defaults.health.enable) {
                 const { A_EXPRESS_HealthController } = yield Promise.resolve().then(() => __importStar(require('../controllers/A_EXPRESS_HealthController.class')));
-                defaultRouter.use('/', (0, Routes_decorator_1.A_EXPRESS_Routes)([new A_EXPRESS_HealthController(this, {
-                        versionPath: this.config.defaults.health.versionPath,
-                        exposedProperties: this.config.defaults.health.exposedProperties
-                    })], this));
+                // TODO: move to proper class to work with storage
+                const existedMeta = A_EXPRESS_Decorators_storage_1.A_EXPRESS_Storage.get(A_EXPRESS_HealthController) || new Map();
+                const config = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY);
+                defaultRouter.use('/', (0, A_EXPRESS_Routes_decorator_1.A_EXPRESS_Routes)([new A_EXPRESS_HealthController(this, Object.assign(Object.assign({}, config), { versionPath: this.config.defaults.health.versionPath, exposedProperties: this.config.defaults.health.exposedProperties }))], this));
             }
             if (this.config.defaults.auth.enable) {
                 const { A_EXPRESS_AuthController } = yield Promise.resolve().then(() => __importStar(require('../controllers/A_EXPRESS_AuthController.class')));
-                defaultRouter.use('/', (0, Routes_decorator_1.A_EXPRESS_Routes)([new A_EXPRESS_AuthController(this, {
-                        redirectUrl: this.config.defaults.auth.redirectUrl
-                    })], this));
+                // TODO: move to proper class to work with storage
+                const existedMeta = A_EXPRESS_Decorators_storage_1.A_EXPRESS_Storage.get(A_EXPRESS_AuthController) || new Map();
+                const config = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY);
+                defaultRouter.use('/', (0, A_EXPRESS_Routes_decorator_1.A_EXPRESS_Routes)([new A_EXPRESS_AuthController(this, Object.assign(Object.assign({}, config), { redirectUrl: this.config.defaults.auth.redirectUrl }))], this));
             }
             for (const route of this.config.routes) {
                 const targetRouter = this.routers.get(`${this.config.http.prefix}/${route.version}`) || (0, express_1.Router)({
@@ -228,7 +230,7 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
                     mergeParams: true,
                     strict: true
                 });
-                targetRouter.use('/', (0, Routes_decorator_1.A_EXPRESS_Routes)(route.controllers, this));
+                targetRouter.use('/', (0, A_EXPRESS_Routes_decorator_1.A_EXPRESS_Routes)(route.controllers, this));
                 this.routers.set(`${this.config.http.prefix}/${route.version}`, targetRouter);
             }
         });

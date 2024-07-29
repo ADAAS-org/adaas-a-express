@@ -1,5 +1,4 @@
 import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
-import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
 import { A_SDK_CommonHelper, A_SDK_ServerError, A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Required } from '@adaas/a-sdk-types';
 import {
     A_AUTH_SERVER_COMMANDS_TYPES__GetUserAccessTokenRequest,
@@ -7,50 +6,25 @@ import {
     A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenRequest,
     A_AUTH_ServerCommands
 } from '@adaas/a-auth';
-import { A_EXPRESS_Post } from '../decorators/Methods.decorator';
-import { A_EXPRESS_TYPES__AuthControllerConfig } from '../types/A_EXPRESS_AuthController.types';
+import { A_EXPRESS_Post } from '../decorators/A_EXPRESS_Methods.decorator';
+import { A_EXPRESS_TYPES__IAuthControllerConfig } from '../types/A_EXPRESS_AuthController.types';
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from '../constants/errors.constants';
-import { A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG } from '../defaults/A_EXPRESS_Controller.defaults';
 import { A_EXPRESS_App } from '../global/A_EXPRESS_App.class';
+import { A_EXPRESS_Controller } from '../decorators/A_EXPRESS_Controller.decorator';
 
 
-export class A_EXPRESS_AuthController extends A_EXPRESS_Controller {
-
-    protected CUSTOM_CONFIG!: Partial<A_EXPRESS_TYPES__AuthControllerConfig>
-
-    protected _compiledConfig?: A_EXPRESS_TYPES__AuthControllerConfig
+@A_EXPRESS_Controller({
+    http: {
+        base: '/auth/sso'
+    }
+})
+export class A_EXPRESS_AuthController {
 
 
     constructor(
-        context: A_EXPRESS_App,
-        config?:
-            A_SDK_TYPES__Required<A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AuthControllerConfig>, ['redirectUrl']>
-    ) {
-        super(context, config);
-
-    }
-
-    get config(): A_SDK_TYPES__Required<A_EXPRESS_TYPES__AuthControllerConfig, ['redirectUrl']> {
-        if (!this._compiledConfig)
-            this._compiledConfig = A_SDK_CommonHelper.deepMerge(
-                A_SDK_CommonHelper.deepMerge(
-                    {
-                        ...A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG
-                    },
-                    this._constructorConfig || {}
-                ),
-                this.CUSTOM_CONFIG
-            );
-
-
-        if (!this._compiledConfig.redirectUrl) {
-            return this.context.Errors.throw(
-                A_EXPRESS_CONSTANTS__ERROR_CODES.AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED);
-        }
-
-        return this._compiledConfig;
-    }
-
+        protected context: A_EXPRESS_App,
+        protected config: A_EXPRESS_TYPES__IAuthControllerConfig
+    ) { }
 
 
     @A_EXPRESS_Post({

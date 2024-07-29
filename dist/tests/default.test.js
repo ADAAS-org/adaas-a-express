@@ -21,26 +21,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 jest.retryTimes(0);
-const A_EXPRESS_EntityController_class_1 = require("src/controllers/A_EXPRESS_EntityController.class");
-const Access_decorator_1 = require("../src/decorators/Access.decorator");
+const A_EXPRESS_Access_decorator_1 = require("../src/decorators/A_EXPRESS_Access.decorator");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
-const Methods_decorator_1 = require("../src/decorators/Methods.decorator");
 const http_1 = require("http");
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const A_EXPRESS_Context_class_1 = require("../src/global/A_EXPRESS_Context.class");
-const A_EXPRESS_ServerDelegateController_class_1 = require("src/controllers/A_EXPRESS_ServerDelegateController.class");
-const Routes_decorator_1 = require("../src/decorators/Routes.decorator");
+const A_EXPRESS_Routes_decorator_1 = require("../src/decorators/A_EXPRESS_Routes.decorator");
+const A_EXPRESS_Controller_decorator_1 = require("../src/decorators/A_EXPRESS_Controller.decorator");
+const A_EXPRESS_Methods_decorator_1 = require("../src/decorators/A_EXPRESS_Methods.decorator");
 describe('Defaults', () => {
     it('Should Assign Router', () => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            class Test extends A_EXPRESS_EntityController_class_1.A_EXPRESS_EntityController {
-                constructor() {
-                    super(...arguments);
-                    this.CUSTOM_CONFIG = {
-                        entity: 'users',
-                    };
-                }
+            let Test = class Test {
                 test(req, res, next) {
                     return __awaiter(this, void 0, void 0, function* () {
                         console.log('test');
@@ -49,16 +42,16 @@ describe('Defaults', () => {
                         });
                     });
                 }
-            }
+            };
             __decorate([
-                (0, Methods_decorator_1.A_EXPRESS_Get)({
+                (0, A_EXPRESS_Methods_decorator_1.A_EXPRESS_Get)({
                     path: '/test',
                     config: {
                         identity: false,
                         auth: false
                     }
                 }),
-                (0, Access_decorator_1.A_EXPRESS_Access)({
+                (0, A_EXPRESS_Access_decorator_1.A_EXPRESS_Access)({
                     acl: {
                         default: (qb, self, req) => {
                             return qb.action('read');
@@ -69,8 +62,11 @@ describe('Defaults', () => {
                     }
                 })
             ], Test.prototype, "test", null);
+            Test = __decorate([
+                (0, A_EXPRESS_Controller_decorator_1.A_EXPRESS_Controller)()
+            ], Test);
             const app = (0, express_1.default)();
-            app.use((0, Routes_decorator_1.A_EXPRESS_Routes)([Test]));
+            app.use((0, A_EXPRESS_Routes_decorator_1.A_EXPRESS_Routes)([Test]));
             const port = 3000;
             (() => __awaiter(void 0, void 0, void 0, function* () {
                 const server = (0, http_1.createServer)(app);
@@ -85,13 +81,7 @@ describe('Defaults', () => {
     }));
     it('Should Assign Router', () => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            class Test extends A_EXPRESS_ServerDelegateController_class_1.A_EXPRESS_ServerDelegateController {
-                constructor() {
-                    super(...arguments);
-                    this.CUSTOM_CONFIG = {
-                        entity: 'users',
-                    };
-                }
+            let Test = class Test {
                 post(req, res, next) {
                     return __awaiter(this, void 0, void 0, function* () {
                         const body = req.body;
@@ -100,7 +90,18 @@ describe('Defaults', () => {
                         }
                     });
                 }
-            }
+            };
+            Test = __decorate([
+                (0, A_EXPRESS_Controller_decorator_1.A_EXPRESS_ServerDelegate)('users', (() => { }), {
+                    id: 'ID',
+                    auth: {
+                        enable: true,
+                    },
+                    get: {
+                        where: (self, req) => __awaiter(void 0, void 0, void 0, function* () { return ({ id: parseInt(req.params.id) }); })
+                    }
+                })
+            ], Test);
         }
         catch (error) {
             A_EXPRESS_Context_class_1.A_EXPRESS_Context.Logger.error(new a_sdk_types_1.A_SDK_Error(error));

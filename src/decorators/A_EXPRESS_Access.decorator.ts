@@ -1,4 +1,5 @@
 import {
+    A_EXPRESS_TYPES__IController,
     A_EXPRESS_TYPES__INextFunction,
     A_EXPRESS_TYPES__IRequest,
 } from "../types/A_EXPRESS_Controller.types";
@@ -8,11 +9,10 @@ import {
 } from "@adaas/a-arc";
 import { A_AUTH_Context, A_AUTH_ServerDelegateAuthenticator } from "@adaas/a-auth";
 import { A_SDK_Error, A_SDK_ServerError, A_SDK_TYPES__Dictionary } from "@adaas/a-sdk-types";
-import { A_EXPRESS_Controller } from "../global/A_EXPRESS_Controller.class";
 
 
 export function A_EXPRESS_Access<
-    _ContextType = A_EXPRESS_Controller,
+    _ContextType = A_EXPRESS_TYPES__IController,
     _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest,
     _AccessKeys extends Array<string> = ['default'],
 >(
@@ -45,7 +45,7 @@ export function A_EXPRESS_Access<
             next: A_EXPRESS_TYPES__INextFunction
         ) {
             try {
-                if (!((this as any) as A_EXPRESS_Controller).config.arc.enable)
+                if (!((this as any) as A_EXPRESS_TYPES__IController).config.arc.enable)
                     // Call the original method with the API response data
                     return originalMethod.apply(this, [req, res, next]);
 

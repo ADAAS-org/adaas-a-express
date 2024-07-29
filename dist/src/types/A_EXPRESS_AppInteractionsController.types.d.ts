@@ -1,13 +1,14 @@
 import { A_SDK_User } from "@adaas/a-sdk";
 import { A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IRequestParams, A_EXPRESS_TYPES__IRequestQueryParams, A_EXPRESS_TYPES__IResponse } from "./A_EXPRESS_Controller.types";
-import { A_EXPRESS_TYPES__EntityControllerConfig } from "./A_EXPRESS_EntityController.types";
+import { A_EXPRESS_TYPES__ICRUDControllerConfig } from "./A_EXPRESS_CRUDController.types";
+import { A_SDK_TYPES__Dictionary } from "@adaas/a-sdk-types";
 export type A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams<T extends object = {}> = T & A_EXPRESS_TYPES__IRequestQueryParams;
 export type A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams<T extends Array<string> = []> = {
     [key in T[number]]: string;
 } & A_EXPRESS_TYPES__IRequestParams;
 export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IResponse<_ResponseType = any> extends A_EXPRESS_TYPES__IResponse<_ResponseType> {
 }
-export interface A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest> {
+export interface A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<_DBEntityType extends A_SDK_TYPES__Dictionary<any>> extends A_EXPRESS_TYPES__ICRUDControllerConfig<_DBEntityType, A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest> {
 }
 export interface A_EXPRESS_TYPES__APP_INTERACTIONS_IRequest<_ReqBodyType = any, _AccessKeys extends string[] = ['default'], _ResourcesKeys extends string[] = ['default'], _PermissionsKeys extends string[] = [], P extends A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams = A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestParams, T extends A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams = A_EXPRESS_TYPES__APP_INTERACTIONS_IRequestQueryParams> extends A_EXPRESS_TYPES__IRequest<_ReqBodyType, T, P, _AccessKeys, _ResourcesKeys, _PermissionsKeys> {
     params: P;

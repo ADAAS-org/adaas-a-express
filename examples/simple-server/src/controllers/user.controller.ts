@@ -1,23 +1,20 @@
-import { A_SDK_TYPES__Required, A_SDK_TYPES__DeepPartial } from '@adaas/a-sdk-types';
-import { A_EXPRESS_AppInteractionsController, A_EXPRESS_Get, A_EXPRESS_Post, A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig, A_EXPRESS_TYPES__IControllerRepository } from '../../../../index'
+import { A_EXPRESS_AppInteractions } from '../../../../src/decorators/A_EXPRESS_Controller.decorator';
+import { A_EXPRESS_Get } from '../../../../src/decorators/A_EXPRESS_Methods.decorator';
+import { A_EXPRESS_CRUDController } from '../../../../src/global/A_EXPRESS_CRUDController.class';
 import { UserModel } from '../../db/models/User.model';
-import { UserRepository } from '../../db/repositories/User.repository';
+import { UserRepositoryInstance } from '../../db/repositories/User.repository';
 
-export class UserController extends A_EXPRESS_AppInteractionsController<UserModel> {
 
-    protected repository?: UserRepository = new UserRepository();
-
-    protected CUSTOM_CONFIG: A_SDK_TYPES__Required<A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig<UserModel>, 5>, ['entity']> = {
-        id: 'ID',
-        entity: 'user',
-        auth: {
-            enable: false,
-        },
-        get: {
-            where: async (self, req) => ({ id: parseInt(req.params.id) })
-        }
-    };
-
+@A_EXPRESS_AppInteractions<UserModel>('user', UserRepositoryInstance, {
+    id: 'ID',
+    auth: {
+        enable: false,
+    },
+    get: {
+        where: async (self, req) => ({ id: parseInt(req.params.id) })
+    }
+})
+export class UserController extends A_EXPRESS_CRUDController<UserModel> {
 
 
     @A_EXPRESS_Get({
@@ -26,9 +23,8 @@ export class UserController extends A_EXPRESS_AppInteractionsController<UserMode
 
         }
     })
-    async test(req,res) {
+    async test(req, res) {
+
         res.send('test')
-
     }
-
 }

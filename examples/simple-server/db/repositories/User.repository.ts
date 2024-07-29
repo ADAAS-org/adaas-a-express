@@ -1,8 +1,8 @@
 import { A_SDK_TYPES__IDefaultPagination } from '@adaas/a-sdk-types';
-import { A_EXPRESS_TYPES__GetPageOptions, A_EXPRESS_TYPES__IControllerRepository } from '../../../../index';
 import { UserModel } from '../models/User.model'
+import { A_EXPRESS_TYPES__ICRUDControllerRepository, A_EXPRESS_TYPES__IGetPageOptions } from '../../../../src/types/A_EXPRESS_CRUDController.types';
 
-export class UserRepository implements A_EXPRESS_TYPES__IControllerRepository<UserModel> {
+export class UserRepository implements A_EXPRESS_TYPES__ICRUDControllerRepository<UserModel> {
 
     private users: UserModel[] = [
         new UserModel(1, 'John Doe', 'john.doe@test.com'),
@@ -63,7 +63,7 @@ export class UserRepository implements A_EXPRESS_TYPES__IControllerRepository<Us
         return user;
     }
 
-    async getPage(props: A_EXPRESS_TYPES__GetPageOptions<UserModel> & { [key: string]: any; }): Promise<A_SDK_TYPES__IDefaultPagination<UserModel>> {
+    async getPage(props: A_EXPRESS_TYPES__IGetPageOptions & { [key: string]: any; }): Promise<A_SDK_TYPES__IDefaultPagination<UserModel>> {
 
         const { page, perPage } = props;
         const start = (page - 1) * perPage;
@@ -80,3 +80,6 @@ export class UserRepository implements A_EXPRESS_TYPES__IControllerRepository<Us
         };
     }
 }
+
+
+export const UserRepositoryInstance = new UserRepository();

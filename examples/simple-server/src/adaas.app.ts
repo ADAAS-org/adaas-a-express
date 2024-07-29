@@ -2,6 +2,8 @@ import path from "path";
 import { SimpleServerApp } from "./adaas/app.adaas";
 import { UserController } from "./controllers/user.controller";
 import { UserServerController } from "./controllers/user-server.controller";
+import { UserDelegateController } from "./controllers/user-delegate.controller";
+import { UserInheritController } from "./controllers/inherit-user.controller";
 
 
 (async () => {
@@ -25,7 +27,7 @@ import { UserServerController } from "./controllers/user-server.controller";
                 migrate: false
             },
             auth: {
-                enable: false,
+                enable: true,
             },
             health: {
                 enable: true,
@@ -42,7 +44,9 @@ import { UserServerController } from "./controllers/user-server.controller";
                 controllers: [
                     // App Interactions
                     UserController,
-                    UserServerController
+                    UserServerController,
+                    UserDelegateController,
+                    UserInheritController
                 ]
             }
         ]

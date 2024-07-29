@@ -13,7 +13,7 @@
     "resolveJsonModule": true,
     "noErrorTruncation": true,
     "jsx": "react",
-    "target": "es2015",
+    "target": "ES6",
     "module": "commonjs",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,

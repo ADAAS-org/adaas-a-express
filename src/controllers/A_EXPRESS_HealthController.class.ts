@@ -1,47 +1,27 @@
-import { A_EXPRESS_TYPES__HealthControllerConfig } from '../types/A_EXPRESS_HealthController.types';
+import { A_EXPRESS_TYPES__IHealthControllerConfig } from '../types/A_EXPRESS_HealthController.types';
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from '../constants/errors.constants';
-import { A_EXPRESS_Controller } from '../global/A_EXPRESS_Controller.class';
-import { A_EXPRESS_Get } from '../decorators/Methods.decorator';
-import { A_EXPRESS_TYPES__INextFunction, A_EXPRESS_TYPES__IRequest, A_EXPRESS_TYPES__IResponse } from '../types/A_EXPRESS_Controller.types';
-import { A_SDK_CommonHelper, A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Required } from '@adaas/a-sdk-types';
-import { A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG } from '../defaults/A_EXPRESS_Controller.defaults';
+import { A_EXPRESS_Get } from '../decorators/A_EXPRESS_Methods.decorator';
 import { A_EXPRESS_App } from '../global/A_EXPRESS_App.class';
+import { A_EXPRESS_Controller } from '../decorators/A_EXPRESS_Controller.decorator';
+import {
+    A_EXPRESS_TYPES__IController,
+    A_EXPRESS_TYPES__INextFunction,
+    A_EXPRESS_TYPES__IRequest,
+    A_EXPRESS_TYPES__IResponse
+} from '../types/A_EXPRESS_Controller.types';
 
 
 
-export class A_EXPRESS_HealthController extends A_EXPRESS_Controller {
-
-    protected CUSTOM_CONFIG: Partial<A_EXPRESS_TYPES__HealthControllerConfig> = {
-    }
-
-
-    protected _compiledConfig?: A_EXPRESS_TYPES__HealthControllerConfig
+@A_EXPRESS_Controller()
+export class A_EXPRESS_HealthController
+    implements A_EXPRESS_TYPES__IController {
 
 
     constructor(
-        context: A_EXPRESS_App,
-        config?:
-            A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__HealthControllerConfig>
+        public context: A_EXPRESS_App,
+        public config: A_EXPRESS_TYPES__IHealthControllerConfig
     ) {
-        super(context, config);
     }
-
-
-    get config(): A_SDK_TYPES__Required<A_EXPRESS_TYPES__HealthControllerConfig, ['versionPath']> {
-        if (!this._compiledConfig)
-            this._compiledConfig = A_SDK_CommonHelper.deepMerge(
-                A_SDK_CommonHelper.deepMerge(
-                    {
-                        ...A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG
-                    },
-                    this._constructorConfig || {}
-                ),
-                this.CUSTOM_CONFIG
-            );
-
-        return this._compiledConfig;
-    }
-
 
     @A_EXPRESS_Get({
         path: '/health',

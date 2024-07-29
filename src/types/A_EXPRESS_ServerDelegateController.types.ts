@@ -5,8 +5,9 @@ import {
     A_EXPRESS_TYPES__IRequestQueryParams,
     A_EXPRESS_TYPES__IResponse
 } from "./A_EXPRESS_Controller.types"
-import { A_EXPRESS_TYPES__EntityControllerConfig } from "./A_EXPRESS_EntityController.types"
 import { A_AUTH_ServerDelegateAuthenticator } from "@adaas/a-auth"
+import { A_EXPRESS_TYPES__ICRUDControllerConfig } from "./A_EXPRESS_CRUDController.types"
+import { A_SDK_TYPES__Dictionary } from "@adaas/a-sdk-types"
 
 
 export type A_EXPRESS_TYPES__SERVER_DELEGATE_IRequestQueryParams<T extends object = {}> = T & A_EXPRESS_TYPES__IRequestQueryParams
@@ -19,9 +20,9 @@ export interface A_EXPRESS_TYPES__SERVER_DELEGATE_IResponse<_ResponseType = any>
 }
 
 
-export interface A_EXPRESS_TYPES__SERVER_DELEGATE_ControllerConfig<_DBEntityType> extends A_EXPRESS_TYPES__EntityControllerConfig<_DBEntityType, A_EXPRESS_TYPES__SERVER_DELEGATE_IRequest> {
+export interface A_EXPRESS_TYPES__SERVER_DELEGATE_ControllerConfig<_DBEntityType extends A_SDK_TYPES__Dictionary<any>>
+    extends A_EXPRESS_TYPES__ICRUDControllerConfig<_DBEntityType, A_EXPRESS_TYPES__SERVER_DELEGATE_IRequest> {
 }
-
 
 
 export interface A_EXPRESS_TYPES__SERVER_DELEGATE_IRequest<

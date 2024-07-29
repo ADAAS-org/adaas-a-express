@@ -3,7 +3,7 @@
 // config();
 // jest.retryTimes(0);
 // import { A_EXPRESS_EntityController } from '@adaas/a-sdk/global/A_EXPRESS_EntityController.class';
-// import { A_EXPRESS_TYPES__EntityControllerConfig } from '../src/types/A_EXPRESS_EntityController.types';
+// import { A_EXPRESS_TYPES__EntityControllerConfig } from '@adaas/a-sdk/types/A_EXPRESS_EntityController.types';
 // import { A_EXPRESS_ValidateAccess } from '../src/decorators/ValidateAccess.decorator';
 // import { A_SDK_TYPES__Required, A_SDK_TYPES__Dictionary } from '@adaas/a-sdk-types';
 // describe('Decorators', () => {

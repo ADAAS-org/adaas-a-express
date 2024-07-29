@@ -1,13 +1,11 @@
 import { A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS } from "@adaas/a-arc";
-import { A_EXPRESS_TYPES__EntityControllerConfig } from "../types/A_EXPRESS_EntityController.types";
 import { A_EXPRESS_TYPES__IRequest } from "../types/A_EXPRESS_Controller.types";
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
 import { A_SDK_CommonHelper } from "@adaas/a-sdk-types";
+import { A_EXPRESS_TYPES__ICRUDControllerConfig } from "../types/A_EXPRESS_CRUDController.types";
 
-
-export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__EntityControllerConfig<any, A_EXPRESS_TYPES__IRequest> = {
+export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerConfig<any, A_EXPRESS_TYPES__IRequest> = {
     id: 'ASEID',
-    entity: '',
     http: {
         base: '/',
         expose: ['post', 'get', 'put', 'delete', 'list']
@@ -27,23 +25,23 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
         arc: {
             permissions: (self, req) => [],
             resources: (self, qb) => {
-                if (!self.config.entity)
+                if (!self.entity)
                     return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
 
                 return qb
-                    .entity(self.config.entity)
+                    .entity(self.entity)
                     .action(A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.LIST)
                     .allow();
             },
             access: (self, qb) => {
                 return qb
-                    .entity(self.config.entity)
+                    .entity(self.entity)
                     .action(A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.LIST)
                     .allow();
             }
         },
         where: async (self, req) => {
-            if (self.config.identifierType === 'ID') {
+            if (self.config.id === 'ID') {
                 const { id } = A_SDK_CommonHelper.parseASEID(req.params.aseid);
 
                 return { id: isNaN(parseInt(id)) ? id : parseInt(id) }
@@ -62,17 +60,17 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
             permissions: (self, req) => [],
             resources: (self, qb) => qb,
             access: (self, qb, req) => {
-                if (!self.config.entity)
+                if (!self.entity)
                     return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
 
                 const query = qb
-                    .entity(self.config.entity)
+                    .entity(self.entity)
                     .action(A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.READ)
                     .allow();
 
-                if (self.config.identifierType === 'ID')
+                if (self.config.id === 'ID')
                     query
-                        .entity(self.config.entity)
+                        .entity(self.entity)
                         .id(req.params.id);
                 else
                     query
@@ -97,11 +95,11 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
             permissions: (self, req) => [],
             resources: (self, qb) => qb,
             access: (self, qb) => {
-                if (!self.config.entity)
+                if (!self.entity)
                     return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
 
                 return qb
-                    .entity(self.config.entity)
+                    .entity(self.entity)
                     .action(A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.CREATE)
                     .allow();
             }
@@ -110,7 +108,7 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
     put: {
         relations: [],
         where: async (self, req) => {
-            if (self.config.identifierType === 'ID') {
+            if (self.config.id === 'ID') {
                 return { id: isNaN(parseInt(req.params.id)) ? req.params.id : parseInt(req.params.id) }
             }
             else {
@@ -122,17 +120,17 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
             permissions: (self, req) => [],
             resources: (self, qb) => qb,
             access: (self, qb, req) => {
-                if (!self.config.entity)
+                if (!self.entity)
                     return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
 
                 const query = qb
-                    .entity(self.config.entity)
+                    .entity(self.entity)
                     .action(A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.UPDATE)
                     .allow();
 
-                if (self.config.identifierType === 'ID')
+                if (self.config.id === 'ID')
                     query
-                        .entity(self.config.entity)
+                        .entity(self.entity)
                         .id(req.params.id);
                 else
                     query
@@ -144,7 +142,7 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
     },
     delete: {
         where: async (self, req) => {
-            if (self.config.identifierType === 'ID') {
+            if (self.config.id === 'ID') {
                 return { id: isNaN(parseInt(req.params.id)) ? req.params.id : parseInt(req.params.id) }
             }
             else {
@@ -155,14 +153,14 @@ export const A_EXPRESS_DEFAULTS__ENTITY_CONTROLLER_CONFIG: A_EXPRESS_TYPES__Enti
             permissions: (self, req) => [],
             resources: (self, qb) => qb,
             access: (self, qb) => {
-                if (!self.config.entity)
+                if (!self.entity)
                     return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
 
                 return qb
-                    .entity(self.config.entity)
+                    .entity(self.entity)
                     .action(A_ARC_CONSTANTS__DEFAULT_CRUD_ACTIONS.DELETE)
                     .allow();
             }
         },
     }
-}
+} as const

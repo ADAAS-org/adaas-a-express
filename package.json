@@ -22,6 +22,7 @@
   "scripts": {
     "test": "jest",
     "test:simple-server": "nodemon ./examples/simple-server/src/adaas.app.ts",
+    "test:test": "nodemon ./src/test/app.ts",
     "publish": "npm run build && git add . && git commit -m \"new version created :: $(cat package.json | grep version | head -1  | awk -F: '{ print $2 }'  | sed 's/[\",]//g')\" && npm version patch && npm publish --access public",
     "preversion": "echo test",
     "version": "echo git add .",
@@ -48,7 +49,7 @@
     "@adaas/a-arc": "^0.0.29",
     "@adaas/a-auth": "0.0.39",
     "@adaas/a-sdk": "0.0.20",
-    "@adaas/a-sdk-types": "0.0.42",
+    "@adaas/a-sdk-types": "0.0.44",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.10.0",

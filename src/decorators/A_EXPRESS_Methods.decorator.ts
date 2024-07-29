@@ -1,11 +1,13 @@
-import 'reflect-metadata';
 import {
     A_EXPRESS_TYPES__INextFunction,
     A_EXPRESS_TYPES__IRequest,
     A_EXPRESS_TYPES__IResponse
 } from '../types/A_EXPRESS_Controller.types';
+import {
+    A_EXPRESS_Storage,
+    A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY
+} from 'src/storage/A_EXPRESS_Decorators.storage';
 
- export const A_EXPRESS_TYPES__ROUTES_KEY = Symbol('a-express-routes');
 
 
 export type A_EXPRESS_TYPES__RouteDefinition = {
@@ -31,7 +33,7 @@ export interface A_EXPRESS_TYPES__IDecoratorRouteParams {
 }
 
 
- function Route(
+function Route(
     method: 'get' | 'post' | 'put' | 'delete',
     path: string,
     middlewares: Array<(req: A_EXPRESS_TYPES__IRequest, res: A_EXPRESS_TYPES__IResponse, next: A_EXPRESS_TYPES__INextFunction) => void> = [],
@@ -40,17 +42,27 @@ export interface A_EXPRESS_TYPES__IDecoratorRouteParams {
 
     return function (target: any, propertyKey: string) {
 
-        const routes: A_EXPRESS_TYPES__RouteDefinition[] = Reflect.getMetadata(A_EXPRESS_TYPES__ROUTES_KEY, target.constructor) || [];
+        const existedMeta = A_EXPRESS_Storage.get(target.constructor) || new Map();
+        const inheritMeta = A_EXPRESS_Storage.get(Object.getPrototypeOf(target.constructor)) || new Map();
 
-        routes.push({
-            method,
-            path,
-            middlewares,
-            handlerName: propertyKey,
-            config
-        });
-        Reflect.defineMetadata(A_EXPRESS_TYPES__ROUTES_KEY, routes, target.constructor);
+        const routes = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
+        const inheritRoutes = inheritMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
 
+
+        existedMeta.set(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY, [
+            ...inheritRoutes,
+            ...routes,
+            {
+                handlerName: propertyKey,
+                path,
+                method,
+                middlewares,
+                config
+            }
+        ]);
+
+
+        A_EXPRESS_Storage.set(target.constructor, existedMeta);
     };
 }
 

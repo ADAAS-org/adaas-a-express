@@ -14,7 +14,7 @@ import cors from 'cors';
 import os from 'os';
 import process from 'process';
 import { createServer, Server } from "http";
-import { A_EXPRESS_Routes } from "../decorators/Routes.decorator";
+import { A_EXPRESS_Routes } from "../decorators/A_EXPRESS_Routes.decorator";
 // import { A_EXPRESS_HealthController } from "../controllers/A_EXPRESS_HealthController.class";
 // import { A_EXPRESS_AuthController } from "../controllers/A_EXPRESS_AuthController.class";
 import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
@@ -26,6 +26,9 @@ import { A_EXPRESS_Logger } from "./A_EXPRESS_Logger.class";
 import { A_EXPRESS_LoggerMiddleware } from "../middleware/A_EXPRESS_Logger.middleware";
 import { A_AUTH_Context } from "@adaas/a-auth";
 import { A_EXPRESS_Context } from "./A_EXPRESS_Context.class";
+import { A_EXPRESS_TYPES__IAuthControllerConfig } from "../types/A_EXPRESS_AuthController.types";
+import { A_EXPRESS_Storage, A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY } from "src/storage/A_EXPRESS_Decorators.storage";
+import { A_EXPRESS_TYPES__IHealthControllerConfig } from "../types/A_EXPRESS_HealthController.types";
 
 
 
@@ -200,7 +203,7 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         const routes = A_EXPRESS_RouterHelper.getRotes(this.app);
 
         this.Logger.routes(routes);
-        
+
 
         this.Logger.log('Routes initialized successfully');
 
@@ -257,9 +260,14 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         if (this.config.defaults.health.enable) {
             const { A_EXPRESS_HealthController } = await import('../controllers/A_EXPRESS_HealthController.class');
 
+            // TODO: move to proper class to work with storage
+            const existedMeta = A_EXPRESS_Storage.get(A_EXPRESS_HealthController) || new Map();
+            const config: A_EXPRESS_TYPES__IAuthControllerConfig = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY);
+
             defaultRouter.use('/', A_EXPRESS_Routes([new A_EXPRESS_HealthController(
                 this,
                 {
+                    ...config,
                     versionPath: this.config.defaults.health.versionPath,
                     exposedProperties: this.config.defaults.health.exposedProperties
                 })], this));
@@ -268,9 +276,14 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         if (this.config.defaults.auth.enable) {
             const { A_EXPRESS_AuthController } = await import('../controllers/A_EXPRESS_AuthController.class');
 
+            // TODO: move to proper class to work with storage
+            const existedMeta = A_EXPRESS_Storage.get(A_EXPRESS_AuthController) || new Map();
+            const config: A_EXPRESS_TYPES__IHealthControllerConfig = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY);
+
             defaultRouter.use('/', A_EXPRESS_Routes([new A_EXPRESS_AuthController(
                 this,
                 {
+                    ...config,
                     redirectUrl: this.config.defaults.auth.redirectUrl
                 })], this));
         }
