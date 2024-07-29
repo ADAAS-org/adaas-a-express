@@ -1,6 +1,7 @@
 import path from "path";
 import { SimpleServerApp } from "./adaas/app.adaas";
 import { UserController } from "./controllers/user.controller";
+import { UserServerController } from "./controllers/user-server.controller";
 
 
 (async () => {
@@ -41,6 +42,7 @@ import { UserController } from "./controllers/user.controller";
                 controllers: [
                     // App Interactions
                     UserController,
+                    UserServerController
                 ]
             }
         ]

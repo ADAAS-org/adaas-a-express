@@ -75,14 +75,14 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
                 }
             });
         }
-        const routes1 = Reflect.getMetadata(Methods_decorator_1.A_EXPRESS_TYPES__ROUTES_KEY, controller.constructor) || [];
-        const routes2 = Reflect.getMetadata(Methods_decorator_1.A_EXPRESS_TYPES__ROUTES_KEY, controller) || [];
-        const routes = [
-            ...routes1,
-            ...routes2
-        ];
+        const routes = Reflect.getMetadata(Methods_decorator_1.A_EXPRESS_TYPES__ROUTES_KEY, instance.constructor) || [];
         routes.forEach((route) => {
             var _a, _b, _c;
+            /**
+             * Since we merge the routes from the class and the instance, we need to make sure that the handler exists
+             */
+            if (!instance[route.handlerName])
+                return;
             /**
              * If the method is not exposed or is ignored, skip the route
              */
@@ -94,9 +94,6 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
                         &&
                             ((_c = instance.config.http.ignore) === null || _c === void 0 ? void 0 : _c.indexOf(route.method)) !== -1))
                 return;
-            console.log('route:', route);
-            console.log('instance:', instance);
-            console.log('route.handlerName:', route.handlerName);
             /**
              * Bind the handler=actual class method to the instance
              */

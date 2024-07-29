@@ -1,5 +1,5 @@
 import { A_SDK_TYPES__Required, A_SDK_TYPES__DeepPartial } from '@adaas/a-sdk-types';
-import { A_EXPRESS_AppInteractionsController, A_EXPRESS_Post, A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig, A_EXPRESS_TYPES__IControllerRepository } from '../../../../index'
+import { A_EXPRESS_AppInteractionsController, A_EXPRESS_Get, A_EXPRESS_Post, A_EXPRESS_TYPES__APP_INTERACTIONS_ControllerConfig, A_EXPRESS_TYPES__IControllerRepository } from '../../../../index'
 import { UserModel } from '../../db/models/User.model';
 import { UserRepository } from '../../db/repositories/User.repository';
 
@@ -20,13 +20,14 @@ export class UserController extends A_EXPRESS_AppInteractionsController<UserMode
 
 
 
-    @A_EXPRESS_Post({
+    @A_EXPRESS_Get({
         path: '/test',
         config: {
 
         }
     })
-    async test() {
+    async test(req,res) {
+        res.send('test')
 
     }
 
