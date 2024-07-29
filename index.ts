@@ -44,7 +44,12 @@ export {
     A_EXPRESS_TYPES__Controller_GetConfig,
     A_EXPRESS_TYPES__Controller_ListConfig,
     A_EXPRESS_TYPES__Controller_PostConfig,
-    A_EXPRESS_TYPES__Controller_PutConfig
+    A_EXPRESS_TYPES__Controller_PutConfig,
+    A_EXPRESS_TYPES__IARCRequestParam,
+    A_EXPRESS_TYPES__ICRUDController,
+    A_EXPRESS_TYPES__ICRUDControllerRepository,
+    A_EXPRESS_TYPES__IGetPageOptions,
+    A_EXPRESS_TYPES__ISearchOptions
 } from './src/types/A_EXPRESS_CRUDController.types';
 
 export {
