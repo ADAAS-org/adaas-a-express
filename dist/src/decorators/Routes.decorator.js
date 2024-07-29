@@ -94,6 +94,9 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
                         &&
                             ((_c = instance.config.http.ignore) === null || _c === void 0 ? void 0 : _c.indexOf(route.method)) !== -1))
                 return;
+            console.log('route:', route);
+            console.log('instance:', instance);
+            console.log('route.handlerName:', route.handlerName);
             /**
              * Bind the handler=actual class method to the instance
              */

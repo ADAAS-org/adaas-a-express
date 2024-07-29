@@ -163,6 +163,10 @@ export function A_EXPRESS_Routes(
             ) return;
 
 
+            console.log('route:', route);
+            console.log('instance:', instance);
+            console.log('route.handlerName:', route.handlerName);
+
             /**
              * Bind the handler=actual class method to the instance
              */

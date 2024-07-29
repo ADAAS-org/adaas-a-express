@@ -197,15 +197,10 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
             this.app.use(key, router)
         }
 
-        const router = Router()
-
-        router.post('/foo/bar', (req, res) => { res.send('Hello World!') });
-
-        this.app.use('/foo', router)
-
         const routes = A_EXPRESS_RouterHelper.getRotes(this.app);
 
         this.Logger.routes(routes);
+        
 
         this.Logger.log('Routes initialized successfully');
 

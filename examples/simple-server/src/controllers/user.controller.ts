@@ -26,7 +26,7 @@ export class UserController extends A_EXPRESS_AppInteractionsController<UserMode
 
         }
     })
-    test() {
+    async test() {
 
     }
 
