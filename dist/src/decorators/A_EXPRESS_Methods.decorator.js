@@ -4,7 +4,7 @@ exports.A_EXPRESS_Get = A_EXPRESS_Get;
 exports.A_EXPRESS_Post = A_EXPRESS_Post;
 exports.A_EXPRESS_Put = A_EXPRESS_Put;
 exports.A_EXPRESS_Delete = A_EXPRESS_Delete;
-const A_EXPRESS_Decorators_storage_1 = require("src/storage/A_EXPRESS_Decorators.storage");
+const A_EXPRESS_Decorators_storage_1 = require("../storage/A_EXPRESS_Decorators.storage");
 function Route(method, path, middlewares = [], config = {}) {
     return function (target, propertyKey) {
         const existedMeta = A_EXPRESS_Decorators_storage_1.A_EXPRESS_Storage.get(target.constructor) || new Map();

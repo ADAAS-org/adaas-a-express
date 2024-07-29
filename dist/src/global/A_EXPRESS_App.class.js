@@ -43,8 +43,6 @@ const os_1 = __importDefault(require("os"));
 const process_1 = __importDefault(require("process"));
 const http_1 = require("http");
 const A_EXPRESS_Routes_decorator_1 = require("../decorators/A_EXPRESS_Routes.decorator");
-// import { A_EXPRESS_HealthController } from "../controllers/A_EXPRESS_HealthController.class";
-// import { A_EXPRESS_AuthController } from "../controllers/A_EXPRESS_AuthController.class";
 const errors_constants_1 = require("../constants/errors.constants");
 const a_arc_1 = require("@adaas/a-arc");
 const A_EXPRESS_App_defaults_1 = require("../defaults/A_EXPRESS_App.defaults");
@@ -54,7 +52,7 @@ const A_EXPRESS_Logger_class_1 = require("./A_EXPRESS_Logger.class");
 const A_EXPRESS_Logger_middleware_1 = require("../middleware/A_EXPRESS_Logger.middleware");
 const a_auth_1 = require("@adaas/a-auth");
 const A_EXPRESS_Context_class_1 = require("./A_EXPRESS_Context.class");
-const A_EXPRESS_Decorators_storage_1 = require("src/storage/A_EXPRESS_Decorators.storage");
+const A_EXPRESS_Decorators_storage_1 = require("../storage/A_EXPRESS_Decorators.storage");
 class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
     constructor(config) {
         var _a;

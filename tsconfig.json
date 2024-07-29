@@ -37,7 +37,8 @@
       "@adaas/a-sdk/global/*": ["src/global/*"],
       "@adaas/a-sdk/types/*": ["src/types/*"],
       "@adaas/a-sdk/helpers/*": ["src/helpers/*"],
-      "@adaas/a-sdk/middleware/*": ["src/middleware/*"]
+      "@adaas/a-sdk/middleware/*": ["src/middleware/*"],
+      "@adaas/a-sdk/storage/*": ["src/storage/*"]
     },
     "lib": [
       "dom",

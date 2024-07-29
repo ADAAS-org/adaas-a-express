@@ -22,7 +22,7 @@ const A_EXPRESS_Controller_decorator_1 = require("../decorators/A_EXPRESS_Contro
 const errors_constants_1 = require("../constants/errors.constants");
 const A_EXPRESS_Access_decorator_1 = require("../decorators/A_EXPRESS_Access.decorator");
 const A_EXPRESS_Resources_decorator_1 = require("../decorators/A_EXPRESS_Resources.decorator");
-const A_EXPRESS_Decorators_storage_1 = require("src/storage/A_EXPRESS_Decorators.storage");
+const A_EXPRESS_Decorators_storage_1 = require("../storage/A_EXPRESS_Decorators.storage");
 /**
  *
  * This class exists ONLY to simplify development. It might be used to simplify access to DB via external operations

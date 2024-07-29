@@ -9,7 +9,7 @@ import {
     A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY,
     A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ENTITY_KEY,
     A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_REPOSITORY_KEY
-} from 'src/storage/A_EXPRESS_Decorators.storage';
+} from '../storage/A_EXPRESS_Decorators.storage';
 import {
     A_EXPRESS_TYPES__ICRUDControllerConfig,
     A_EXPRESS_TYPES__ICRUDControllerRepository

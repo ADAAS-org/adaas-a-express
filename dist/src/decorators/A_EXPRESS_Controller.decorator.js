@@ -6,7 +6,7 @@ exports.A_EXPRESS_ServerDelegate = A_EXPRESS_ServerDelegate;
 exports.A_EXPRESS_ServerCommands = A_EXPRESS_ServerCommands;
 exports.A_EXPRESS_AppInteractions = A_EXPRESS_AppInteractions;
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
-const A_EXPRESS_Decorators_storage_1 = require("src/storage/A_EXPRESS_Decorators.storage");
+const A_EXPRESS_Decorators_storage_1 = require("../storage/A_EXPRESS_Decorators.storage");
 const A_EXPRESS_CRUDController_defaults_1 = require("../defaults/A_EXPRESS_CRUDController.defaults");
 const A_EXPRESS_Controller_defaults_1 = require("../defaults/A_EXPRESS_Controller.defaults");
 function A_EXPRESS_ControllerDefinition(entity, repository, config) {

@@ -16,6 +16,7 @@ const config: Config.InitialOptions = {
         "@adaas/a-sdk/controllers/(.*)": ["<rootDir>/src/controllers/$1"],
         "@adaas/a-sdk/defaults/(.*)": ["<rootDir>/src/defaults/$1"],
         "@adaas/a-sdk/middleware/(.*)": ["<rootDir>/src/middleware/$1"],
+        "@adaas/a-sdk/storage/(.*)": ["<rootDir>/src/storage/$1"],
     }
 
 };

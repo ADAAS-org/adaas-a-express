@@ -8,7 +8,7 @@ const express_1 = __importDefault(require("express"));
 const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const errors_constants_1 = require("../constants/errors.constants");
 const A_EXPRESS_App_class_1 = require("../global/A_EXPRESS_App.class");
-const A_EXPRESS_Decorators_storage_1 = require("src/storage/A_EXPRESS_Decorators.storage");
+const A_EXPRESS_Decorators_storage_1 = require("../storage/A_EXPRESS_Decorators.storage");
 const A_EXPRESS_CRUDController_class_1 = require("../global/A_EXPRESS_CRUDController.class");
 const A_EXPRESS_Auth_middleware_1 = require("../middleware/A_EXPRESS_Auth.middleware");
 function A_EXPRESS_Routes(arg1, arg2, arg3) {
