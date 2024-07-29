@@ -105,7 +105,7 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
                     : instance instanceof A_EXPRESS_AppInteractionsController_class_1.A_EXPRESS_AppInteractionsController
                         ? instance.config.http.base || '/'
                         : instance.config.http.base || '/';
-            path = /\//.test(path) ? '' : path;
+            path = /^\/$/.test(path) ? '' : path;
             let targetMiddlewares = [];
             const useAuth = (route.config.auth === true || route.config.auth === false)
                 ? route.config.auth

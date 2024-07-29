@@ -163,7 +163,6 @@ export function A_EXPRESS_Routes(
              */
             const handler = instance[route.handlerName].bind(instance);
 
-
             let path = instance instanceof A_EXPRESS_ServerCommandsController
                 ? '/-s-cmd-'
                 : instance instanceof A_EXPRESS_ServerDelegateController
@@ -172,7 +171,7 @@ export function A_EXPRESS_Routes(
                         ? instance.config.http.base || '/'
                         : instance.config.http.base || '/';
 
-            path = /\//.test(path) ? '' : path;
+            path = /^\/$/.test(path) ? '' : path;
 
 
             let targetMiddlewares: Array<(
