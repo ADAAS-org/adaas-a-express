@@ -48,6 +48,11 @@ function Route(
         const routes = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
         const inheritRoutes = inheritMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
 
+        console.log('target.constructor: ', target.constructor)
+
+        console.log('inheritRoutes', inheritRoutes)
+        console.log('routes', routes)
+
 
         existedMeta.set(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY, [
             ...inheritRoutes,

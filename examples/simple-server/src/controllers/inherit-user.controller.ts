@@ -10,7 +10,7 @@ import { A_EXPRESS_TYPES__ICRUDControllerConfig } from '../../../../src/types/A_
 import { UserDelegateController } from './user-delegate.controller';
 
 
-@A_EXPRESS_ServerDelegate<UserModel>('user', UserRepositoryInstance, {
+@A_EXPRESS_ServerDelegate<UserModel>('user2', UserRepositoryInstance, {
     id: 'ID',
     auth: {
         enable: false,

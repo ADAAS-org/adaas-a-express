@@ -27,7 +27,7 @@ import { UserInheritController } from "./controllers/inherit-user.controller";
                 migrate: false
             },
             auth: {
-                enable: true,
+                enable: false,
             },
             health: {
                 enable: true,
