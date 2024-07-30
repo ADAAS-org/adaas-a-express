@@ -9,7 +9,6 @@ const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const errors_constants_1 = require("../constants/errors.constants");
 const A_EXPRESS_App_class_1 = require("../global/A_EXPRESS_App.class");
 const A_EXPRESS_Decorators_storage_1 = require("../storage/A_EXPRESS_Decorators.storage");
-const A_EXPRESS_CRUDController_class_1 = require("../global/A_EXPRESS_CRUDController.class");
 const A_EXPRESS_Auth_middleware_1 = require("../middleware/A_EXPRESS_Auth.middleware");
 function A_EXPRESS_Routes(arg1, arg2, arg3) {
     let router;
@@ -53,12 +52,14 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
         let routes;
         let config;
         let repository;
+        let entity;
         let instance;
         if (controller instanceof Function) {
             const existedMeta = A_EXPRESS_Decorators_storage_1.A_EXPRESS_Storage.get(controller) || new Map();
             routes = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
             config = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY);
             repository = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_REPOSITORY_KEY);
+            entity = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ENTITY_KEY);
             instance = new controller(app, config, repository);
         }
         else {
@@ -67,9 +68,8 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
             routes = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
             config = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY);
             repository = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_REPOSITORY_KEY);
+            entity = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ENTITY_KEY);
         }
-        console.log("instance.constructor", instance.constructor);
-        console.log('routes', routes);
         routes.forEach((route) => {
             /**
              * If the method is not exposed or is ignored, skip the route
@@ -89,16 +89,14 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
             let targetMiddlewares = [];
             const useAuth = (route.config.auth === true || route.config.auth === false)
                 ? route.config.auth
-                : config.auth.enable || false;
-            if (instance instanceof A_EXPRESS_CRUDController_class_1.A_EXPRESS_CRUDController) {
-                if (instance.entity)
-                    path = `${path}/${instance.entity}`;
-                if (useAuth)
-                    targetMiddlewares = [
-                        A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware.AppInteractions_ValidateToken,
-                        ...route.middlewares
-                    ];
-            }
+                : config.auth.enable || app.config.defaults.auth.enable;
+            if (entity)
+                path = `${path}/${entity}`;
+            if (useAuth)
+                targetMiddlewares = [
+                    A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware.AppInteractions_ValidateToken,
+                    ...route.middlewares
+                ];
             /**
              * The identity parameter for the entity controller is added to the path
              */

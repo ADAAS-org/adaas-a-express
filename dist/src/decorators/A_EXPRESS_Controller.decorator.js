@@ -15,6 +15,13 @@ function A_EXPRESS_ControllerDefinition(entity, repository, config) {
         existedMeta.set(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY, config);
         existedMeta.set(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_REPOSITORY_KEY, repository);
         existedMeta.set(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ENTITY_KEY, entity);
+        const inheritMeta = A_EXPRESS_Decorators_storage_1.A_EXPRESS_Storage.get(Object.getPrototypeOf(constructor)) || new Map();
+        const inheritRoutes = inheritMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
+        if (!existedMeta.has(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY)) {
+            existedMeta.set(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY, [
+                ...inheritRoutes
+            ]);
+        }
         A_EXPRESS_Decorators_storage_1.A_EXPRESS_Storage.set(constructor, existedMeta);
         return constructor;
     };

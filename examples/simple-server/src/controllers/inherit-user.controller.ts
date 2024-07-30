@@ -12,9 +12,6 @@ import { UserDelegateController } from './user-delegate.controller';
 
 @A_EXPRESS_ServerDelegate<UserModel>('user2', UserRepositoryInstance, {
     id: 'ID',
-    auth: {
-        enable: false,
-    },
     get: {
         where: async (self, req) => ({ id: parseInt(req.params.id) })
     }

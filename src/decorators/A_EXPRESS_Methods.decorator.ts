@@ -45,25 +45,20 @@ function Route(
         const existedMeta = A_EXPRESS_Storage.get(target.constructor) || new Map();
         const inheritMeta = A_EXPRESS_Storage.get(Object.getPrototypeOf(target.constructor)) || new Map();
 
-        const routes = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
         const inheritRoutes = inheritMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
+        const routes = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [...inheritRoutes];
 
-        console.log('target.constructor: ', target.constructor)
-
-        console.log('inheritRoutes', inheritRoutes)
-        console.log('routes', routes)
+        routes.push({
+            handlerName: propertyKey,
+            path,
+            method,
+            middlewares,
+            config
+        });
 
 
         existedMeta.set(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY, [
-            ...inheritRoutes,
             ...routes,
-            {
-                handlerName: propertyKey,
-                path,
-                method,
-                middlewares,
-                config
-            }
         ]);
 
 

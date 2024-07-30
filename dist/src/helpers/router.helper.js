@@ -3,9 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_EXPRESS_RouterHelper = void 0;
 class A_EXPRESS_RouterHelper {
     static getRotes(app) {
-        return app._router.stack.reduce((acc, layer) => {
+        const routes = app._router.stack.reduce((acc, layer) => {
             return this.extractPaths([], layer, acc);
         }, []);
+        // but remove duplicates first
+        return routes.filter((route, index, self) => self.findIndex(r => r.method === route.method && r.path === route.path) === index);
     }
     static extractPaths(path = [], layer, acc) {
         if (layer.route) {

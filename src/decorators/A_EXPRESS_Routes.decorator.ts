@@ -13,6 +13,7 @@ import { A_EXPRESS_App } from '../global/A_EXPRESS_App.class';
 import {
     A_EXPRESS_Storage,
     A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY,
+    A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ENTITY_KEY,
     A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_REPOSITORY_KEY,
     A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY
 } from '../storage/A_EXPRESS_Decorators.storage';
@@ -110,6 +111,7 @@ export function A_EXPRESS_Routes<T extends object>(
         let routes: Array<A_EXPRESS_TYPES__RouteDefinition>;
         let config: A_EXPRESS_TYPES__IControllerConfig | A_EXPRESS_TYPES__ICRUDControllerConfig;
         let repository: A_EXPRESS_TYPES__ICRUDControllerRepository<any>;
+        let entity: string;
 
 
         let instance: A_EXPRESS_TYPES__IController | A_EXPRESS_TYPES__ICRUDController
@@ -119,6 +121,7 @@ export function A_EXPRESS_Routes<T extends object>(
             routes = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
             config = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY);
             repository = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_REPOSITORY_KEY);
+            entity = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ENTITY_KEY);
 
             instance = new controller(app, config, repository);
 
@@ -128,10 +131,9 @@ export function A_EXPRESS_Routes<T extends object>(
             routes = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
             config = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY);
             repository = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_REPOSITORY_KEY);
-        }
+            entity = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ENTITY_KEY);
 
-        console.log("instance.constructor", instance.constructor)
-        console.log('routes', routes)
+        }
 
         routes.forEach((route) => {
             /**
@@ -167,19 +169,18 @@ export function A_EXPRESS_Routes<T extends object>(
 
             const useAuth = (route.config.auth === true || route.config.auth === false)
                 ? route.config.auth
-                : config.auth.enable || false
+                : config.auth.enable || app.config.defaults.auth.enable
 
-            if (instance instanceof A_EXPRESS_CRUDController) {
-                if (instance.entity)
-                    path = `${path}/${instance.entity}`;
+            if (entity)
+                path = `${path}/${entity}`;
 
-                if (useAuth)
-                    targetMiddlewares = [
-                        A_EXPRESS_AuthMiddleware.AppInteractions_ValidateToken as any,
-                        ...route.middlewares
-                    ];
 
-            }
+            if (useAuth)
+                targetMiddlewares = [
+                    A_EXPRESS_AuthMiddleware.AppInteractions_ValidateToken as any,
+                    ...route.middlewares
+                ];
+
 
 
             /**
