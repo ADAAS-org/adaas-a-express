@@ -15,7 +15,7 @@ import os from 'os';
 import process from 'process';
 import { createServer, Server } from "http";
 import { A_EXPRESS_Routes } from "../decorators/A_EXPRESS_Routes.decorator";
-import { A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
+import { A_EXPRESS_CONSTANTS__DEFAULT_ERRORS, A_EXPRESS_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
 import { A_ARC_Context, A_ARC_Permission, A_ARC_ServerCommands } from "@adaas/a-arc";
 import { A_EXPRESS_DEFAULTS__APP_CONFIG } from "../defaults/A_EXPRESS_App.defaults";
 import { A_EXPRESS_ErrorsMiddleware } from "../middleware/A_EXPRESS_Error.middleware";
@@ -27,6 +27,7 @@ import { A_EXPRESS_Context } from "./A_EXPRESS_Context.class";
 import { A_EXPRESS_TYPES__IAuthControllerConfig } from "../types/A_EXPRESS_AuthController.types";
 import { A_EXPRESS_Storage, A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY } from "../storage/A_EXPRESS_Decorators.storage";
 import { A_EXPRESS_TYPES__IHealthControllerConfig } from "../types/A_EXPRESS_HealthController.types";
+import { A_EXPRESS_Proxy } from "./A_EXPRESS_Proxy.class";
 
 
 
@@ -36,6 +37,7 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
     config!: A_EXPRESS_TYPES__AppManifest
 
     app = express();
+    server!: Server;
     routers = new Map<string, Router>();
 
     Logger!: A_EXPRESS_Logger;
@@ -52,7 +54,18 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         super({
             namespace: config?.context?.namespace || A_EXPRESS_DEFAULTS__APP_CONFIG.context.namespace,
             // TODO: fix whenever time comes
-            errors: (config as any)?.errors || A_EXPRESS_DEFAULTS__APP_CONFIG.context.errors
+            errors: config?.context?.errors ?
+                Array.isArray(config.context.errors) ? [
+                    ...config.context.errors,
+                    ...Object.values(A_EXPRESS_CONSTANTS__DEFAULT_ERRORS)
+                ]
+                    : {
+                        ...config.context.errors,
+                        ...A_EXPRESS_CONSTANTS__DEFAULT_ERRORS
+                    } as any
+                : {
+                    ...Object.values(A_EXPRESS_CONSTANTS__DEFAULT_ERRORS)
+                }
         })
 
         this.config = A_SDK_CommonHelper.deepMerge(
@@ -106,7 +119,7 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
      * 
      * @returns 
      */
-    protected async afterStart(): Promise<void> {
+    protected async afterStart(server: Server): Promise<void> {
         return;
     }
 
@@ -205,6 +218,23 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
 
         this.Logger.log('Routes initialized successfully');
 
+
+        // Use the proxy middleware for all other routes
+
+        if (this.config.proxy) {
+            let proxy: Array<A_EXPRESS_Proxy> = []
+
+            if (Array.isArray(this.config.proxy))
+                proxy = this.config.proxy
+            else {
+                proxy = Object.keys(this.config.proxy).map(key => new A_EXPRESS_Proxy(key, this.config.proxy![key]))
+            }
+
+            for (const p of proxy) {
+                this.app.use(p.regexp, p.handler() as any)
+            }
+        }
+
         // catch 404 and forward to error handler
         this.app.use((req, res, next) => {
             return next(this.Errors.getError(A_SDK_CONSTANTS__ERROR_CODES.ROUTE_NOT_FOUND));
@@ -217,12 +247,14 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         //     this.displayMonitoringInfo();
         // }, 10000);
 
-        return await createServer(this.app)
+        this.server = createServer(this.app)
+
+        return await this.server
             .listen(
                 this.config.http.port,
                 async () => {
 
-                    await this.afterStart();
+                    await this.afterStart(this.server);
 
                     this.Logger.log('After start hook executed successfully')
 

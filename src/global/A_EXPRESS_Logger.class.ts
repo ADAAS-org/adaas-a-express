@@ -71,4 +71,16 @@ ${' '.repeat(this.namespace.length + 3)}| ==============================
 \x1b[0m`);
     }
 
+
+    proxy(
+        params: {
+            original: string,
+            destination: string,
+        }
+    ) {
+        console.log(`\x1b[35m[${this.namespace}] |${this.getTime()}| Proxy:
+${' '.repeat(this.namespace.length + 3)}| ${params.original} -> ${params.destination}
+${' '.repeat(this.namespace.length + 3)}|-------------------------------\x1b[0m`);
+    }
+
 }

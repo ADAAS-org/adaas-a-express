@@ -53,13 +53,20 @@ const A_EXPRESS_Logger_middleware_1 = require("../middleware/A_EXPRESS_Logger.mi
 const a_auth_1 = require("@adaas/a-auth");
 const A_EXPRESS_Context_class_1 = require("./A_EXPRESS_Context.class");
 const A_EXPRESS_Decorators_storage_1 = require("../storage/A_EXPRESS_Decorators.storage");
+const A_EXPRESS_Proxy_class_1 = require("./A_EXPRESS_Proxy.class");
 class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
     constructor(config) {
-        var _a;
+        var _a, _b;
         super({
             namespace: ((_a = config === null || config === void 0 ? void 0 : config.context) === null || _a === void 0 ? void 0 : _a.namespace) || A_EXPRESS_App_defaults_1.A_EXPRESS_DEFAULTS__APP_CONFIG.context.namespace,
             // TODO: fix whenever time comes
-            errors: (config === null || config === void 0 ? void 0 : config.errors) || A_EXPRESS_App_defaults_1.A_EXPRESS_DEFAULTS__APP_CONFIG.context.errors
+            errors: ((_b = config === null || config === void 0 ? void 0 : config.context) === null || _b === void 0 ? void 0 : _b.errors) ?
+                Array.isArray(config.context.errors) ? [
+                    ...config.context.errors,
+                    ...Object.values(errors_constants_1.A_EXPRESS_CONSTANTS__DEFAULT_ERRORS)
+                ]
+                    : Object.assign(Object.assign({}, config.context.errors), errors_constants_1.A_EXPRESS_CONSTANTS__DEFAULT_ERRORS)
+                : Object.assign({}, Object.values(errors_constants_1.A_EXPRESS_CONSTANTS__DEFAULT_ERRORS))
         });
         this.app = (0, express_1.default)();
         this.routers = new Map();
@@ -103,7 +110,7 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
      *
      * @returns
      */
-    afterStart() {
+    afterStart(server) {
         return __awaiter(this, void 0, void 0, function* () {
             return;
         });
@@ -172,6 +179,18 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
             const routes = router_helper_1.A_EXPRESS_RouterHelper.getRotes(this.app);
             this.Logger.routes(routes);
             this.Logger.log('Routes initialized successfully');
+            // Use the proxy middleware for all other routes
+            if (this.config.proxy) {
+                let proxy = [];
+                if (Array.isArray(this.config.proxy))
+                    proxy = this.config.proxy;
+                else {
+                    proxy = Object.keys(this.config.proxy).map(key => new A_EXPRESS_Proxy_class_1.A_EXPRESS_Proxy(key, this.config.proxy[key]));
+                }
+                for (const p of proxy) {
+                    this.app.use(p.regexp, p.handler());
+                }
+            }
             // catch 404 and forward to error handler
             this.app.use((req, res, next) => {
                 return next(this.Errors.getError(a_sdk_types_1.A_SDK_CONSTANTS__ERROR_CODES.ROUTE_NOT_FOUND));
@@ -180,9 +199,10 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
             // this.monitoringInterval = setInterval(() => {
             //     this.displayMonitoringInfo();
             // }, 10000);
-            return yield (0, http_1.createServer)(this.app)
+            this.server = (0, http_1.createServer)(this.app);
+            return yield this.server
                 .listen(this.config.http.port, () => __awaiter(this, void 0, void 0, function* () {
-                yield this.afterStart();
+                yield this.afterStart(this.server);
                 this.Logger.log('After start hook executed successfully');
                 this.Logger.serverReady({
                     port: this.config.http.port,

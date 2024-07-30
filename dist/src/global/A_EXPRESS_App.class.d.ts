@@ -6,6 +6,7 @@ import { A_EXPRESS_Logger } from "./A_EXPRESS_Logger.class";
 export declare class A_EXPRESS_App extends A_SDK_ContextClass {
     config: A_EXPRESS_TYPES__AppManifest;
     app: import("express-serve-static-core").Express;
+    server: Server;
     routers: Map<string, express.Router>;
     Logger: A_EXPRESS_Logger;
     private _permissions;
@@ -28,7 +29,7 @@ export declare class A_EXPRESS_App extends A_SDK_ContextClass {
      *
      * @returns
      */
-    protected afterStart(): Promise<void>;
+    protected afterStart(server: Server): Promise<void>;
     /**
      * This method starts the server and executes all the necessary steps such as:
      *  - setting up routes

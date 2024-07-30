@@ -18,4 +18,8 @@ export declare class A_EXPRESS_Logger extends A_SDK_DefaultLogger {
             version: string;
         };
     }): void;
+    proxy(params: {
+        original: string;
+        destination: string;
+    }): void;
 }

@@ -3,6 +3,8 @@ import { A_EXPRESS_TYPES__PossibleControllers } from "../decorators/A_EXPRESS_Ro
 import { CorsOptions } from "cors";
 import { A_ARC_Permission } from "@adaas/a-arc";
 import { A_EXPRESS_TYPES__IHealthControllerConfig } from "./A_EXPRESS_HealthController.types";
+import { A_SDK_TYPES__Dictionary } from "@adaas/a-sdk-types";
+import { A_EXPRESS_Proxy } from "../global/A_EXPRESS_Proxy.class";
 export type A_EXPRESS_TYPES__AppManifest = {
     /**
      * App information will automatically be added to the manifest
@@ -57,6 +59,7 @@ export type A_EXPRESS_TYPES__AppManifest = {
         version: string;
         controllers: Array<A_EXPRESS_TYPES__PossibleControllers<any>>;
     }>;
+    proxy?: A_SDK_TYPES__Dictionary<string> | Array<A_EXPRESS_Proxy>;
     defaults: {
         permissions: {
             migrate: boolean;

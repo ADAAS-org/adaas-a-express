@@ -6,6 +6,7 @@ export declare enum A_EXPRESS_CONSTANTS__ERROR_CODES {
     DEFAULT_ROUTER_INITIALIZATION_ERROR = "ERR-500-0004",
     AUTH_CONTROLLER_REDIRECT_URL_NOT_SPECIFIED = "ERR-500-0005",
     INVALID_ROUTE_DECORATOR_PARAMS = "ERR-500-0006",
+    UNABLE_TO_PROXY_REQUEST = "ERR-500-0007",
     INVALID_TOKEN_TYPE_FOR_APP_INTERACTION = "ERR-401-0001",
     INVALID_TOKEN_TYPE_FOR_SERVER_COMMANDS = "ERR-401-0002",
     INVALID_TOKEN_TYPE_FOR_SERVER_DELEGATE = "ERR-401-0003"
@@ -48,6 +49,12 @@ export declare const A_EXPRESS_CONSTANTS__DEFAULT_ERRORS: {
         message: string;
     };
     INVALID_ROUTE_DECORATOR_PARAMS: {
+        serverCode: number;
+        code: A_EXPRESS_CONSTANTS__ERROR_CODES;
+        description: string;
+        message: string;
+    };
+    UNABLE_TO_PROXY_REQUEST: {
         serverCode: number;
         code: A_EXPRESS_CONSTANTS__ERROR_CODES;
         description: string;

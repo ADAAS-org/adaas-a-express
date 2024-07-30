@@ -35,6 +35,11 @@ ${' '.repeat(this.namespace.length + 3)}|          LISTENING...
 ${' '.repeat(this.namespace.length + 3)}| ==============================
 \x1b[0m`);
     }
+    proxy(params) {
+        console.log(`\x1b[35m[${this.namespace}] |${this.getTime()}| Proxy:
+${' '.repeat(this.namespace.length + 3)}| ${params.original} -> ${params.destination}
+${' '.repeat(this.namespace.length + 3)}|-------------------------------\x1b[0m`);
+    }
 }
 exports.A_EXPRESS_Logger = A_EXPRESS_Logger;
 //# sourceMappingURL=A_EXPRESS_Logger.class.js.map
