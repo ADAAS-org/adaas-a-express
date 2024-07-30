@@ -11,16 +11,15 @@ function Route(method, path, middlewares = [], config = {}) {
         const inheritMeta = A_EXPRESS_Decorators_storage_1.A_EXPRESS_Storage.get(Object.getPrototypeOf(target.constructor)) || new Map();
         const inheritRoutes = inheritMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
         const routes = existedMeta.get(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [...inheritRoutes];
-        routes.push({
+        const targetRoutes = routes.filter((route) => route.handlerName !== propertyKey);
+        targetRoutes.push({
             handlerName: propertyKey,
             path,
             method,
             middlewares,
             config
         });
-        existedMeta.set(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY, [
-            ...routes,
-        ]);
+        existedMeta.set(A_EXPRESS_Decorators_storage_1.A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY, targetRoutes);
         A_EXPRESS_Decorators_storage_1.A_EXPRESS_Storage.set(target.constructor, existedMeta);
     };
 }

@@ -177,8 +177,15 @@ export interface A_EXPRESS_TYPES__ICRUDControllerConfig<
 > extends A_EXPRESS_TYPES__IControllerConfig {
     http: {
         /**
-       * allows to ignore the default methods in case when they are not needed OR NOT ALLOWED
-       */
+         * Uses to change the basic entity name in the path
+         * e.g. migrate from entity "user" -> "users" 
+         * 
+         * NOTE: in case alias is presented, the entity name will be changed in the path from Entity parameter to alias
+         */
+        alias?: string | ((self: _ContextType) => string),
+        /**
+         * allows to ignore the default methods in case when they are not needed OR NOT ALLOWED
+         */
         expose?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>,
         ignore?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>,
     } & A_EXPRESS_TYPES__IControllerConfig['http']

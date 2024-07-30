@@ -90,7 +90,19 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
             const useAuth = (route.config.auth === true || route.config.auth === false)
                 ? route.config.auth
                 : config.auth.enable || app.config.defaults.auth.enable;
-            if (entity)
+            if ('alias' in config.http) {
+                if (config.http.alias) {
+                    if (typeof config.http.alias === 'string') {
+                        path = `${path}/${config.http.alias}`;
+                    }
+                    else {
+                        path = `${path}/${config.http.alias(instance)}`;
+                    }
+                }
+                else if (entity)
+                    path = `${path}/${entity}`;
+            }
+            else if (entity)
                 path = `${path}/${entity}`;
             if (useAuth)
                 targetMiddlewares = [

@@ -7,6 +7,9 @@ import { UserRepositoryInstance } from '../../db/repositories/User.repository';
 
 @A_EXPRESS_AppInteractions<UserModel>('user', UserRepositoryInstance, {
     id: 'ID',
+    http: {
+        alias: (self) => self.entity + 's'
+    },
     auth: {
         enable: false,
     },

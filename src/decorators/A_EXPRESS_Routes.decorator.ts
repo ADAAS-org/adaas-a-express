@@ -171,8 +171,20 @@ export function A_EXPRESS_Routes<T extends object>(
                 ? route.config.auth
                 : config.auth.enable || app.config.defaults.auth.enable
 
-            if (entity)
+            if ('alias' in config.http) {
+                if (config.http.alias) {
+                    if (typeof config.http.alias === 'string') {
+                        path = `${path}/${config.http.alias}`;
+                    }
+                    else {
+                        path = `${path}/${config.http.alias(instance as any)}`;
+                    }
+                } else if (entity)
+                    path = `${path}/${entity}`;
+            } else if (entity)
                 path = `${path}/${entity}`;
+
+
 
 
             if (useAuth)

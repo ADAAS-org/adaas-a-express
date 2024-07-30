@@ -17,7 +17,9 @@ exports.A_EXPRESS_DEFAULTS__CURD_CONFIG = {
     id: 'ASEID',
     http: {
         base: '/',
-        expose: ['post', 'get', 'put', 'delete', 'list']
+        alias: undefined,
+        expose: ['post', 'get', 'put', 'delete', 'list'],
+        ignore: undefined
     },
     auth: {
         enable: false,

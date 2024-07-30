@@ -8,7 +8,9 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
     id: 'ASEID',
     http: {
         base: '/',
-        expose: ['post', 'get', 'put', 'delete', 'list']
+        alias: undefined,
+        expose: ['post', 'get', 'put', 'delete', 'list'],
+        ignore: undefined
     },
     auth: {
         enable: false,

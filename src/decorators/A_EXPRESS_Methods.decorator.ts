@@ -48,7 +48,9 @@ function Route(
         const inheritRoutes = inheritMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
         const routes = existedMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [...inheritRoutes];
 
-        routes.push({
+        const targetRoutes = routes.filter((route: A_EXPRESS_TYPES__RouteDefinition) => route.handlerName !== propertyKey);
+
+        targetRoutes.push({
             handlerName: propertyKey,
             path,
             method,
@@ -56,11 +58,7 @@ function Route(
             config
         });
 
-
-        existedMeta.set(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY, [
-            ...routes,
-        ]);
-
+        existedMeta.set(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY, targetRoutes);
 
         A_EXPRESS_Storage.set(target.constructor, existedMeta);
     };
