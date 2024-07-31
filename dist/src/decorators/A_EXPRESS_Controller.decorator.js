@@ -27,7 +27,7 @@ function A_EXPRESS_ControllerDefinition(entity, repository, config) {
     };
 }
 function A_EXPRESS_Controller(config) {
-    return A_EXPRESS_ControllerDefinition(undefined, undefined, a_sdk_types_1.A_SDK_CommonHelper.deepCloneAndMerge(config, A_EXPRESS_Controller_defaults_1.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG));
+    return A_EXPRESS_ControllerDefinition(undefined, undefined, a_sdk_types_1.A_SDK_CommonHelper.deepCloneAndMerge(Object.assign({}, (config || {})), A_EXPRESS_Controller_defaults_1.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG));
 }
 function A_EXPRESS_ServerDelegate(entity, repository, config) {
     var _a;

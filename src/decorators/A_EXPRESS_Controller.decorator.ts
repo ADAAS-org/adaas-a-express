@@ -37,12 +37,12 @@ export function A_EXPRESS_ControllerDefinition<
         existedMeta.set(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY, config);
         existedMeta.set(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_REPOSITORY_KEY, repository);
         existedMeta.set(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ENTITY_KEY, entity);
-        
+
         const inheritMeta = A_EXPRESS_Storage.get(Object.getPrototypeOf(constructor)) || new Map();
 
         const inheritRoutes = inheritMeta.get(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY) || [];
 
-        if(!existedMeta.has(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY)) {
+        if (!existedMeta.has(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY)) {
             existedMeta.set(A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_ROUTES_KEY, [
                 ...inheritRoutes
             ]);
@@ -76,7 +76,15 @@ export function A_EXPRESS_Controller<
     config?: A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__IControllerConfig>
 ) {
 
-    return A_EXPRESS_ControllerDefinition(undefined, undefined, A_SDK_CommonHelper.deepCloneAndMerge(config as any, A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG));
+    return A_EXPRESS_ControllerDefinition(
+        undefined,
+        undefined,
+        A_SDK_CommonHelper.deepCloneAndMerge(
+            {
+                ... (config || {})
+            },
+            A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG)
+    );
 }
 
 
