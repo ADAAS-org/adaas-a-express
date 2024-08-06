@@ -145,7 +145,13 @@ export function A_EXPRESS_AppInteractions<
         _RequestType
     >>
 ) {
-    return A_EXPRESS_ControllerDefinition(entity, repository, A_SDK_CommonHelper.deepCloneAndMerge({
+    console.log('A_EXPRESS_AppInteractions', config);
+
+    const compiledConfig = A_SDK_CommonHelper.deepCloneAndMerge({
         ...config
-    }, A_EXPRESS_DEFAULTS__CURD_CONFIG as any));
+    }, A_EXPRESS_DEFAULTS__CURD_CONFIG as any)
+
+    console.log('A_EXPRESS_AppInteractions', compiledConfig);
+
+    return A_EXPRESS_ControllerDefinition(entity, repository, compiledConfig);
 }
