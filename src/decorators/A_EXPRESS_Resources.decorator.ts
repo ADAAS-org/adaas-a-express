@@ -30,8 +30,12 @@ export function A_EXPRESS_Resources<
             next: A_EXPRESS_TYPES__INextFunction
         ) {
             try {
+                console.log('A_EXPRESS_Resources', ((this as any) as A_EXPRESS_TYPES__IController).config.arc);
+                console.log('A_EXPRESS_Resources', !(((this as any) as A_EXPRESS_TYPES__IController).config.arc.enable));
+                console.log('A_EXPRESS_Resources', req.adaas.context.config.defaults.arc.enable);
+
                 if (
-                    !((this as any) as A_EXPRESS_TYPES__IController).config.arc.enable
+                    !(((this as any) as A_EXPRESS_TYPES__IController).config.arc.enable)
                         ? true
                         : req.adaas.context.config.defaults.arc.enable
                 )

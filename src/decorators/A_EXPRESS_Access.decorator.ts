@@ -46,7 +46,7 @@ export function A_EXPRESS_Access<
         ) {
             try {
                 if (
-                    !((this as any) as A_EXPRESS_TYPES__IController).config.arc.enable
+                    !(((this as any) as A_EXPRESS_TYPES__IController).config.arc.enable)
                         ? true
                         : req.adaas.context.config.defaults.arc.enable
                 )

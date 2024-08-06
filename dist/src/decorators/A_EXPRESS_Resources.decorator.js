@@ -19,7 +19,10 @@ function A_EXPRESS_Resources(params) {
         descriptor.value = function (req, res, next) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
-                    if (!this.config.arc.enable
+                    console.log('A_EXPRESS_Resources', this.config.arc);
+                    console.log('A_EXPRESS_Resources', !(this.config.arc.enable));
+                    console.log('A_EXPRESS_Resources', req.adaas.context.config.defaults.arc.enable);
+                    if (!(this.config.arc.enable)
                         ? true
                         : req.adaas.context.config.defaults.arc.enable)
                         // Call the original method with the API response data
