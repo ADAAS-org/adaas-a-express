@@ -91,17 +91,22 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
             const useAuth = (route.config.auth === true || route.config.auth === false)
                 ? route.config.auth
                 : config.auth.enable || app.config.defaults.auth.enable;
+            instance.context.Logger.log(`Route: ${route.method.toUpperCase()} ${path}/${entity}`);
             switch (true) {
                 case 'alias' in config.http && !!config.http.alias && typeof config.http.alias === 'function':
+                    instance.context.Logger.log('Alias is a function', config.http.alias(instance));
                     path = `${path}/${config.http.alias(instance)}`;
                     break;
                 case 'alias' in config.http && !!config.http.alias && typeof config.http.alias === 'string':
+                    instance.context.Logger.log('Alias is a string', config.http.alias);
                     path = `${path}/${config.http.alias}`;
                     break;
                 default:
+                    instance.context.Logger.log('No alias');
                     path = `${path}/${entity}`;
                     break;
             }
+            instance.context.Logger.log(`Path: ${path}`);
             if (useAuth)
                 targetMiddlewares = [
                     A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware.AppInteractions_ValidateToken,
@@ -112,7 +117,9 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
              */
             if (route.config.identity)
                 path = `${path}/:${config.id === 'ASEID' ? 'aseid' : 'id'}`;
+            instance.context.Logger.log(`Path 2: ${path}`);
             if (instance instanceof A_EXPRESS_CRUDController_class_1.A_EXPRESS_CRUDController && instance.config.http.subPath) {
+                instance.context.Logger.log(`SubPath: ${instance.config.http.subPath}`);
                 path = `${path}/${instance.config.http.subPath}`;
             }
             /**
@@ -120,6 +127,7 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
              */
             if (route.path !== '__default__')
                 path = `${path}${route.path}`;
+            instance.context.Logger.log(`Path 3: ${path}`);
             router[route.method](path, ...targetMiddlewares, handler);
         });
     });
