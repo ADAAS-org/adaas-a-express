@@ -155,10 +155,15 @@ export function A_EXPRESS_Routes<T extends object>(
              */
             const handler = instance[route.handlerName].bind(instance);
 
+            instance.context.Logger.log('Before Path', config.http.base);
 
             let path = config.http.base || '/';
 
+            instance.context.Logger.log('After Path', path);
+
             path = /^\/$/.test(path) ? '' : path;
+
+            instance.context.Logger.log('After Path 2', path);
 
 
             let targetMiddlewares: Array<(
