@@ -19,6 +19,9 @@ function A_EXPRESS_Access(params) {
         descriptor.value = function (req, res, next) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
+                    console.log('A_EXPRESS_Resources', this.config.arc);
+                    console.log('A_EXPRESS_Resources', !(this.config.arc.enable));
+                    console.log('A_EXPRESS_Resources', req.adaas.context.config.defaults.arc.enable);
                     if (!(this.config.arc.enable)
                         ? true
                         : req.adaas.context.config.defaults.arc.enable)
