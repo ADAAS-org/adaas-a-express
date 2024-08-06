@@ -104,9 +104,11 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
                     instance.context.Logger.log('Alias is a string', config.http.alias);
                     path = `${path}/${config.http.alias}`;
                     break;
-                default:
-                    instance.context.Logger.log('No alias');
+                case !!entity:
+                    instance.context.Logger.log('Entity is a string', entity);
                     path = `${path}/${entity}`;
+                    break;
+                default:
                     break;
             }
             instance.context.Logger.log(`Path: ${path}`);

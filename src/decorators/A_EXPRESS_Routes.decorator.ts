@@ -190,10 +190,13 @@ export function A_EXPRESS_Routes<T extends object>(
 
                     break;
 
-                default:
-                    instance.context.Logger.log('No alias');
+                case !!entity:
+                    instance.context.Logger.log('Entity is a string', entity);
                     path = `${path}/${entity}`;
 
+                    break;
+
+                default:
                     break;
             }
 
@@ -212,7 +215,7 @@ export function A_EXPRESS_Routes<T extends object>(
             if (route.config.identity)
                 path = `${path}/:${config.id === 'ASEID' ? 'aseid' : 'id'}`;
 
-            instance.context.Logger.log(`Path 2: ${path}`);   
+            instance.context.Logger.log(`Path 2: ${path}`);
 
 
             if (instance instanceof A_EXPRESS_CRUDController && instance.config.http.subPath) {
