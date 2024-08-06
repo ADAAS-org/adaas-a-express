@@ -1,6 +1,6 @@
 {
   "name": "@adaas/a-express",
-  "version": "0.0.67",
+  "version": "0.0.68",
   "description": "SDK for express that can be used to create a new ADAAS Application with ease",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
