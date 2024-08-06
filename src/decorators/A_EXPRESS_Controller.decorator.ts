@@ -145,5 +145,7 @@ export function A_EXPRESS_AppInteractions<
         _RequestType
     >>
 ) {
-    return A_EXPRESS_ControllerDefinition(entity, repository, A_SDK_CommonHelper.deepCloneAndMerge(config, A_EXPRESS_DEFAULTS__CURD_CONFIG as any));
+    return A_EXPRESS_ControllerDefinition(entity, repository, A_SDK_CommonHelper.deepCloneAndMerge({
+        ...config
+    }, A_EXPRESS_DEFAULTS__CURD_CONFIG as any));
 }
