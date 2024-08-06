@@ -45,7 +45,13 @@ export function A_EXPRESS_Access<
             next: A_EXPRESS_TYPES__INextFunction
         ) {
             try {
-                if (!((this as any) as A_EXPRESS_TYPES__IController).config.arc.enable)
+                req.adaas.context.Logger.log('Config', req.adaas.context.config.defaults)
+                req.adaas.context.Logger.log('SELF', ((this as any) as A_EXPRESS_TYPES__IController).config.arc.enable)
+                if (
+                    !req.adaas.context.config.defaults.arc.enable
+                    &&
+                    !((this as any) as A_EXPRESS_TYPES__IController).config.arc.enable
+                )
                     // Call the original method with the API response data
                     return originalMethod.apply(this, [req, res, next]);
 

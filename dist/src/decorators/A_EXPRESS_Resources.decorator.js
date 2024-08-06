@@ -19,7 +19,11 @@ function A_EXPRESS_Resources(params) {
         descriptor.value = function (req, res, next) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
-                    if (!this.config.arc.enable)
+                    req.adaas.context.Logger.log('Config', req.adaas.context.config.defaults);
+                    req.adaas.context.Logger.log('SELF', this.config.arc.enable);
+                    if (!req.adaas.context.config.defaults.arc.enable
+                        &&
+                            !this.config.arc.enable)
                         // Call the original method with the API response data
                         return originalMethod.apply(this, [req, res, next]);
                     const queries = Object.keys(params).reduce((acc, key) => {
