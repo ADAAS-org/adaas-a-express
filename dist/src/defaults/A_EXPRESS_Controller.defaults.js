@@ -6,11 +6,7 @@ exports.A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG = {
     http: {
         base: '/',
     },
-    auth: {
-        enable: false,
-    },
-    arc: {
-        enable: true,
-    },
+    auth: {},
+    arc: {},
 };
 //# sourceMappingURL=A_EXPRESS_Controller.defaults.js.map

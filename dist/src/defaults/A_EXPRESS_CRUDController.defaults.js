@@ -21,12 +21,8 @@ exports.A_EXPRESS_DEFAULTS__CURD_CONFIG = {
         expose: ['post', 'get', 'put', 'delete', 'list'],
         ignore: undefined
     },
-    auth: {
-        enable: false,
-    },
-    arc: {
-        enable: true,
-    },
+    auth: {},
+    arc: {},
     list: {
         relations: [],
         searchFields: [],

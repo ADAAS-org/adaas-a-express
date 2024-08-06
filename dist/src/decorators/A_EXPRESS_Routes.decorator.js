@@ -9,6 +9,7 @@ const A_EXPRESS_Context_class_1 = require("../global/A_EXPRESS_Context.class");
 const errors_constants_1 = require("../constants/errors.constants");
 const A_EXPRESS_App_class_1 = require("../global/A_EXPRESS_App.class");
 const A_EXPRESS_Decorators_storage_1 = require("../storage/A_EXPRESS_Decorators.storage");
+const A_EXPRESS_CRUDController_class_1 = require("../global/A_EXPRESS_CRUDController.class");
 const A_EXPRESS_Auth_middleware_1 = require("../middleware/A_EXPRESS_Auth.middleware");
 function A_EXPRESS_Routes(arg1, arg2, arg3) {
     let router;
@@ -90,20 +91,17 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
             const useAuth = (route.config.auth === true || route.config.auth === false)
                 ? route.config.auth
                 : config.auth.enable || app.config.defaults.auth.enable;
-            if ('alias' in config.http) {
-                if (config.http.alias) {
-                    if (typeof config.http.alias === 'string') {
-                        path = `${path}/${config.http.alias}`;
-                    }
-                    else {
-                        path = `${path}/${config.http.alias(instance)}`;
-                    }
-                }
-                else if (entity)
+            switch (true) {
+                case 'alias' in config.http && !!config.http.alias && typeof config.http.alias === 'function':
+                    path = `${path}/${config.http.alias(instance)}`;
+                    break;
+                case 'alias' in config.http && !!config.http.alias && typeof config.http.alias === 'string':
+                    path = `${path}/${config.http.alias}`;
+                    break;
+                default:
                     path = `${path}/${entity}`;
+                    break;
             }
-            else if (entity)
-                path = `${path}/${entity}`;
             if (useAuth)
                 targetMiddlewares = [
                     A_EXPRESS_Auth_middleware_1.A_EXPRESS_AuthMiddleware.AppInteractions_ValidateToken,
@@ -114,6 +112,9 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
              */
             if (route.config.identity)
                 path = `${path}/:${config.id === 'ASEID' ? 'aseid' : 'id'}`;
+            if (instance instanceof A_EXPRESS_CRUDController_class_1.A_EXPRESS_CRUDController && instance.config.http.subPath) {
+                path = `${path}/${instance.config.http.subPath}`;
+            }
             /**
              * Extra custom path that can be added to the route
              */

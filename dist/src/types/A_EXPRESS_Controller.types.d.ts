@@ -65,9 +65,9 @@ export interface A_EXPRESS_TYPES__IControllerConfig {
         base: string;
     };
     auth: {
-        enable: boolean;
+        enable?: boolean;
     };
     arc: {
-        enable: boolean;
+        enable?: boolean;
     };
 }

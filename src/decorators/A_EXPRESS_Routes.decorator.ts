@@ -171,19 +171,22 @@ export function A_EXPRESS_Routes<T extends object>(
                 ? route.config.auth
                 : config.auth.enable || app.config.defaults.auth.enable
 
-            if ('alias' in config.http) {
-                if (config.http.alias) {
-                    if (typeof config.http.alias === 'string') {
-                        path = `${path}/${config.http.alias}`;
-                    }
-                    else {
-                        path = `${path}/${config.http.alias(instance as any)}`;
-                    }
-                } else if (entity)
-                    path = `${path}/${entity}`;
-            } else if (entity)
-                path = `${path}/${entity}`;
 
+            switch (true) {
+                case 'alias' in config.http && !!config.http.alias && typeof config.http.alias === 'function':
+                    path = `${path}/${config.http.alias(instance as any)}`;
+
+                    break;
+                case 'alias' in config.http && !!config.http.alias && typeof config.http.alias === 'string':
+                    path = `${path}/${config.http.alias}`;
+
+                    break;
+
+                default:
+                    path = `${path}/${entity}`;
+
+                    break;
+            }
 
 
 
@@ -194,7 +197,6 @@ export function A_EXPRESS_Routes<T extends object>(
                 ];
 
 
-
             /**
              * The identity parameter for the entity controller is added to the path
              */
@@ -202,6 +204,9 @@ export function A_EXPRESS_Routes<T extends object>(
                 path = `${path}/:${config.id === 'ASEID' ? 'aseid' : 'id'}`;
 
 
+            if (instance instanceof A_EXPRESS_CRUDController && instance.config.http.subPath) {
+                path = `${path}/${instance.config.http.subPath}`;
+            }
 
             /**
              * Extra custom path that can be added to the route

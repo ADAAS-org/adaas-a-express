@@ -13,10 +13,8 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
         ignore: undefined
     },
     auth: {
-        enable: false,
     },
     arc: {
-        enable: true,
     },
     list: {
         relations: [],

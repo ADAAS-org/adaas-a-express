@@ -188,6 +188,11 @@ export interface A_EXPRESS_TYPES__ICRUDControllerConfig<
          */
         expose?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>,
         ignore?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>,
+
+        /**
+         * The base path for the entity controller that adds after Identifier
+         */
+        subPath?: string,
     } & A_EXPRESS_TYPES__IControllerConfig['http']
 
 

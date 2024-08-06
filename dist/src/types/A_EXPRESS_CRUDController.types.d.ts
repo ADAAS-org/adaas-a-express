@@ -79,6 +79,10 @@ export interface A_EXPRESS_TYPES__ICRUDControllerConfig<_DBEntityType extends A_
          */
         expose?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>;
         ignore?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>;
+        /**
+         * The base path for the entity controller that adds after Identifier
+         */
+        subPath?: string;
     } & A_EXPRESS_TYPES__IControllerConfig['http'];
     list: A_EXPRESS_TYPES__Controller_ListConfig<_DBEntityType, _RequestType, _ContextType>;
     get: A_EXPRESS_TYPES__Controller_GetConfig<_DBEntityType, _RequestType, _ContextType>;

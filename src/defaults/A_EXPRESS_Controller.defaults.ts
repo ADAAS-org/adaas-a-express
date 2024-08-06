@@ -6,11 +6,7 @@ export const A_EXPRESS_DEFAULTS__CONTROLLER_CONFIG: A_EXPRESS_TYPES__IController
         base: '/',
     },
     auth: {
-        enable: false,
     },
     arc: {
-        enable: true,
     },
-
-
 } as const
