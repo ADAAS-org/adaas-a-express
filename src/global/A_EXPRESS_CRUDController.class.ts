@@ -66,7 +66,9 @@ export class A_EXPRESS_CRUDController<
         permissions: (self, req) => self.config.list.arc.permissions(self, req)
     })
     @A_EXPRESS_Resources<A_EXPRESS_CRUDController, _RequestType>({
-        default: (qb, self, req) => self.config.list.arc.resources(self, qb, req)
+        default: (qb, self, req) => self.config.list.arc.resources ?
+            self.config.list.arc.resources(self, qb, req)
+            : qb
     })
     /**
      * Defines a Default GET method for the controller. Basically it's an endpoint for getting existing entities

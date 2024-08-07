@@ -151,7 +151,9 @@ __decorate([
         permissions: (self, req) => self.config.list.arc.permissions(self, req)
     }),
     (0, A_EXPRESS_Resources_decorator_1.A_EXPRESS_Resources)({
-        default: (qb, self, req) => self.config.list.arc.resources(self, qb, req)
+        default: (qb, self, req) => self.config.list.arc.resources ?
+            self.config.list.arc.resources(self, qb, req)
+            : qb
     })
     /**
      * Defines a Default GET method for the controller. Basically it's an endpoint for getting existing entities

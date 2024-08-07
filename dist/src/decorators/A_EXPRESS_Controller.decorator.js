@@ -38,9 +38,7 @@ function A_EXPRESS_ServerCommands(entity, repository, config) {
     return A_EXPRESS_ControllerDefinition(entity, repository, a_sdk_types_1.A_SDK_CommonHelper.deepCloneAndMerge(Object.assign(Object.assign({}, config), { http: Object.assign(Object.assign({}, (config.http || {})), { base: '/-s-cmd-' + (((_a = config === null || config === void 0 ? void 0 : config.http) === null || _a === void 0 ? void 0 : _a.base) || '') }) }), A_EXPRESS_CRUDController_defaults_1.A_EXPRESS_DEFAULTS__CURD_CONFIG));
 }
 function A_EXPRESS_AppInteractions(entity, repository, config) {
-    console.log('A_EXPRESS_AppInteractions', config);
     const compiledConfig = a_sdk_types_1.A_SDK_CommonHelper.deepCloneAndMerge(Object.assign({}, config), A_EXPRESS_CRUDController_defaults_1.A_EXPRESS_DEFAULTS__CURD_CONFIG);
-    console.log('A_EXPRESS_AppInteractions', compiledConfig);
     return A_EXPRESS_ControllerDefinition(entity, repository, compiledConfig);
 }
 //# sourceMappingURL=A_EXPRESS_Controller.decorator.js.map

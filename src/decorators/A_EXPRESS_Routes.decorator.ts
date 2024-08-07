@@ -155,16 +155,9 @@ export function A_EXPRESS_Routes<T extends object>(
              */
             const handler = instance[route.handlerName].bind(instance);
 
-            instance.context.Logger.log('Before Path', config.http.base);
-
             let path = config.http.base || '/';
 
-            instance.context.Logger.log('After Path', path);
-
             path = /^\/$/.test(path) ? '' : path;
-
-            instance.context.Logger.log('After Path 2', path);
-
 
             let targetMiddlewares: Array<(
                 req: A_EXPRESS_TYPES__IRequest,
@@ -176,22 +169,17 @@ export function A_EXPRESS_Routes<T extends object>(
                 ? route.config.auth
                 : config.auth.enable || app.config.defaults.auth.enable
 
-            instance.context.Logger.log(`Route: ${route.method.toUpperCase()} ${path}/${entity}`);
-
             switch (true) {
                 case 'alias' in config.http && !!config.http.alias && typeof config.http.alias === 'function':
-                    instance.context.Logger.log('Alias is a function', config.http.alias(instance as any));
                     path = `${path}/${config.http.alias(instance as any)}`;
 
                     break;
                 case 'alias' in config.http && !!config.http.alias && typeof config.http.alias === 'string':
-                    instance.context.Logger.log('Alias is a string', config.http.alias);
                     path = `${path}/${config.http.alias}`;
 
                     break;
 
                 case !!entity:
-                    instance.context.Logger.log('Entity is a string', entity);
                     path = `${path}/${entity}`;
 
                     break;
@@ -199,8 +187,6 @@ export function A_EXPRESS_Routes<T extends object>(
                 default:
                     break;
             }
-
-            instance.context.Logger.log(`Path: ${path}`);
 
             if (useAuth)
                 targetMiddlewares = [
@@ -215,12 +201,7 @@ export function A_EXPRESS_Routes<T extends object>(
             if (route.config.identity)
                 path = `${path}/:${config.id === 'ASEID' ? 'aseid' : 'id'}`;
 
-            instance.context.Logger.log(`Path 2: ${path}`);
-
-
             if (instance instanceof A_EXPRESS_CRUDController && instance.config.http.subPath) {
-
-                instance.context.Logger.log(`SubPath: ${instance.config.http.subPath}`);
 
                 path = `${path}/${instance.config.http.subPath}`;
             }
@@ -230,8 +211,6 @@ export function A_EXPRESS_Routes<T extends object>(
              */
             if (route.path !== '__default__')
                 path = `${path}${route.path}`;
-
-            instance.context.Logger.log(`Path 3: ${path}`);
 
             router[route.method](path, ...targetMiddlewares as any, handler);
         });

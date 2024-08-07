@@ -68,7 +68,7 @@ export interface A_EXPRESS_TYPES__IARCRequestParam<
     _ContextType extends A_EXPRESS_CRUDController<any, _RequestType>,
     _RequestType extends A_EXPRESS_TYPES__IRequest = A_EXPRESS_TYPES__IRequest,
 > {
-    resources: (self: _ContextType, qb: A_ARC_MaskQueryBuilder, req: _RequestType) => A_ARC_MaskQueryBuilder
+    resources?: (self: _ContextType, qb: A_ARC_MaskQueryBuilder, req: _RequestType) => A_ARC_MaskQueryBuilder
     access: (self: _ContextType, qb: A_ARC_MaskQueryBuilder, req: _RequestType) => A_ARC_MaskQueryBuilder
     permissions: (self: _ContextType, req: _RequestType) => A_ARC_Permission[]
 }

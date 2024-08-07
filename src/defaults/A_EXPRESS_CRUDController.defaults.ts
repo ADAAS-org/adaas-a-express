@@ -41,7 +41,10 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
             }
         },
         where: async (self, req) => {
-            if (self.config.id === 'ID' && req.adaas.arc.resources?.default) {
+            if (!(req.adaas.arc && req.adaas.arc.resources && req.adaas.arc.resources.default))
+                return;
+
+            if (self.config.id === 'ID') {
                 return { id: req.adaas.arc!.resources!.default?.map(r => isNaN(parseInt(r)) ? r : parseInt(r)) }
             }
             else {
@@ -56,7 +59,6 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
         },
         arc: {
             permissions: (self, req) => [],
-            resources: (self, qb) => qb,
             access: (self, qb, req) => {
                 if (!self.entity)
                     return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
@@ -94,7 +96,6 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
         extend: async () => ({} as any),
         arc: {
             permissions: (self, req) => [],
-            resources: (self, qb) => qb,
             access: (self, qb) => {
                 if (!self.entity)
                     return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
@@ -119,7 +120,6 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
         extend: async (req) => ({} as any),
         arc: {
             permissions: (self, req) => [],
-            resources: (self, qb) => qb,
             access: (self, qb, req) => {
                 if (!self.entity)
                     return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
@@ -152,7 +152,6 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
         },
         arc: {
             permissions: (self, req) => [],
-            resources: (self, qb) => qb,
             access: (self, qb) => {
                 if (!self.entity)
                     return self.context.Errors.throw(A_EXPRESS_CONSTANTS__ERROR_CODES.SERVICE_CONTROLLER_ENTITY_NOT_SPECIFIED)
