@@ -47,14 +47,14 @@ exports.A_EXPRESS_DEFAULTS__CURD_CONFIG = {
             }
         },
         where: (self, req) => __awaiter(void 0, void 0, void 0, function* () {
-            if (self.config.id === 'ID') {
-                const { id } = a_sdk_types_1.A_SDK_CommonHelper.parseASEID(req.params.aseid);
-                return { id: isNaN(parseInt(id)) ? id : parseInt(id) };
+            var _a, _b;
+            if (self.config.id === 'ID' && ((_a = req.adaas.arc.resources) === null || _a === void 0 ? void 0 : _a.default)) {
+                return { id: (_b = req.adaas.arc.resources.default) === null || _b === void 0 ? void 0 : _b.map(r => isNaN(parseInt(r)) ? r : parseInt(r)) };
             }
             else {
-                return { aseid: req.params.aseid };
+                return { aseid: req.adaas.arc.resources.default };
             }
-        })
+        }),
     },
     get: {
         relations: [],
@@ -82,12 +82,12 @@ exports.A_EXPRESS_DEFAULTS__CURD_CONFIG = {
             }
         },
         where: (self, req) => __awaiter(void 0, void 0, void 0, function* () {
-            var _a;
             if (self.config.id === 'ID') {
-                return { id: (_a = req.adaas.arc.resources.default) === null || _a === void 0 ? void 0 : _a.map(r => isNaN(parseInt(r)) ? r : parseInt(r)) };
+                const { id } = a_sdk_types_1.A_SDK_CommonHelper.parseASEID(req.params.aseid);
+                return { id: isNaN(parseInt(id)) ? id : parseInt(id) };
             }
             else {
-                return { aseid: req.adaas.arc.resources.default };
+                return { aseid: req.params.aseid };
             }
         })
     },

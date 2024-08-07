@@ -41,15 +41,13 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
             }
         },
         where: async (self, req) => {
-            if (self.config.id === 'ID') {
-                const { id } = A_SDK_CommonHelper.parseASEID(req.params.aseid);
-
-                return { id: isNaN(parseInt(id)) ? id : parseInt(id) }
+            if (self.config.id === 'ID' && req.adaas.arc.resources?.default) {
+                return { id: req.adaas.arc!.resources!.default?.map(r => isNaN(parseInt(r)) ? r : parseInt(r)) }
             }
             else {
-                return { aseid: req.params.aseid }
+                return { aseid: req.adaas.arc!.resources!.default }
             }
-        }
+        },
     },
     get: {
         relations: [],
@@ -79,12 +77,15 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
                 return query;
             }
         },
+
         where: async (self, req) => {
             if (self.config.id === 'ID') {
-                return { id: req.adaas.arc!.resources!.default?.map(r => isNaN(parseInt(r)) ? r : parseInt(r)) }
+                const { id } = A_SDK_CommonHelper.parseASEID(req.params.aseid);
+
+                return { id: isNaN(parseInt(id)) ? id : parseInt(id) }
             }
             else {
-                return { aseid: req.adaas.arc!.resources!.default }
+                return { aseid: req.params.aseid }
             }
         }
     },
