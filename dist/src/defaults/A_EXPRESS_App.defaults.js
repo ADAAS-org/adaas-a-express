@@ -37,6 +37,9 @@ exports.A_EXPRESS_DEFAULTS__APP_CONFIG = {
         },
         arc: {
             enable: true,
+        },
+        products: {
+            enabled: true
         }
     },
 };

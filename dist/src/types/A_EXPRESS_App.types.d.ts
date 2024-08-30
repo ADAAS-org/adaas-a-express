@@ -77,6 +77,12 @@ export type A_EXPRESS_TYPES__AppManifest = {
         arc: {
             enable: boolean;
         };
+        products: {
+            /**
+             * If Enabled will verify a product by it's API credentials and attach to the application
+             */
+            enabled: boolean;
+        };
     };
     context: A_SDK_TYPES__ContextConstructor;
 };

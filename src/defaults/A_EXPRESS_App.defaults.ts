@@ -37,6 +37,9 @@ export const A_EXPRESS_DEFAULTS__APP_CONFIG: A_EXPRESS_TYPES__AppManifest = {
         },
         arc: {
             enable: true,
+        },
+        products: {
+            enabled: true
         }
     },
 

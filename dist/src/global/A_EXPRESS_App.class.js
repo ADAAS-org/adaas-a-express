@@ -54,6 +54,8 @@ const a_auth_1 = require("@adaas/a-auth");
 const A_EXPRESS_Context_class_1 = require("./A_EXPRESS_Context.class");
 const A_EXPRESS_Decorators_storage_1 = require("../storage/A_EXPRESS_Decorators.storage");
 const A_EXPRESS_Proxy_class_1 = require("./A_EXPRESS_Proxy.class");
+const a_products_1 = require("@adaas/a-products");
+const a_sdk_1 = require("@adaas/a-sdk");
 class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
     constructor(config) {
         var _a, _b;
@@ -142,8 +144,27 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
             yield a_sdk_types_1.A_SDK_Context.ready;
             yield a_arc_1.A_ARC_Context.ready;
             yield a_auth_1.A_AUTH_Context.ready;
+            yield a_products_1.A_PRODUCTS_Context.ready;
             yield A_EXPRESS_Context_class_1.A_EXPRESS_Context.ready;
             yield this.ready;
+            this.Logger.log('A-Frame Libraries initialization completed.');
+            if (this.config.defaults.products.enabled) {
+                try {
+                    const authenticator = a_auth_1.A_AUTH_Context.getAuthenticator();
+                    const { app } = yield a_auth_1.A_AUTH_ServerCommands.Token.verify({
+                        token: yield authenticator.getToken()
+                    });
+                    const aProductsApp = yield a_products_1.A_PRODUCTS_ServerCommands.App.load({
+                        aseid: app
+                    });
+                    this.Logger.log('Server Application acting on behalf of ', ` - A-Products App : ${aProductsApp.aseid}`);
+                    //TODO: add proper types matching
+                    this.App = new a_sdk_1.A_SDK_App(aProductsApp);
+                }
+                catch (error) {
+                    this.Logger.warning(error, '[!] A-Products Module are disabled', 'It seems like API credentials are not provided or invalid.', 'Please make sure that:', ' - API credentials are correct and corresponds to A-Products App', ' - API credentials uses in a proper way', '   OR Just turn OFF [config.defaults.products.enabled]');
+                }
+            }
             // ==================== Run before start hook
             this.Logger.log('Before start hook execution...');
             yield this.beforeStart();
@@ -159,7 +180,7 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
             this.app.use('/', (0, cors_1.default)(this.config.http.cors.options));
             this.app.use(A_EXPRESS_Logger_middleware_1.A_EXPRESS_LoggerMiddleware.logRequest({
                 ignore: this.config.defaults.health.verbose
-                    ? [] : [`${this.config.http.prefix}/v1/health`]
+                    ? [] : [`${this.config.http.prefix} /v1/health`]
             }));
             // app.engine('html', require('ejs').renderFile)
             this.app.use(express_1.default.json());

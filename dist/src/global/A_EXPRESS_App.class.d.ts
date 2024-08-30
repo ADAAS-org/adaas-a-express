@@ -3,12 +3,20 @@ import { A_EXPRESS_TYPES__AppManifest } from "../types/A_EXPRESS_App.types";
 import express from 'express';
 import { Server } from "http";
 import { A_EXPRESS_Logger } from "./A_EXPRESS_Logger.class";
+import { A_SDK_App } from "@adaas/a-sdk";
 export declare class A_EXPRESS_App extends A_SDK_ContextClass {
     config: A_EXPRESS_TYPES__AppManifest;
     app: import("express-serve-static-core").Express;
     server: Server;
     routers: Map<string, express.Router>;
+    /**
+     * A logger for A-Express application
+     */
     Logger: A_EXPRESS_Logger;
+    /**
+     * Provides access to A-Products Application based on the credentials provided.
+     */
+    App: A_SDK_App;
     private _permissions;
     private monitoringInterval;
     constructor(config?: A_SDK_TYPES__Required<A_SDK_TYPES__DeepPartial<A_EXPRESS_TYPES__AppManifest>, [

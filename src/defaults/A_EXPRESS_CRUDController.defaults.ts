@@ -79,7 +79,6 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
                 return query;
             }
         },
-
         where: async (self, req) => {
             if (self.config.id === 'ID') {
                 const { id } = A_SDK_CommonHelper.parseASEID(req.params.aseid);

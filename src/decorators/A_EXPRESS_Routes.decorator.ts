@@ -142,9 +142,9 @@ export function A_EXPRESS_Routes<T extends object>(
             if (
                 'list' in config
                 && (
-                    (config.http.expose && config.http.expose.indexOf(route.method) === -1)
+                    (config.http.expose && config.http.expose.indexOf(route.handlerName as any) === -1)
                     ||
-                    (config.http.ignore && config.http.ignore.indexOf(route.method) !== -1)
+                    (config.http.ignore && config.http.ignore.indexOf(route.handlerName as any) !== -1)
                 )
             ) {
                 return;

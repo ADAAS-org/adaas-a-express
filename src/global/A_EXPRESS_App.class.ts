@@ -22,12 +22,14 @@ import { A_EXPRESS_ErrorsMiddleware } from "../middleware/A_EXPRESS_Error.middle
 import { A_EXPRESS_RouterHelper } from "../helpers/router.helper";
 import { A_EXPRESS_Logger } from "./A_EXPRESS_Logger.class";
 import { A_EXPRESS_LoggerMiddleware } from "../middleware/A_EXPRESS_Logger.middleware";
-import { A_AUTH_Context } from "@adaas/a-auth";
+import { A_AUTH_Context, A_AUTH_ServerCommands } from "@adaas/a-auth";
 import { A_EXPRESS_Context } from "./A_EXPRESS_Context.class";
 import { A_EXPRESS_TYPES__IAuthControllerConfig } from "../types/A_EXPRESS_AuthController.types";
 import { A_EXPRESS_Storage, A_EXPRESS_STORAGE__DECORATORS_CONTROLLER_CONFIG_KEY } from "../storage/A_EXPRESS_Decorators.storage";
 import { A_EXPRESS_TYPES__IHealthControllerConfig } from "../types/A_EXPRESS_HealthController.types";
 import { A_EXPRESS_Proxy } from "./A_EXPRESS_Proxy.class";
+import { A_PRODUCTS_Context, A_PRODUCTS_ServerCommands } from "@adaas/a-products";
+import { A_SDK_App } from "@adaas/a-sdk";
 
 
 
@@ -40,7 +42,15 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
     server!: Server;
     routers = new Map<string, Router>();
 
+    /**
+     * A logger for A-Express application 
+     */
     Logger!: A_EXPRESS_Logger;
+
+    /**
+     * Provides access to A-Products Application based on the credentials provided. 
+     */
+    App!: A_SDK_App
 
     private _permissions: Array<A_ARC_Permission> = [];
 
@@ -135,7 +145,6 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
      */
     async start(): Promise<Server> {
 
-
         if (!this.CONFIG_IGNORE_ERRORS)
             process.on('unhandledRejection', (reason, promise) => {
                 this.Logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
@@ -153,12 +162,49 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
 
 
         // First await rediness of the SDKs
-        await A_SDK_Context.ready
-        await A_ARC_Context.ready
-        await A_AUTH_Context.ready
-        await A_EXPRESS_Context.ready
+        await A_SDK_Context.ready;
+        await A_ARC_Context.ready;
+        await A_AUTH_Context.ready;
+        await A_PRODUCTS_Context.ready;
+        await A_EXPRESS_Context.ready;
 
         await this.ready;
+
+        this.Logger.log('A-Frame Libraries initialization completed.')
+
+        if (this.config.defaults.products.enabled) {
+            try {
+
+                const authenticator = A_AUTH_Context.getAuthenticator();
+
+                const { app } = await A_AUTH_ServerCommands.Token.verify({
+                    token: await authenticator.getToken()
+                });
+
+                const aProductsApp = await A_PRODUCTS_ServerCommands.App.load({
+                    aseid: app!
+                });
+
+                this.Logger.log(
+                    'Server Application acting on behalf of ',
+                    ` - A-Products App : ${aProductsApp.aseid}`
+                );
+
+                //TODO: add proper types matching
+                this.App = new A_SDK_App(aProductsApp as any);
+
+            } catch (error) {
+                this.Logger.warning(
+                    error,
+                    '[!] A-Products Module are disabled',
+                    'It seems like API credentials are not provided or invalid.',
+                    'Please make sure that:',
+                    ' - API credentials are correct and corresponds to A-Products App',
+                    ' - API credentials uses in a proper way',
+                    '   OR Just turn OFF [config.defaults.products.enabled]',
+                );
+            }
+        }
 
         // ==================== Run before start hook
 
@@ -185,7 +231,7 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
         this.app.use(
             A_EXPRESS_LoggerMiddleware.logRequest({
                 ignore: this.config.defaults.health.verbose
-                    ? [] : [`${this.config.http.prefix}/v1/health`]
+                    ? [] : [`${this.config.http.prefix} /v1/health`]
             }) as any
         );
 
