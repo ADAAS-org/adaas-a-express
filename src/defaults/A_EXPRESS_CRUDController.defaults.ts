@@ -9,7 +9,7 @@ export const A_EXPRESS_DEFAULTS__CURD_CONFIG: A_EXPRESS_TYPES__ICRUDControllerCo
     http: {
         base: '/',
         alias: undefined,
-        expose: ['post', 'get', 'put', 'delete', 'list'],
+        expose: undefined,
         ignore: undefined
     },
     auth: {

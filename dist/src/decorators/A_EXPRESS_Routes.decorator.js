@@ -76,9 +76,9 @@ function A_EXPRESS_Routes(arg1, arg2, arg3) {
              * If the method is not exposed or is ignored, skip the route
              */
             if ('list' in config
-                && ((config.http.expose && config.http.expose.indexOf(route.handlerName) === -1)
+                && ((config.http.expose && config.http.expose.length && config.http.expose.indexOf(route.handlerName) === -1)
                     ||
-                        (config.http.ignore && config.http.ignore.indexOf(route.handlerName) !== -1))) {
+                        (config.http.ignore && config.http.ignore.length && config.http.ignore.indexOf(route.handlerName) !== -1))) {
                 return;
             }
             /**

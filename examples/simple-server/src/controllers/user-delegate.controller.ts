@@ -11,6 +11,9 @@ import { A_EXPRESS_TYPES__ICRUDControllerConfig } from '../../../../src/types/A_
 
 @A_EXPRESS_ServerDelegate<UserModel>('user', UserRepositoryInstance, {
     id: 'ID',
+    http: {
+        ignore: ['post', 'delete']
+    },
     get: {
         where: async (self, req) => ({ id: parseInt(req.params.id) })
     }

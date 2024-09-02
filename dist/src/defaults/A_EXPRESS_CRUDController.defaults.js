@@ -18,7 +18,7 @@ exports.A_EXPRESS_DEFAULTS__CURD_CONFIG = {
     http: {
         base: '/',
         alias: undefined,
-        expose: ['post', 'get', 'put', 'delete', 'list'],
+        expose: undefined,
         ignore: undefined
     },
     auth: {},

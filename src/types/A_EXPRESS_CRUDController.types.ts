@@ -186,8 +186,11 @@ export interface A_EXPRESS_TYPES__ICRUDControllerConfig<
         /**
          * allows to ignore the default methods in case when they are not needed OR NOT ALLOWED
          */
-        expose?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>,
-        ignore?: Array<'get' | 'post' | 'put' | 'delete' | 'list'>,
+        expose?: Array<'get' | 'post' | 'put' | 'delete' | 'list' | string>,
+        /**
+         * Allows to ignore any method presented in the controller to do not be exposed
+         */
+        ignore?: Array<'get' | 'post' | 'put' | 'delete' | 'list' | string>,
 
         /**
          * The base path for the entity controller that adds after Identifier
