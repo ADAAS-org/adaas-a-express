@@ -228,10 +228,12 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
 
         this.app.use('/', cors(this.config.http.cors.options));
 
+        console.log(this.config.defaults.health)
+
         this.app.use(
             A_EXPRESS_LoggerMiddleware.logRequest({
                 ignore: this.config.defaults.health.verbose
-                    ? [] : [`${this.config.http.prefix} /v1/health`]
+                    ? [] : [`${this.config.http.prefix}/v1/health`]
             }) as any
         );
 

@@ -178,9 +178,10 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
                 this.Logger.log('Permissions migrated successfully');
             }
             this.app.use('/', (0, cors_1.default)(this.config.http.cors.options));
+            console.log(this.config.defaults.health);
             this.app.use(A_EXPRESS_Logger_middleware_1.A_EXPRESS_LoggerMiddleware.logRequest({
                 ignore: this.config.defaults.health.verbose
-                    ? [] : [`${this.config.http.prefix} /v1/health`]
+                    ? [] : [`${this.config.http.prefix}/v1/health`]
             }));
             // app.engine('html', require('ejs').renderFile)
             this.app.use(express_1.default.json());
