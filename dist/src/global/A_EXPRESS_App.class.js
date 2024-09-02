@@ -151,6 +151,7 @@ class A_EXPRESS_App extends a_sdk_types_1.A_SDK_ContextClass {
             if (this.config.defaults.products.enabled) {
                 try {
                     const authenticator = a_auth_1.A_AUTH_Context.getAuthenticator();
+                    yield authenticator.authenticate();
                     const { app } = yield a_auth_1.A_AUTH_ServerCommands.Token.verify({
                         token: yield authenticator.getToken()
                     });

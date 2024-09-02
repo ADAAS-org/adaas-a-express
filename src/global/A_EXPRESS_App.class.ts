@@ -177,6 +177,8 @@ export class A_EXPRESS_App extends A_SDK_ContextClass {
 
                 const authenticator = A_AUTH_Context.getAuthenticator();
 
+                await authenticator.authenticate();
+
                 const { app } = await A_AUTH_ServerCommands.Token.verify({
                     token: await authenticator.getToken()
                 });
